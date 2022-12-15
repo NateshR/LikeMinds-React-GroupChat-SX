@@ -1,5 +1,5 @@
 import { createTheme, Grid, ThemeProvider } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/header/Header";
 import Sidenav from "./components/sidenav/Sidenav";
@@ -21,7 +21,11 @@ const newTheme = createTheme({
   },
 });
 
+
+
 function Main() {
+  
+  
   return (
     <ThemeProvider theme={newTheme}>
       <div className="h-full w-full">

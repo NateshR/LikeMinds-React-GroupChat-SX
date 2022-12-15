@@ -45,7 +45,9 @@ const StyledInputWriteComment = styled(TextField)({
     padding: "16px",
     borderBottom: "none",
     borderRadius: "20px",
+    
   },
+  border: '1px solid #EEEEEE'
 });
 
 export const InputContext = React.createContext({
@@ -240,10 +242,12 @@ function InputSearchField() {
         config.attachment_count = attachment_count;
         config.has_files = true;
       }
+      
       if (isRepliedConvo) {
         config.replied_conversation_id =
           selectedConversationContext.conversationObject.id;
       }
+
       let callRes = await myClient.onConversationsCreate(config);
 
       setTextVal("");
@@ -262,43 +266,7 @@ function InputSearchField() {
     }
   };
 
-  // let handleSendMessage = (event) => {
-  //     let { text, setText } = inputContext
-  //     let filesArray = mergeInputFiles(inputContext)
-  //     if (text.length != 0) {
-  //         if (!filesArray.length) {
-  //             myClient.onConversationsCreate({
-  //                 text: text.toString(),
-  //                 created_at: Date.now(),
-  //                 has_files: false,
-  //                 // attachment_count: false,
-  //                 chatroom_id: groupContext.activeGroup.chatroom.id
-  //             }).then(res => console.log(res)).catch(e => console.log(e))
-  //             setText("")
-  //             fn(groupContext.activeGroup.chatroom.id, 100, conversationContext.setConversationArray)
-  //         } else {
-  //             myClient.onConversationsCreate({
-  //                 text: text.toString(),
-  //                 created_at: Date.now(),
-  //                 has_files: true,
-  //                 attachment_count: filesArray.length,
-  //                 chatroom_id: groupContext.activeGroup.chatroom.id
-  //             }).then(res => console.log(res)).catch(e => console.log(e))
-  //             setText("")
-  //             fn(groupContext.activeGroup.chatroom.id, 100, conversationContext.setConversationArray)
-  //         }
-  //     } else if (filesArray.length > 0) {
-  //         myClient.onConversationsCreate({
-  //             text: text.toString(),
-  //             created_at: Date.now(),
-  //             has_files: true,
-  //             attachment_count: filesArray.length,
-  //             chatroom_id: groupContext.activeGroup.chatroom.id
-  //         }).then(res => console.log(res)).catch(e => console.log(e))
-  //         setText("")
-  //         fn(groupContext.activeGroup.chatroom.id, 100, conversationContext.setConversationArray)
-  //     }
-  // }
+  
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   useEffect(() => {
@@ -408,16 +376,11 @@ function InputSearchField() {
               <SendIcon className="text-[#3884F7]" />
             </IconButton>
           ),
+        //   multiline: true
         }}
         value={inputContext.text}
         onChange={(event) => {
-          // let previousString = inputContext.text
-          // let newString = event.target.value
-          // let valArr = inputContext.textVal
-          // let stringPart = newString.substring(previousString.length)
-          // valArr.push(stringPart)
-          // inputContext.setTextVal(valArr)
-          // inputContext.setText(newString)
+        
           let newVal = event.target.value;
           let newValTexte = inputContext.textVal;
           newValTexte += newVal.substring(newVal.length - 1);

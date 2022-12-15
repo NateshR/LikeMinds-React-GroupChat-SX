@@ -20,7 +20,7 @@ export const StyledBox = styled(Box)({
 
 export const ConversationContext = React.createContext({
   conversationsArray: [],
-  setConversationArray: () => {},
+  setConversationArray: () => { },
 });
 
 function GroupChatArea() {
@@ -196,9 +196,9 @@ function GroupChatArea() {
 
 export const CurrentSelectedConversationContext = React.createContext({
   isSelected: false,
-  setIsSelected: () => {},
+  setIsSelected: () => { },
   conversationObject: {},
-  setConversationObject: () => {},
+  setConversationObject: () => { },
 });
 
 export default GroupChatArea;

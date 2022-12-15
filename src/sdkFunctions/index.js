@@ -157,9 +157,6 @@ export async function getTaggingList(communityId, chatroomId){
     }
 }
 
-// const userContext = useContext(UserContext)
-// import above 2 things
-// userContext.
 
 export function mergeInputFiles(inputContext){
     console.log(inputContext)
