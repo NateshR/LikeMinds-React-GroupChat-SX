@@ -22,9 +22,26 @@ function CurrentDms() {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if (sessionStorage.getItem("dmContext") !== null) {
+      if (Object.keys(dmContext.currentProfile).length) {
+        sessionStorage.setItem("dmContext", JSON.stringify(dmContext));
+      } else {
+        let c = JSON.parse(sessionStorage.getItem("dmContext"));
+        dmContext.setCurrentProfile(c.currentProfile);
+        dmContext.setCurrentChatroom(c.currentChatroom);
+        dmContext.setCurrentChatroomConversations(
+          c.currentChatroomConversations
+        );
+      }
+    }
+  });
+
   useEffect(() => {
     loadHomeFeed();
   }, []);
+
   return (
     <Box>
       <Button

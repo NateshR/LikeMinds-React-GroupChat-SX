@@ -84,7 +84,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   useEffect(() => {
     initiateSDK(false, "707a866a-2d28-4b8d-b34b-382ac76c8b85", "gaurav")
       .then((res) => {
@@ -95,9 +95,11 @@ function App() {
         alert("error at " + __dirname + "inside useEffect");
       });
   }, []);
+
   useEffect(() => {
     console.log(currentUser);
   }, [currentUser]);
+
   return (
     <div className="App h-[100vh] flex flex-1">
       <UserContext.Provider
