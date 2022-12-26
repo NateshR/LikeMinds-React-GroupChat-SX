@@ -8,6 +8,7 @@ import PersonInfo from "./components/groupChatArea/PersonInfo";
 import {
   addedByMePath,
   directMessageChatPath,
+  directMessageInfoPath,
   directMessagePath,
   eventsPath,
   forumPath,
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
           {
             path: directMessageChatPath,
             element: <ChatArea />,
+          },
+          {
+            path: directMessageInfoPath,
+            element: <PersonInfo />,
           },
         ],
       },
