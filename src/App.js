@@ -7,6 +7,7 @@ import AcceptInvite from "./components/groupChatArea/AcceptInvite";
 import PersonInfo from "./components/groupChatArea/PersonInfo";
 import {
   addedByMePath,
+  directMessageChatPath,
   directMessagePath,
   eventsPath,
   forumPath,
@@ -22,6 +23,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { UserContext } from ".";
 import { initiateSDK } from "./sdkFunctions";
+import ChatArea from "./components/direct-messages/ChatArea";
 
 const router = createBrowserRouter([
   {
@@ -60,8 +62,13 @@ const router = createBrowserRouter([
       },
       {
         path: directMessagePath,
-        // element: <DirectMessagesMain/>,
         element: <DirectMessagesMain />,
+        children: [
+          {
+            path: directMessageChatPath,
+            element: <ChatArea />,
+          },
+        ],
       },
       {
         path: addedByMePath,

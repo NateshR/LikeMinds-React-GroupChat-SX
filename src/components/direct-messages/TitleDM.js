@@ -31,20 +31,11 @@ function TittleDm({ title }) {
 function TitleArea({ title }) {
   return (
     <Box className="text-left">
-      {/* For Group Title */}
       <span component={"p"} className="font-semibold text-xl leading-6">
         {title ? title : null}
       </span>
       <div />
       <span className="text-xs font-medium text-[#ADADAD]">member</span>
-
-      {/* For Group Members */}
-
-      {/* <Typography component={'p'}
-            className="text-sm font-normal leading-[14.5px]"
-            sx={{
-                fontFamily: "Lato",
-            }}>{memberCount ? memberCount : null} members</Typography> */}
     </Box>
   );
 }
