@@ -101,7 +101,6 @@ function Groups() {
 
   useEffect(() => {
     // loading the list of chatrooms (already joined)
-
     fn(
       chatRoomsList,
       setChatRoomsList,

@@ -1,15 +1,10 @@
 import { Box, Button, Collapse, IconButton, Typography } from "@mui/material";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import DoneIcon from "@mui/icons-material/Done";
+import React, { useContext, useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import Typicode from "likeminds-apis-sdk";
 import {
-  createNewClient,
   getChatRoomDetails,
   getTaggingList,
-  getUnjoinedRooms,
   joinChatRoom,
   markRead,
 } from "../../../sdkFunctions";
@@ -38,31 +33,23 @@ function CurrentGroups() {
       groupType: "private",
     },
   ];
-  // for gettingChatRoom()
-  async function getChatRoomData(chatroomId) {
-    try {
-      const chatRoomData = await getChatRoomDetails(myClient, chatroomId);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
   const chatroomContext = useContext(ChatRoomContext);
-  useEffect(() => {}, [chatroomContext.chatRoomList, chatroomContext.unJoined]);
+
   return (
     <Box>
-      {<PublicGroup groupList={chatroomContext.chatRoomsList} />}
+      <PublicGroup groupList={chatroomContext.chatRoomsList} />
 
+      {/* For invite group icons */}
       {groupsInviteInfo.map((group, groupIndex) => {
         return (
           <NavLink key={group.title + groupIndex} to={groupMainPath}>
-            <GroupInviteTile
-              title={group.title}
-              groupType={group.groupType}
-              getChatRoomData={getChatRoomData}
-            />
+            <GroupInviteTile title={group.title} groupType={group.groupType} />
           </NavLink>
         );
       })}
+
+      {/* For all public groups */}
       <div className="flex justify-between text-[20px] mt-[10px] py-4 px-5 items-center">
         <span>All Public Groups</span>
         <IconButton onClick={() => setShouldPublicCard(!shouldOpenPublicCard)}>
@@ -104,10 +91,7 @@ function CurrentGroups() {
 
 function PublicGroup({ groupTitle, groupList }) {
   const [shouldOpen, setShouldOpen] = useState(true);
-  const [loadMoreGroups, shouldLoadMoreGroups] = useState(true);
-  function handleCollapse() {
-    setShouldOpen(!shouldOpen);
-  }
+
   const chatroomContext = useContext(ChatRoomContext);
   const groupContext = useContext(GroupContext);
 
@@ -307,14 +291,9 @@ function UnjoinedGroup({ groupTitle, group }) {
 
 export default CurrentGroups;
 
-function GroupInviteTile({ title, groupType, getChatRoomData }) {
+function GroupInviteTile({ title, groupType }) {
   return (
-    <div
-      className="bg-white flex justify-between p-[18px] border-b border-[#EEEEEE]"
-      onClick={() => {
-        getChatRoomData("none");
-      }}
-    >
+    <div className="bg-white flex justify-between p-[18px] border-b border-[#EEEEEE]">
       <Box>
         <Typography
           variant="body2"

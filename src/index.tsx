@@ -13,7 +13,6 @@ export const myClient = new LikeMinds({
   xPlatformCode: "web",
   xVersionCode: 16,
 });
-export const communityId = 50421;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
