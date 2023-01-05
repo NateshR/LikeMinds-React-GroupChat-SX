@@ -14,10 +14,11 @@ import {
 import { directMessageChatPath } from "../../../routes";
 import DmMemberTile from "../DmMemberTile";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { UserContext } from "../../..";
 
 function CurrentDms() {
   const dmContext = useContext(DmContext);
-
+  const userContext = useContext(UserContext);
   const [openAllUsers, setOpenAllUsers] = useState(true);
   const [totalMembersFiltered, setTotalMembersFiltered] = useState(null);
   const [lastCaughtPageAllMembers, setLastCaughtPageAllMembers] = useState(1);
@@ -127,6 +128,9 @@ function CurrentDms() {
             scrollableTarget="mf-container"
           >
             {dmContext.membersFeed.map((feed, feedIndex) => {
+              if (feed.id == userContext.currentUser.id) {
+                return null;
+              }
               return (
                 <DmMemberTile
                   profile={feed}

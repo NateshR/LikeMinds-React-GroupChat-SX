@@ -30,7 +30,13 @@ function DmMemberTile({ profile, profileIndex }) {
         } else {
           let createDmCall = await createDM(profile.id);
           console.log(createDmCall);
-          dmContext.setCurrentChatroom(createDmCall.data.chatroom);
+          let chatroomDetailsCall = await getChatRoomDetails(
+            myClient,
+            createDmCall.data.chatroom.id
+          );
+          console.log(chatroomDetailsCall);
+          dmContext.setCurrentProfile(chatroomDetailsCall.data);
+          dmContext.setCurrentChatroom(chatroomDetailsCall.data.chatroom);
           navigate(directMessageChatPath);
         }
       } else {

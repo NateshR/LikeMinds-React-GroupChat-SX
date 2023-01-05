@@ -410,6 +410,19 @@ export async function createDM(memberId) {
   }
 }
 
+export async function dmAction(requestState, chatroomId, text) {
+  try {
+    let call = await myClient.requestDmAction({
+      chatroom_id: chatroomId,
+      chat_request_state: requestState,
+      text: text,
+    });
+    return jsonReturnHandler(call, null);
+  } catch (error) {
+    return jsonReturnHandler(null, error);
+  }
+}
+
 export function getFromSessionStorage(key) {
   let sessionStorageObject = sessionStorage.getItem(key);
   return sessionStorageObject;
