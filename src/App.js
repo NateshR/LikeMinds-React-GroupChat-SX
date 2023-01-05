@@ -87,10 +87,11 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [community, setCommunity] = useState({});
   useEffect(() => {
-    initiateSDK(false, "f661a53c-48bf-4791-b74b-4ecc4bdb934f", "Gaurav")
+    initiateSDK(false, "eea8afb6-bc90-4206-a4aa-5e409702caae", "OMEN")
       .then((res) => {
         setCommunity(res.data.data.community);
         setCurrentUser(res.data.data.user);
+        sessionStorage.setItem("communityId", res.data.data.community.id);
       })
       .catch((error) => {
         console.log(error);

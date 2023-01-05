@@ -15,14 +15,11 @@ const TitleBox = styled(Box)({
   padding: "0 0 10px 0px",
 });
 
-function Tittle({ headerProps }) {
+function Tittle({ title, memberCount }) {
   return (
     <Box className="flex">
       <TitleBox>
-        <TitleArea
-          title={headerProps.title}
-          memberCount={headerProps.memberCount}
-        />
+        <TitleArea title={title} memberCount={memberCount} />
         <Gap />
         <OptionArea />
       </TitleBox>

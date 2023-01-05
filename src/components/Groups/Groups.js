@@ -128,7 +128,6 @@ function Groups() {
         <ChatRoomContext.Provider
           value={{
             chatRoomList: chatRoomsList,
-
             unJoined: unJoined,
             shouldLoadMoreHomeFeed: shouldLoadMoreHomeFeed,
             shouldLoadMoreUnjoinedFeed: shouldLoadMoreUnjoinedFeed,

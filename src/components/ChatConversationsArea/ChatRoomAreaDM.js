@@ -68,6 +68,12 @@ function ChatRoomAreaDM() {
           {dmContext.currentChatroomConversations.map((convoArr) => {
             return <RegularBox convoArray={convoArr} key={convoArr[0].date} />;
           })}
+          {dmContext.currentChatroomConversations.length === 1 ? (
+            <p>
+              Send a DM request to {dmContext.currentChatroom.member.name} by
+              sending your 1st message
+            </p>
+          ) : null}
           <div
             style={{
               flexGrow: 0.4,

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { styled } from "@mui/system";
 import React, { useContext, useEffect } from "react";
 import ChatRoomAreaDM from "../ChatConversationsArea/ChatRoomAreaDM";
@@ -18,7 +18,7 @@ export const StyledBox = styled(Box)({
 });
 function ChatArea() {
   const dmContext = useContext(DmContext);
-  let db = myClient.fbInstance;
+  // let db = myClient.fbInstance;
 
   const getChatroomConversations = async (chatroomId, pageNo) => {
     let optionObject = {
@@ -54,25 +54,31 @@ function ChatArea() {
     }
   };
 
-  useEffect(() => {
-    const query = ref(db, "collabcards");
-    return onValue(query, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      if (snapshot.exists() && Object.keys(dmContext.currentChatroom).length) {
-        getChatroomConversations(dmContext.currentChatroom?.id, 500);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   const query = ref(db, "collabcards");
+  //   return onValue(query, (snapshot) => {
+  //     const data = snapshot.val();
+  //     console.log(data);
+  //     if (snapshot.exists() && Object.keys(dmContext.currentChatroom).length) {
+  //       getChatroomConversations(dmContext.currentChatroom?.id, 500);
+  //     }
+  //   });
+  // }, []);
 
   return (
     <div>
-      <StyledBox>
-        {Object.keys(dmContext.currentChatroom).length > 0 ? (
-          <TittleDm title={dmContext.currentChatroom.chatroom_with_user.name} />
-        ) : null}
-        <ChatRoomAreaDM />
-      </StyledBox>
+      {dmContext.currentChatroom ? (
+        <StyledBox>
+          {Object.keys(dmContext.currentChatroom).length > 0 ? (
+            <TittleDm title={dmContext.currentChatroom.member.name} />
+          ) : null}
+          <ChatRoomAreaDM />
+        </StyledBox>
+      ) : (
+        <div className="flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 }

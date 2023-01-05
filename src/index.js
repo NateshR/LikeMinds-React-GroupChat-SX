@@ -9,9 +9,10 @@ console.log(process.env);
 export const myClient = new LikeMinds({
   apiKey: process.env.REACT_APP_API_KEY,
   baseUrl: process.env.REACT_APP_BASE_URL,
-  xMemberId: process.env.REACT_APP_X_MEMBER_ID,
-  xPlatformCode: process.env.REACT_APP_X_PLATFORM_CODE,
-  xVersionCode: process.env.REACT_APP_X_VERSION_CODE,
+  baseUrlCaravan: process.env.REACT_APP_BASE_URL_CARAVAN,
+  // xMemberId: process.env.REACT_APP_X_MEMBER_ID,
+  // xPlatformCode: process.env.REACT_APP_X_PLATFORM_CODE,
+  // xVersionCode: process.env.REACT_APP_X_VERSION_CODE,
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

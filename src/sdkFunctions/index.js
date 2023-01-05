@@ -359,11 +359,12 @@ export async function dmChatFeed(communityId, pageNo) {
   }
 }
 
-export async function allChatroomMembersDm(communityId) {
+export async function allChatroomMembersDm(communityId, page) {
   try {
     let feedCall = await myClient.dmAllMembers({
       community_id: communityId,
-      page: 1,
+      page: page,
+      member_state: 4,
     });
     return jsonReturnHandler(feedCall, null);
   } catch (error) {
@@ -384,13 +385,32 @@ export async function requestDM(memberId, communityId) {
   }
 }
 
-export async function canDirectMessage(communityId) {
+export async function canDirectMessage(chatroomId) {
   try {
+    console.log(chatroomId);
     let call = await myClient.canDmFeed({
-      community_id: communityId,
+      community_id: sessionStorage.getItem("communityId"),
+      req_from: chatroomId,
     });
     return jsonReturnHandler(call, null);
   } catch (error) {
     return jsonReturnHandler(null, error);
   }
+}
+
+export async function createDM(memberId) {
+  try {
+    let call = await myClient.onCreateDM({
+      community_id: sessionStorage.getItem("communityId"),
+      member_id: memberId,
+    });
+    return jsonReturnHandler(call, null);
+  } catch (error) {
+    return jsonReturnHandler(null, error);
+  }
+}
+
+export function getFromSessionStorage(key) {
+  let sessionStorageObject = sessionStorage.getItem(key);
+  return sessionStorageObject;
 }
