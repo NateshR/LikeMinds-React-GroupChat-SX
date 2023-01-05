@@ -4,8 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import LikeMinds from "likeminds-apis-sdk";
-import { initiateSDK } from "./sdkFunctions";
-console.log(process.env);
+
 export const myClient = new LikeMinds({
   apiKey: process.env.REACT_APP_API_KEY,
   baseUrl: process.env.REACT_APP_BASE_URL,
