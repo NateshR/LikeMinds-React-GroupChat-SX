@@ -73,11 +73,21 @@ function ChatRoomAreaDM() {
           userContext.currentUser.id ==
           dmContext.currentChatroom.chat_requested_by[0].id ? (
             <LetThemAcceptInvite
-              title={dmContext.currentChatroom.member.name}
+              title={
+                userContext.currentUser.id ===
+                dmContext.currentChatroom.member.id
+                  ? dmContext.currentChatroom.chatroom_with_user.name
+                  : dmContext.currentChatroom.member.name
+              }
             />
           ) : (
             <AcceptTheirInviteFirst
-              title={dmContext.currentChatroom.member.name}
+              title={
+                userContext.currentUser.id ===
+                dmContext.currentChatroom.member.id
+                  ? dmContext.currentChatroom.chatroom_with_user.name
+                  : dmContext.currentChatroom.member.name
+              }
             />
           )
         ) : (

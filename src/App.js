@@ -83,6 +83,66 @@ const router = createBrowserRouter([
   },
 ]);
 
+let routesObject = [
+  {
+    path: mainPath,
+    element: <Main />,
+    children: [
+      {
+        path: forumPath,
+        element: null,
+      },
+      {
+        path: groupPath,
+        element: <Groups />,
+        children: [
+          {
+            path: groupMainPath,
+            element: <GroupChatArea />,
+          },
+          {
+            path: groupInfoPath,
+            element: <GroupInfo />,
+          },
+          {
+            path: groupAcceptInvitePath,
+            element: <AcceptInvite />,
+          },
+          {
+            path: groupPersonalInfoPath,
+            element: <PersonInfo />,
+          },
+        ],
+      },
+      {
+        path: eventsPath,
+        element: null,
+      },
+      {
+        path: directMessagePath,
+        element: <DirectMessagesMain />,
+        children: [
+          {
+            path: directMessageChatPath,
+            element: <ChatArea />,
+          },
+          {
+            path: directMessageInfoPath,
+            element: <PersonInfo />,
+          },
+        ],
+      },
+      {
+        path: addedByMePath,
+        element: null,
+      },
+    ],
+  },
+];
+routesObject.map((item, itemIndex) => {
+  
+});
+
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [community, setCommunity] = useState({});
@@ -97,6 +157,7 @@ function App() {
         console.log(error);
       });
   }, []);
+  console.log(router);
 
   return (
     <div className="App h-[100vh] flex flex-1">
@@ -109,7 +170,9 @@ function App() {
         }}
       >
         {Object.keys(currentUser).length > 0 ? (
-          <RouterProvider router={router} />
+          <>
+            <RouterProvider router={router} />
+          </>
         ) : null}
       </UserContext.Provider>
       {/* <Block/> */}

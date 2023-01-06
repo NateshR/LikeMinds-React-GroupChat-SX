@@ -11,6 +11,7 @@ import {
   canDirectMessage,
   dmChatFeed,
   getChatRoomDetails,
+  markRead,
 } from "../../../sdkFunctions";
 import { directMessageChatPath } from "../../../routes";
 import DmMemberTile from "../DmMemberTile";
@@ -32,7 +33,7 @@ function CurrentDms() {
 
   async function loadHomeFeed(pageNo) {
     try {
-      let feedCall = await dmChatFeed(50421, pageNo);
+      let feedCall = await dmChatFeed(userContext.community.id, pageNo);
       let newFeedArray = feedCall.data.dm_chatrooms;
       dmContext.setHomeFeed(newFeedArray);
     } catch (error) {
@@ -74,7 +75,16 @@ function CurrentDms() {
       console.log(error);
     }
   }
-
+  async function markReadCall(chatroomId) {
+    try {
+      await markRead(chatroomId);
+      let call = await getChatRoomDetails(myClient, chatroomId);
+      dmContext.setCurrentChatroom(call.data.chatroom);
+      dmContext.setCurrentProfile(call.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
     if (sessionStorage.getItem("dmContext") !== null) {
       console.log(dmContext);
@@ -106,17 +116,23 @@ function CurrentDms() {
 
   return (
     <Box>
-      {/* <Button
+      <Button
         fullWidth
         onClick={() => {
           console.log(dmContext);
         }}
       >
         Show DM Context
-      </Button> */}
+      </Button>
       <div className="h-[400px] overflow-auto" id="mf-container">
         {dmContext.homeFeed.map((feed, feedIndex) => {
-          return <DmTile profile={feed} key={feedIndex} />;
+          return (
+            <DmTile
+              profile={feed}
+              key={feedIndex}
+              loadHomeFeed={loadHomeFeed}
+            />
+          );
         })}
       </div>
 
@@ -158,11 +174,28 @@ function CurrentDms() {
   );
 }
 
-function DmTile({ profile }) {
+function DmTile({ profile, loadHomeFeed }) {
   const dmContext = useContext(DmContext);
   const userContext = useContext(UserContext);
-  async function setProfile() {
+  async function markReadCall(chatroomId) {
     try {
+      await markRead(chatroomId);
+      loadHomeFeed(1);
+
+      let call = await getChatRoomDetails(myClient, chatroomId);
+      dmContext.setCurrentChatroom(call.data.chatroom);
+      dmContext.setCurrentProfile(call.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function setProfile() {
+    console.log(profile);
+    try {
+      if (profile.unseen_conversation_count > 0) {
+        await markRead(profile.chatroom.id);
+        await loadHomeFeed(1);
+      }
       let call = await getChatRoomDetails(myClient, profile.chatroom.id);
       dmContext.setCurrentProfile(call.data);
       dmContext.setCurrentChatroom(call.data.chatroom);
@@ -170,6 +203,7 @@ function DmTile({ profile }) {
       console.log(error);
     }
   }
+
   return (
     <Link
       to={directMessageChatPath}
@@ -208,6 +242,9 @@ function DmTile({ profile }) {
           sx={{
             color:
               profile.unseen_conversation_count > 0 ? "#3884F7" : "#323232",
+            // dmContext.currentChatroom.unseen_count > 0
+            //   ? "#3884F7"
+            //   : "#323232",
           }}
         >
           {profile.unseen_conversation_count > 0 ? (
