@@ -91,7 +91,7 @@ function ChatRoomAreaDM() {
             <div ref={ref}></div>
             {dmContext.currentChatroom.chat_request_state == 0 ? (
               <>
-                {userContext.currentUser.id ==
+                {/* {userContext.currentUser.id ==
                 dmContext.currentChatroom.chat_requested_by[0].id ? (
                   <div className="flex justify-center items-center fixed bottom-0 w-[62.1%] py-4">
                     Connection request pending. Messaging would be enabled once
@@ -108,13 +108,13 @@ function ChatRoomAreaDM() {
                       </Button>
                     </div>
                   </>
-                )}
+                )} */}
               </>
-            ) : (
+            ) : dmContext.currentChatroom.chat_request_state !== 2 ? (
               <div className="fixed bottom-0 w-[62.1%]">
                 <InputDM updateHeight={updateHeight} />
               </div>
-            )}
+            ) : null}
           </>
         )
       ) : (

@@ -21,6 +21,20 @@ function AcceptTheirInviteFirst({ title }) {
       console.log(error);
     }
   }
+
+  async function rejectInvite() {
+    try {
+      let call = await dmAction(2, dmContext.currentChatroom.id, null);
+      let newChatroomObject = await getChatRoomDetails(
+        myClient,
+        dmContext.currentChatroom.id
+      );
+      dmContext.setCurrentChatroom(newChatroomObject.data.chatroom);
+      dmContext.setCurrentProfile(newChatroomObject.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="h-full">
       <Box className="flex justify-center items-center flex-col h-[98%]">
@@ -35,16 +49,46 @@ function AcceptTheirInviteFirst({ title }) {
         >
           Please accept the invite to message {title}
         </Typography>
-        <Button
-          sx={{
-            background: "#3884F7",
-            color: "white",
-          }}
-          className="bg-[#3884F7] text-white py-4 px-[34px] text-base my-3 hover:text-[#3884F7] hover:bg-[#EBF3FF]"
-          onClick={acceptInvite}
-        >
-          Accept
-        </Button>
+        <div className="flex jusitfy-center">
+          {dmContext.currentChatroom.chat_request_state == 0 ? (
+            <>
+              <Button
+                sx={{
+                  background: "#3884F7",
+                  color: "white",
+                }}
+                className="bg-[#3884F7] text-white py-4 px-[34px] text-base my-3 hover:text-[#3884F7] hover:bg-[#EBF3FF] mx-2"
+                onClick={acceptInvite}
+              >
+                Accept
+              </Button>
+              <Button
+                sx={{
+                  background: "#D65353",
+                  color: "white",
+                  marginX: "8px",
+                }}
+                className="bg-[#3884F7] text-white py-4 px-[34px] text-base my-3 hover:text-[#3884F7] hover:bg-[#EBF3FF] mx-2"
+                onClick={rejectInvite}
+              >
+                Reject
+              </Button>
+            </>
+          ) : dmContext.currentChatroom.chat_request_state == 2 ? (
+            <Button
+              sx={{
+                background: "#3884F7",
+                color: "white",
+                marginX: "8px",
+              }}
+              className="bg-[#3884F7] text-white py-4 px-[34px] text-base my-3 hover:text-[#3884F7] hover:bg-[#EBF3FF]"
+              onClick={acceptInvite}
+            >
+              Undo And Accept
+            </Button>
+          ) : null}
+        </div>
+
         <div className="grow" />
       </Box>
     </div>

@@ -231,7 +231,9 @@ export async function leaveChatRoom(collabId, userId, refreshContext) {
       member_id: userId,
       value: false,
     });
-    refreshContext();
+    if (refreshContext !== null) {
+      refreshContext();
+    }
     return jsonReturnHandler(leaveCall, null);
   } catch (error) {
     return jsonReturnHandler(null, error);

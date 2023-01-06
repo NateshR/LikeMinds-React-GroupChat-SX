@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import Gap from "../../../styledAccessories/Gap";
 
 import SearchBar from "../../../styledAccessories/SearchBar";
-import MoreOptions from "../../../styledAccessories/MoreOptions";
+import { MoreOptions } from "../../../styledAccessories/MoreOptions";
 import { Link } from "react-router-dom";
 import { groupInfoPath } from "../../../routes";
 const TitleBox = styled(Box)({

@@ -20,7 +20,7 @@ function DirectMessagesMain() {
   const [documentAttachments, setDocumentAttachments] = useState([]);
   const [isConversationSelected, setIsConversationSelected] = useState(false);
   const [conversationObject, setConversationObject] = useState({});
-
+  const [refreshContext, setRefreshContext] = useState(null);
   return (
     <div>
       <DmContext.Provider
@@ -47,6 +47,8 @@ function DirectMessagesMain() {
           setIsConversationSelected,
           conversationObject,
           setConversationObject,
+          refreshContext,
+          setRefreshContext,
         }}
       >
         <div className="flex overflow-hidden customHeight flex-1">
@@ -88,4 +90,6 @@ export const DmContext = React.createContext({
   setIsConversationSelected: () => {},
   conversationObject: {},
   setConversationObject: () => {},
+  refreshContext: () => {},
+  setRefreshContext: () => {},
 });

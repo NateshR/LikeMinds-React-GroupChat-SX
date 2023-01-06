@@ -29,10 +29,7 @@ function CurrentDms() {
   ] = useState(true);
 
   const [lastPageHomeFeed, setLastPageHomeFeed] = useState(1);
-  const [
-    shouldContinueHomeFeedPagination,
-    setShouldContinueHomeFeedPagination,
-  ] = useState(true);
+
   async function loadHomeFeed(pageNo) {
     try {
       let feedCall = await dmChatFeed(50421, pageNo);
@@ -98,8 +95,13 @@ function CurrentDms() {
   });
 
   useEffect(() => {
-    loadHomeFeed(lastPageHomeFeed);
+    loadHomeFeed(1);
     loadAllDmMembers();
+    function refreshContext() {
+      loadHomeFeed(1);
+      loadAllDmMembers();
+    }
+    dmContext.setRefreshContext(() => refreshContext);
   }, []);
 
   return (
