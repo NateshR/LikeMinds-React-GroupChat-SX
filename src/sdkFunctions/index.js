@@ -412,11 +412,14 @@ export async function createDM(memberId) {
 
 export async function dmAction(requestState, chatroomId, text) {
   try {
-    let call = await myClient.requestDmAction({
+    let config = {
       chatroom_id: chatroomId,
       chat_request_state: requestState,
-      text: text,
-    });
+    };
+    if (text != null) {
+      config.text = text;
+    }
+    let call = await myClient.requestDmAction(config);
     return jsonReturnHandler(call, null);
   } catch (error) {
     return jsonReturnHandler(null, error);

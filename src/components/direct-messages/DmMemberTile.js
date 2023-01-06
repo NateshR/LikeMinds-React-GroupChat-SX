@@ -37,8 +37,8 @@ function DmMemberTile({ profile, profileIndex }) {
           console.log(chatroomDetailsCall);
           dmContext.setCurrentProfile(chatroomDetailsCall.data);
           dmContext.setCurrentChatroom(chatroomDetailsCall.data.chatroom);
-          navigate(directMessageChatPath);
         }
+        navigate(directMessageChatPath);
       } else {
         alert("now message at ", call.data.new_request_dm_timestamp);
       }

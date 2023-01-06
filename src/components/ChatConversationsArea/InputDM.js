@@ -91,14 +91,12 @@ function InputSearchField({ updateHeight }) {
   };
   let handleSendMessage = async () => {
     try {
-      alert(dmContext.currentChatroom.chat_request_state);
+      console.log(dmContext.currentChatroom.chat_request_state);
       if (dmContext.currentChatroom.chat_request_state === null) {
         console.log("sending request");
-        let call = await dmAction(
-          0,
-          dmContext.currentChatroom.id,
-          dmContext.messageText
-        );
+        let textMessage = dmContext.messageText;
+        dmContext.setMessageText("");
+        let call = await dmAction(0, dmContext.currentChatroom.id, textMessage);
         console.log(call);
         let chatroomCall = await getChatRoomDetails(
           myClient,
@@ -109,7 +107,6 @@ function InputSearchField({ updateHeight }) {
         return;
       }
       let isRepliedConvo = dmContext.isConversationSelected;
-      //   let { text, setText } = inputContext;
       let { messageText, setMessageText } = dmContext;
       let [text, setText] = [messageText, setMessageText];
       let inputContext = {

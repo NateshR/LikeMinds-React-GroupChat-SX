@@ -10,11 +10,12 @@ import {
   allChatroomMembersDm,
   canDirectMessage,
   dmChatFeed,
+  getChatRoomDetails,
 } from "../../../sdkFunctions";
 import { directMessageChatPath } from "../../../routes";
 import DmMemberTile from "../DmMemberTile";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { UserContext } from "../../..";
+import { myClient, UserContext } from "../../..";
 
 function CurrentDms() {
   const dmContext = useContext(DmContext);
@@ -27,9 +28,14 @@ function CurrentDms() {
     setShouldContinuePaginateMembersFeed,
   ] = useState(true);
 
-  async function loadHomeFeed() {
+  const [lastPageHomeFeed, setLastPageHomeFeed] = useState(1);
+  const [
+    shouldContinueHomeFeedPagination,
+    setShouldContinueHomeFeedPagination,
+  ] = useState(true);
+  async function loadHomeFeed(pageNo) {
     try {
-      let feedCall = await dmChatFeed(50421, 1);
+      let feedCall = await dmChatFeed(50421, pageNo);
       let newFeedArray = feedCall.data.dm_chatrooms;
       dmContext.setHomeFeed(newFeedArray);
     } catch (error) {
@@ -92,7 +98,7 @@ function CurrentDms() {
   });
 
   useEffect(() => {
-    loadHomeFeed();
+    loadHomeFeed(lastPageHomeFeed);
     loadAllDmMembers();
   }, []);
 
@@ -106,9 +112,13 @@ function CurrentDms() {
       >
         Show DM Context
       </Button>
-      {dmContext.homeFeed.map((feed, feedIndex) => {
-        return <DmTile profile={feed} key={feedIndex} />;
-      })}
+      <div className="h-[400px] overflow-auto" id="mf-container">
+        {dmContext.homeFeed.map((feed, feedIndex) => {
+          return <DmTile profile={feed} key={feedIndex} />;
+        })}
+      </div>
+
+      {}
       <div className="py-4 px-5 flex justify-between text-center h-[56px]">
         <span className="leading-6 text-xl">All Members</span>
         <IconButton
@@ -148,15 +158,15 @@ function CurrentDms() {
 
 function DmTile({ profile }) {
   const dmContext = useContext(DmContext);
-  function setProfile() {
-    // try {
-    //   let call = await canDirectMessage(profile.chatroom.id);
-    //   console.log(call);
-    // } catch (error) {}
-    dmContext.setCurrentProfile(profile);
-    dmContext.setCurrentChatroom(profile.chatroom);
+  async function setProfile() {
+    try {
+      let call = await getChatRoomDetails(myClient, profile.chatroom.id);
+      dmContext.setCurrentProfile(call.data);
+      dmContext.setCurrentChatroom(call.data.chatroom);
+    } catch (error) {
+      console.log(error);
+    }
   }
-  // console.log(profile);
   return (
     <Link
       to={directMessageChatPath}
