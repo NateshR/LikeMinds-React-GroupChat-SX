@@ -60,7 +60,7 @@ function CurrentDms() {
   async function paginateAllMembers() {
     try {
       let call = await allChatroomMembersDm(
-        50421,
+        userContext.community.id,
         lastCaughtPageAllMembers + 1
       );
       let newArr = [...dmContext.membersFeed];
@@ -160,6 +160,7 @@ function CurrentDms() {
 
 function DmTile({ profile }) {
   const dmContext = useContext(DmContext);
+  const userContext = useContext(UserContext);
   async function setProfile() {
     try {
       let call = await getChatRoomDetails(myClient, profile.chatroom.id);
@@ -196,7 +197,9 @@ function DmTile({ profile }) {
                 : "#323232",
           }}
         >
-          {profile.chatroom.member.name}
+          {userContext.currentUser.id === profile.chatroom.member.id
+            ? profile.chatroom.chatroom_with_user.name
+            : profile.chatroom.member.name}
         </Typography>
 
         <Typography

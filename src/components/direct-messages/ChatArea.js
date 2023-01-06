@@ -7,7 +7,7 @@ import TittleDm from "./TitleDM";
 import { getConversationsForGroup } from "../../sdkFunctions";
 
 import { onValue, ref } from "firebase/database";
-import { myClient } from "../..";
+import { myClient, UserContext } from "../..";
 // Exported Styled Box
 export const StyledBox = styled(Box)({
   backgroundColor: "#f6f6ff",
@@ -18,6 +18,7 @@ export const StyledBox = styled(Box)({
 });
 function ChatArea() {
   const dmContext = useContext(DmContext);
+  const userContext = useContext(UserContext);
   // let db = myClient.fbInstance;
 
   const getChatroomConversations = async (chatroomId, pageNo) => {
@@ -70,7 +71,14 @@ function ChatArea() {
       {dmContext.currentChatroom ? (
         <StyledBox>
           {Object.keys(dmContext.currentChatroom).length > 0 ? (
-            <TittleDm title={dmContext.currentChatroom.member.name} />
+            <TittleDm
+              title={
+                userContext.currentUser.id ===
+                dmContext.currentChatroom.member.id
+                  ? dmContext.currentChatroom.chatroom_with_user.name
+                  : dmContext.currentChatroom.member.name
+              }
+            />
           ) : null}
           <ChatRoomAreaDM />
         </StyledBox>
