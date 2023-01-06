@@ -106,14 +106,14 @@ function CurrentDms() {
 
   return (
     <Box>
-      <Button
+      {/* <Button
         fullWidth
         onClick={() => {
           console.log(dmContext);
         }}
       >
         Show DM Context
-      </Button>
+      </Button> */}
       <div className="h-[400px] overflow-auto" id="mf-container">
         {dmContext.homeFeed.map((feed, feedIndex) => {
           return <DmTile profile={feed} key={feedIndex} />;
