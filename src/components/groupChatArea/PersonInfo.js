@@ -70,7 +70,7 @@ function PersonInfo() {
 
       <div className="mr-[120px] ml-[20px]">
         <div className="flex">
-          <IconButton
+          { !location.state.isFromAllMembers ? (<><IconButton
             onClick={() => {
               navigate(-1);
             }}
@@ -83,7 +83,7 @@ function PersonInfo() {
             <span className="font-[700] text-[#3884F7]">
               {profileDate.name}
             </span>
-          </div>
+          </div></>):null}
           <div className="grow" />
           {location.state.isFromAllMembers ? (
             <Button

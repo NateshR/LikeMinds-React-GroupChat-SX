@@ -116,15 +116,15 @@ function CurrentDms() {
 
   return (
     <Box>
-      <Button
+      {/* <Button
         fullWidth
         onClick={() => {
           console.log(dmContext);
         }}
       >
         Show DM Context
-      </Button>
-      <div className="h-[400px] overflow-auto" id="mf-container">
+      </Button> */}
+      <div className="max-h-[400px] overflow-auto" id="mf-container">
         {dmContext.homeFeed.map((feed, feedIndex) => {
           return (
             <DmTile
@@ -152,7 +152,7 @@ function CurrentDms() {
             hasMore={shouldContinuePaginateMembersFeed}
             dataLength={dmContext.membersFeed.length}
             next={paginateAllMembers}
-            loader={<h4>loading</h4>}
+            // loader={<h4>loading</h4>}
             scrollableTarget="mf-container"
           >
             {dmContext.membersFeed.map((feed, feedIndex) => {
