@@ -52,7 +52,7 @@ function DirectMessagesMain() {
         }}
       >
         <div className="flex overflow-hidden customHeight flex-1">
-          <div className="flex-[.32] customScroll bg-white border-r-[1px] border-[#eeeeee] pt-[20px]">
+          <div className="flex-[.32] bg-white border-r-[1px] border-[#eeeeee] pt-[20px] overflow-auto feed-panel">
             <SearchBarDirectMessages />
             <CurrentDms />
           </div>

@@ -1,9 +1,5 @@
-import { async } from "@firebase/util";
-import { data } from "autoprefixer";
-import Typicode from "likeminds-apis-sdk";
-import { json } from "react-router-dom";
+import LikeMinds from "likeminds-apis-sdk";
 import { myClient } from "..";
-import { groupPersonalInfoPath } from "../routes";
 export const jsonReturnHandler = (data, error) => {
   let returnObject = {
     error: false,
@@ -18,16 +14,21 @@ export const jsonReturnHandler = (data, error) => {
 };
 
 export const createNewClient = (key) => {
-  const client = new Typicode({
+  const client = new LikeMinds({
     apiKey: key,
   });
   return client;
 };
 
-export const getChatRoomDetails = async (myClient: Typicode, chatRoomId) => {
+export const getChatRoomDetails = async (myClient: LikeMinds, chatRoomId) => {
   try {
-    const chatRoomResponse = await myClient.getChatroom(chatRoomId);
-
+    console.log(chatRoomId);
+    const params = {
+      chatroom_id: chatRoomId,
+      page: 1,
+    };
+    const chatRoomResponse = await myClient.getChatroom(params);
+    console.log(chatRoomResponse);
     return jsonReturnHandler(chatRoomResponse, null);
   } catch (error) {
     console.log(error);
@@ -38,7 +39,6 @@ export const getChatRoomDetails = async (myClient: Typicode, chatRoomId) => {
 export const getConversationsForGroup = async (optionObject) => {
   try {
     let conversationCall = await myClient.getConversations(optionObject);
-
     return jsonReturnHandler(conversationCall.conversations, null);
   } catch (error) {
     return jsonReturnHandler(null, error);

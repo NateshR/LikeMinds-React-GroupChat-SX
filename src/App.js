@@ -139,25 +139,27 @@ let routesObject = [
     ],
   },
 ];
-routesObject.map((item, itemIndex) => {
-  
-});
+routesObject.map((item, itemIndex) => {});
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [community, setCommunity] = useState({});
   useEffect(() => {
-    initiateSDK(false, "ba7cd801-8c08-4688-84ad-6fd34aa38439", "Gaurav")
+    initiateSDK(false, "53208f29-5d15-473e-ab70-5fd77605be0f", "Ankit Garg SDK")
       .then((res) => {
-        setCommunity(res.data.data.community);
-        setCurrentUser(res.data.data.user);
-        sessionStorage.setItem("communityId", res.data.data.community.id);
+        setCommunity(res?.data?.community);
+        setCurrentUser(res?.data?.user);
+        sessionStorage.setItem("communityId", res?.data?.community?.id);
       })
+      // .then((res) => {
+      //   setCommunity(res.data.data.community);
+      //   setCurrentUser(res.data.data.user);
+      //   sessionStorage.setItem("communityId", res.data.data.community.id);
+      // })
       .catch((error) => {
-        console.log(error);
+        console.log("Error =>", error);
       });
   }, []);
-  console.log(router);
 
   return (
     <div className="App h-[100vh] flex flex-1">
