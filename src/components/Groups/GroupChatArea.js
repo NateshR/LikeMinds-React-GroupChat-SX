@@ -3,14 +3,14 @@ import { styled } from "@mui/system";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { myClient, UserContext } from "../..";
 import { config, getConversationsForGroup } from "../../sdkFunctions";
-import RegularBox from "../channelGroups/RegularBox";
+import RegularBox from "../commons/RegularBox";
 import { GroupContext } from "../../Main";
 import Input from "../InputComponent/Input";
-import Tittle from "./tittle/Tittle";
+import Tittle from "./Tittle";
 // import { getDatabase } from "firebase/database";
 import { onValue, ref as REF } from "firebase/database";
 // import { initializeApp } from "firebase/app";
-import { ChatRoomContext } from "../Groups/Groups";
+import { ChatRoomContext } from "./Groups";
 // Exported Styled Box
 
 export const StyledBox = styled(Box)({

@@ -4,8 +4,8 @@ import { useLocation } from "react-router-dom";
 import { UserContext, userObj } from "../..";
 import { RouteContext } from "../../Main";
 import { directMessagePath } from "../../routes";
-import MessageBoxDM from "../ChatConversationsArea/MessageBoxDM";
-import MessageBox from "./MessageBox";
+import MessageBoxDM from "../direct-messages/MessageBoxDM";
+import MessageBox from "../Groups/MessageBox";
 
 function MessageBlock({ conversationObject, userId }) {
   const routeContext = useContext(RouteContext)

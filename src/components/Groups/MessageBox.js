@@ -1,18 +1,31 @@
-import { Box, Dialog, IconButton, Menu, MenuItem } from "@mui/material";
-import { useContext, useRef, useState } from "react";
+import {
+  Box,
+  Dialog,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import React, { useContext, useRef, useState } from "react";
+
+import { UserContext } from "../..";
+import { addReaction, linkConverter, tagExtracter } from "../../sdkFunctions";
 import { Link, useNavigate } from "react-router-dom";
-import { communityId, myClient, UserContext } from "../..";
-import { GroupContext } from "../../Main";
+import { myClient } from "../..";
 import ReportConversationDialogBox from "../reportConversation/ReportConversationDialogBox";
 import emojiIcon from "../../assets/svg/smile.svg";
 import moreIcon from "../../assets/svg/more-vertical.svg";
 import pdfIcon from "../../assets/svg/pdf-document.svg";
 import EmojiPicker from "emoji-picker-react";
+// import { GroupContext } from "../Groups/Groups";
+import { GroupContext } from "../../Main";
+import { directMessagePath, groupPersonalInfoPath } from "../../routes";
+import { ConversationContext, CurrentSelectedConversationContext } from "./GroupChatArea";
 import parse from "html-react-parser";
-import { addReaction, linkConverter, tagExtracter } from "../../sdkFunctions";
-import { directMessageInfoPath, directMessagePath } from "../../routes";
 import { DmContext } from "../direct-messages/DirectMessagesMain";
-function MessageBoxDM({
+import { ChatRoomContext } from "./Groups";
+
+function MessageBox({
   username,
   messageString,
   time,
@@ -23,13 +36,6 @@ function MessageBoxDM({
   conversationObject,
   replyConversationObject,
 }) {
-  if (conversationObject.state !== 0) {
-    return (
-      <div className="mx-auto text-center rounded-[4px] text-[14px] w-full font-[300] text-[#323232]">
-        {parse(linkConverter(tagExtracter(messageString)))}
-      </div>
-    );
-  }
   return (
     <div>
       <Box className="flex mb-4">
@@ -70,11 +76,10 @@ function StringBox({
   replyConversationObject,
 }) {
   const ref = useRef(null);
-  const dmContext = useContext(DmContext);
+  const groupContext = useContext(GroupContext);
   const userContext = useContext(UserContext);
   const navigate = useNavigate();
   const [displayMediaModal, setDisplayMediaModel] = useState(false);
-
   const [mediaData, setMediaData] = useState(null);
 
   return (
@@ -91,15 +96,15 @@ function StringBox({
         mediaData={mediaData}
       />
       <div className="flex w-full justify-between mb-1 clear-both">
-        <div className="text-[12px] leading-[14px] text-[#323232] font-[700] capitalize">
+        <div className="text-[12px] leading-[14px] text-[#323232] font-[700]">
           <Link
-            to={directMessageInfoPath}
+            to={groupPersonalInfoPath}
             state={{
-              communityId: userContext.community.id,
+              communityId: userContext.community.id ,
               memberId: userId,
             }}
           >
-            {userId === userContext.currentUser.id ? "you" : username}
+            {userId === userContext.currentUser.id ? "You" : username}
           </Link>
         </div>
         <div className="text-[10px] leading-[12px] text-[#323232] font-[300]">
@@ -256,7 +261,11 @@ function StringBox({
 
         <div className="text-[14px] w-full font-[300] text-[#323232]">
           <span className="msgCard" ref={ref}>
-            {parse(linkConverter(tagExtracter(messageString)))}
+            {parse(
+              linkConverter(
+                tagExtracter(messageString, groupContext, userId, navigate)
+              )
+            )}
           </span>
         </div>
       </div>
@@ -279,10 +288,9 @@ function TimeBox({ time }) {
 }
 
 function MoreOptions({ convoId, userId, convoObject }) {
-  const dmContext = useContext(DmContext);
-  const navigate = useNavigate();
   const [anchor, setAnchor] = useState(null);
   const [shouldShow, setShouldShowBlock] = useState(false);
+  const navigate = useNavigate();
   let open = Boolean(anchor);
   const [anchorEl, setAnchorEl] = useState(null);
   const ref2 = useRef(null);
@@ -293,6 +301,8 @@ function MoreOptions({ convoId, userId, convoObject }) {
     setAnchorEl(null);
   };
   const ref = useRef(null);
+  const groupContext = useContext(GroupContext);
+  const conversationContext = useContext(ConversationContext)
   useState(() => {
     const handleCloseFunction = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
@@ -312,18 +322,26 @@ function MoreOptions({ convoId, userId, convoObject }) {
         conversation_id: convoid,
       });
       setShouldShowBlock(!shouldShow);
-      console.log(deleteCall);
     } catch (error) {
       console.log(error);
     }
   }
-
+  const selectedConversationContext = useContext(
+    CurrentSelectedConversationContext
+  );
   const options = [
     {
       title: "Reply",
       clickFunction: (e) => {
-        dmContext.setIsConversationSelected(true);
-        dmContext.setConversationObject(convoObject);
+        selectedConversationContext.setIsSelected(true);
+
+        selectedConversationContext.setConversationObject(convoObject);
+      },
+    },
+    {
+      title: "Message privately",
+      clickFunction: () => {
+        navigate(directMessagePath);
       },
     },
     {
@@ -396,9 +414,9 @@ function MoreOptions({ convoId, userId, convoObject }) {
       >
         <EmojiPicker
           onEmojiClick={(e) => {
-            addReaction(e.emoji, convoId, dmContext.currentChatroom.id)
-              .then((r) => console.log(r))
-              .catch((e) => console.log(e));
+            console.log(groupContext)
+            addReaction(e.emoji, convoId, groupContext.activeGroup.chatroom.id).then(r=>conversationContext.refreshConversationArray(groupContext.activeGroup.chatroom.id, 100, conversationContext));
+            
             handleCloseEmoji();
           }}
         />
@@ -437,4 +455,4 @@ function DialogBoxMediaDisplay({ onClose, shouldOpen, mediaData }) {
   );
 }
 
-export default MessageBoxDM;
+export default MessageBox;

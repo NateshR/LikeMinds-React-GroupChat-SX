@@ -27,7 +27,7 @@ import { MentionsInput, Mention } from "react-mentions";
 
 import { Close } from "@mui/icons-material";
 import "./Input.css";
-import { DmContext } from "../direct-messages/DirectMessagesMain";
+import { DmContext } from "./DirectMessagesMain";
 
 function InputDM({ updateHeight }) {
   const [audioFiles, setAudioFiles] = useState("");

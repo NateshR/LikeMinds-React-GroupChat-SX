@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { DmContext } from "../direct-messages/DirectMessagesMain";
-import RegularBox from "../channelGroups/RegularBox";
+import { DmContext } from "./DirectMessagesMain";
+import RegularBox from "../commons/RegularBox";
 import { getConversationsForGroup } from "../../sdkFunctions";
 import InputDM from "./InputDM";
 import { UserContext } from "../..";
 import { Button } from "@mui/material";
-import LetThemAcceptInvite from "../direct-messages/LetThemAcceptInvite";
-import AcceptTheirInviteFirst from "../direct-messages/AcceptTheirInviteFirst";
+import LetThemAcceptInvite from "./LetThemAcceptInvite";
+import AcceptTheirInviteFirst from "./AcceptTheirInviteFirst";
 function ChatRoomAreaDM() {
   const dmContext = useContext(DmContext);
   const userContext = useContext(UserContext);

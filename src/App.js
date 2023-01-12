@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from "./Main";
 import Groups from "./components/Groups/Groups";
-import GroupInfo from "./components/groupChatArea/GroupInfo";
-import GroupChatArea from "./components/groupChatArea/GroupChatArea";
-import AcceptInvite from "./components/groupChatArea/AcceptInvite";
-import PersonInfo from "./components/groupChatArea/PersonInfo";
+import GroupInfo from "./components/Groups/GroupInfo";
+import GroupChatArea from "./components/Groups/GroupChatArea";
+import AcceptInvite from "./components/Groups/AcceptInvite";
+import PersonInfo from "./components/commons/PersonInfo";
 import {
   addedByMePath,
   directMessageChatPath,

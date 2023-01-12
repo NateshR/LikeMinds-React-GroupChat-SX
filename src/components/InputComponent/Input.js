@@ -18,7 +18,7 @@ import { myClient, UserContext } from "../..";
 import {
   ConversationContext,
   CurrentSelectedConversationContext,
-} from "../groupChatArea/GroupChatArea";
+} from "../Groups/GroupChatArea";
 import {
   clearInputFiles,
   getConversationsForGroup,
@@ -30,7 +30,7 @@ import EmojiPicker from "emoji-picker-react";
 import { MentionsInput, Mention } from "react-mentions";
 // import Mentions
 import m from "./m";
-import MessageBox from "../channelGroups/MessageBox";
+import MessageBox from "../Groups/MessageBox";
 import { Close } from "@mui/icons-material";
 import "./Input.css";
 const StyledInputWriteComment = styled(TextField)({
