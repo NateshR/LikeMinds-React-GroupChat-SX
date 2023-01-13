@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useContext, useRef, useState } from "react";
 
-import { UserContext } from "../..";
+import { UserContext_LM } from "../..";
 import { addReaction, linkConverter, tagExtracter } from "../../sdkFunctions";
 import { Link, useNavigate } from "react-router-dom";
 import { myClient } from "../..";
@@ -77,7 +77,7 @@ function StringBox({
 }) {
   const ref = useRef(null);
   const groupContext = useContext(GroupContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const navigate = useNavigate();
   const [displayMediaModal, setDisplayMediaModel] = useState(false);
   const [mediaData, setMediaData] = useState(null);
@@ -87,7 +87,7 @@ function StringBox({
       className="flex flex-col py-[16px] px-[20px] min-w-[282px] max-w-[350px] border-[#eeeeee] rounded-[10px] break-all"
       style={{
         background:
-          userId === userContext.currentUser.id ? "#ECF3FF" : "#FFFFFF",
+          userId === userContext_LM.currentUser.id ? "#ECF3FF" : "#FFFFFF",
       }}
     >
       <DialogBoxMediaDisplay
@@ -100,11 +100,11 @@ function StringBox({
           <Link
             to={groupPersonalInfoPath}
             state={{
-              communityId: userContext.community.id ,
+              communityId: userContext_LM.community.id ,
               memberId: userId,
             }}
           >
-            {userId === userContext.currentUser.id ? "You" : username}
+            {userId === userContext_LM.currentUser.id ? "You" : username}
           </Link>
         </div>
         <div className="text-[10px] leading-[12px] text-[#323232] font-[300]">

@@ -16,11 +16,11 @@ import {
 import { directMessageChatPath } from "../../../routes";
 import DmMemberTile from "../DmMemberTile";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { myClient, UserContext } from "../../..";
+import { myClient, UserContext_LM } from "../../..";
 
 function CurrentDms() {
   const dmContext = useContext(DmContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const [openAllUsers, setOpenAllUsers] = useState(true);
   const [totalMembersFiltered, setTotalMembersFiltered] = useState(null);
   const [lastCaughtPageAllMembers, setLastCaughtPageAllMembers] = useState(1);
@@ -33,7 +33,7 @@ function CurrentDms() {
 
   async function loadHomeFeed(pageNo) {
     try {
-      let feedCall = await dmChatFeed(userContext.community.id, pageNo);
+      let feedCall = await dmChatFeed(userContext_LM.community.id, pageNo);
       let newFeedArray = feedCall.data.dm_chatrooms;
       dmContext.setHomeFeed(newFeedArray);
     } catch (error) {
@@ -61,7 +61,7 @@ function CurrentDms() {
   async function paginateAllMembers() {
     try {
       let call = await allChatroomMembersDm(
-        userContext.community.id,
+        userContext_LM.community.id,
         lastCaughtPageAllMembers + 1
       );
       let newArr = [...dmContext.membersFeed];
@@ -156,7 +156,7 @@ function CurrentDms() {
             scrollableTarget="mf-container"
           >
             {dmContext.membersFeed.map((feed, feedIndex) => {
-              if (feed.id == userContext.currentUser.id) {
+              if (feed.id == userContext_LM.currentUser.id) {
                 return null;
               }
               return (
@@ -176,7 +176,7 @@ function CurrentDms() {
 
 function DmTile({ profile, loadHomeFeed }) {
   const dmContext = useContext(DmContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   async function markReadCall(chatroomId) {
     try {
       await markRead(chatroomId);
@@ -231,7 +231,7 @@ function DmTile({ profile, loadHomeFeed }) {
                 : "#323232",
           }}
         >
-          {userContext.currentUser.id === profile.chatroom.member.id
+          {userContext_LM.currentUser.id === profile.chatroom.member.id
             ? profile.chatroom.chatroom_with_user.name
             : profile.chatroom.member.name}
         </Typography>

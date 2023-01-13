@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { UserContext, userObj } from "../..";
+import { UserContext_LM, userObj } from "../..";
 import { RouteContext } from "../../Main";
 import { directMessagePath } from "../../routes";
 import MessageBoxDM from "../direct-messages/MessageBoxDM";
@@ -9,9 +9,9 @@ import MessageBox from "./MessageBox";
 
 function MessageBlock({ conversationObject, userId }) {
   const routeContext = useContext(RouteContext)
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const [convoDetails, setConvoDetails] = useState(conversationObject);
-  const currentUser = userContext.currentUser.id;
+  const currentUser = userContext_LM.currentUser.id;
   const location = useLocation();
 
   return (

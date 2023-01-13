@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { UserContext } from "../..";
+import { UserContext_LM } from "../..";
 
 import CurrentDms from "./searchbar/CurrentDms";
 import SearchBarDirectMessages from "./searchbar/SearchBarDirectMessages";
 
 function DirectMessagesMain() {
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
 
   const [currentProfile, setCurrentProfile] = useState({});
   const [currentChatroomConversations, setCurrentChatroomConversations] =

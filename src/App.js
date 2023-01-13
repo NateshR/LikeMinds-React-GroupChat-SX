@@ -22,7 +22,7 @@ import {
 import DirectMessagesMain from "./components/direct-messages/DirectMessagesMain";
 import "./App.css";
 import { useEffect, useState } from "react";
-import { UserContext } from ".";
+import { UserContext_LM } from ".";
 import { initiateSDK } from "./sdkFunctions";
 import ChatArea from "./components/direct-messages/ChatArea";
 
@@ -163,7 +163,7 @@ function App() {
 
   return (
     <div className="App h-[100vh] flex flex-1">
-      <UserContext.Provider
+      <UserContext_LM.Provider
         value={{
           currentUser: currentUser,
           setCurrentUser: setCurrentUser,
@@ -176,7 +176,7 @@ function App() {
             <RouterProvider router={router} />
           </>
         ) : null}
-      </UserContext.Provider>
+      </UserContext_LM.Provider>
       {/* <Block/> */}
     </div>
   );

@@ -1,7 +1,7 @@
 import { Box, Dialog, IconButton, Menu, MenuItem } from "@mui/material";
 import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { communityId, myClient, UserContext } from "../..";
+import { communityId, myClient, UserContext_LM } from "../..";
 import { GroupContext } from "../../Main";
 import ReportConversationDialogBox from "../reportConversation/ReportConversationDialogBox";
 import emojiIcon from "../../assets/svg/smile.svg";
@@ -71,7 +71,7 @@ function StringBox({
 }) {
   const ref = useRef(null);
   const dmContext = useContext(DmContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const navigate = useNavigate();
   const [displayMediaModal, setDisplayMediaModel] = useState(false);
 
@@ -82,7 +82,7 @@ function StringBox({
       className="flex flex-col py-[16px] px-[20px] min-w-[282px] max-w-[350px] border-[#eeeeee] rounded-[10px] break-all"
       style={{
         background:
-          userId === userContext.currentUser.id ? "#ECF3FF" : "#FFFFFF",
+          userId === userContext_LM.currentUser.id ? "#ECF3FF" : "#FFFFFF",
       }}
     >
       <DialogBoxMediaDisplay
@@ -95,11 +95,11 @@ function StringBox({
           <Link
             to={directMessageInfoPath}
             state={{
-              communityId: userContext.community.id,
+              communityId: userContext_LM.community.id,
               memberId: userId,
             }}
           >
-            {userId === userContext.currentUser.id ? "you" : username}
+            {userId === userContext_LM.currentUser.id ? "you" : username}
           </Link>
         </div>
         <div className="text-[10px] leading-[12px] text-[#323232] font-[300]">

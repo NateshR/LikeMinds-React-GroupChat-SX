@@ -12,7 +12,7 @@ import {
 import "./Groups.css";
 import { Button } from "@mui/material";
 import { GroupContext } from "../../Main";
-import { communityId, myClient, UserContext } from "../..";
+import { communityId, myClient, UserContext_LM } from "../..";
 import { getUnjoinedRooms } from "../../sdkFunctions";
 export const ChatRoomContext = createContext({
   chatRoomList: [],
@@ -71,7 +71,7 @@ export const getUnjoinedList = async (
 
 function Groups() {
   const groupContext = useContext(GroupContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
 
   const [chatRoomsList, setChatRoomsList] = useState([]);
   const [unJoined, setUnjoined] = useState([]);
@@ -107,13 +107,13 @@ function Groups() {
       chatRoomsList,
       setChatRoomsList,
       setShouldLoadMoreHomeFeed,
-      userContext.community.id
+      userContext_LM.community.id
     );
     getUnjoinedList(
       unJoined,
       setUnjoined,
       setShouldLoadMoreUnjoinedFeed,
-      userContext.community.id
+      userContext_LM.community.id
     );
   }, []);
   return (

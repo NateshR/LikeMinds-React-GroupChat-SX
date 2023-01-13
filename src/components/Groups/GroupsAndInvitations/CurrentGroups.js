@@ -13,7 +13,7 @@ import {
   joinChatRoom,
   markRead,
 } from "../../../sdkFunctions";
-import { myClient, UserContext } from "../../..";
+import { myClient, UserContext_LM } from "../../..";
 import { Link, NavLink } from "react-router-dom";
 import { groupMainPath } from "../../../routes";
 // import { GroupContext } from "../Groups";
@@ -228,7 +228,7 @@ function PublicGroupTile({ groupTitle, group }) {
 
 function UnjoinedGroup({ groupTitle, group }) {
   const groupContext = useContext(GroupContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const chatroomContext = useContext(ChatRoomContext);
   async function getChatRoomData(chatroomId) {
     try {
@@ -252,7 +252,7 @@ function UnjoinedGroup({ groupTitle, group }) {
     try {
       let call = await joinChatRoom(
         group.id,
-        userContext.currentUser.id,
+        userContext_LM.currentUser.id,
         groupContext.refreshContextUi
       );
       chatroomContext.refreshChatroomContext();

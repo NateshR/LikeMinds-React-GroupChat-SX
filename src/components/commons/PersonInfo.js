@@ -15,7 +15,7 @@ import {
   useNavigation,
   useParams,
 } from "react-router-dom";
-import { communityId, myClient, UserContext } from "../..";
+import { communityId, myClient, UserContext_LM } from "../..";
 import backIcon from "../../assets/svg/arrow-left.svg";
 
 import userIcon from "./../../assets/user.png";
@@ -30,7 +30,7 @@ import TittleDm from "../direct-messages/TitleDM";
 function PersonInfo() {
   const routeContext = useContext(RouteContext)
   const gc = useContext(GroupContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const mediaArray = [LinkedInIcon, InstagramIcon, TwitterIcon];
   const location = useLocation();
   console.log(location);
@@ -48,7 +48,7 @@ function PersonInfo() {
     const fn = async () => {
       try {
         const memberCall = await myClient.profileData({
-          community_id: userContext.community.id,
+          community_id: userContext_LM.community.id,
           member_id: location.state.memberId,
         });
         if(memberCall?.member.id === profileDate.id){
@@ -102,7 +102,7 @@ function PersonInfo() {
                 color: "white",
               }}
               onClick={() =>
-                reqDM(profileDate, userContext, dmContext, navigate)
+                reqDM(profileDate, UserContext_LM, dmContext, navigate)
               }
               startIcon={<img src={require("./../../assets/message.png")} />}
             >

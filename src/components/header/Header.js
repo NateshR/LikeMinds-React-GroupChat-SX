@@ -18,7 +18,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import logo from "../../assets/Scalix.png";
 import Navigation from "./Navigation";
 import { useContext, useEffect, useRef, useState } from "react";
-import { UserContext } from "../..";
+import { UserContext_LM } from "../..";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,7 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -163,7 +163,7 @@ export default function Header() {
         <Toolbar className="h-18 bg-white px-0 py-7.5">
           <img src={logo} alt="logo" />
           <Navigation />
-          {/* === {userContext.currentUser} */}
+          {/* === {userContext_LM.currentUser} */}
           <Box className="grow" />
           <Box className="xs:hidden md:flex">
             <div className="w-[40px] h-[40px] rounded-[50% flex justify-center items-center mt-2 font-bold">
@@ -177,7 +177,7 @@ export default function Header() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
             >
-              {userContext?.currentUser?.user?.name[0]}
+              {userContext_LM?.currentUser?.user?.name[0]}
             </div>
           </Box>
           <Box className="xs:hidden md:flex">

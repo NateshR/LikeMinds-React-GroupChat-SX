@@ -1,7 +1,7 @@
 import { createTheme, Grid, ThemeProvider } from "@mui/material";
 import React, { useContext, useState, useEffect, createContext } from "react";
 import { Outlet } from "react-router-dom";
-import { UserContext } from ".";
+import { UserContext_LM } from ".";
 import Header from "./components/header/Header";
 import Sidenav from "./components/sidenav/Sidenav";
 const newTheme = createTheme({
@@ -29,21 +29,21 @@ export const GroupContext = React.createContext({
 function Main() {
   const [currentRoute, setCurrentRoute] = useState("forums")
   const [activeGroup, setActiveGroup] = useState({});
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const [refreshState, setRefreshState] = useState(true);
   function refreshGroups() {
     setRefreshState(!refreshState);
   }
   useEffect(() => {
-    if (sessionStorage.getItem("userContext") !== null) {
-      if (Object.keys(userContext.currentUser).length) {
-        sessionStorage.setItem("userContext", JSON.stringify(userContext));
+    if (sessionStorage.getItem("userContext_LM") !== null) {
+      if (Object.keys(userContext_LM.currentUser).length) {
+        sessionStorage.setItem("userContext_LM", JSON.stringify(userContext_LM));
       } else {
-        let c = JSON.parse(sessionStorage.getItem("userContext"));
-        userContext.setCurrentUser(c.currentUser);
+        let c = JSON.parse(sessionStorage.getItem("userContext_LM"));
+        userContext_LM.setCurrentUser(c.currentUser);
       }
     } else {
-      sessionStorage.setItem("userContext", JSON.stringify(userContext));
+      sessionStorage.setItem("userContext_LM", JSON.stringify(userContext_LM));
     }
   });
   return (

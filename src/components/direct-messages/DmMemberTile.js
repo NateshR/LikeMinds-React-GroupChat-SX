@@ -2,14 +2,14 @@ import { Margin } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { myClient, UserContext } from "../..";
+import { myClient, UserContext_LM } from "../..";
 import { directMessageChatPath, directMessageInfoPath } from "../../routes";
 import { createDM, getChatRoomDetails, requestDM } from "../../sdkFunctions";
 import { DmContext } from "./DirectMessagesMain";
 
-export async function reqDM(profile, userContext, dmContext, navigate) {
+export async function reqDM(profile, UserContext_LM, dmContext, navigate) {
   try {
-    let call = await requestDM(profile.id, userContext.community.id);
+    let call = await requestDM(profile.id, UserContext_LM.community.id);
     console.log(call)
     if (call.data === undefined) {
       alert(call.data.error_message);
@@ -46,7 +46,7 @@ export async function reqDM(profile, userContext, dmContext, navigate) {
 function DmMemberTile({ profile, profileIndex }) {
   const navigate = useNavigate();
   let dmContext = useContext(DmContext);
-  let userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   // console.log(profile);
 
   return (
@@ -83,7 +83,7 @@ function DmMemberTile({ profile, profileIndex }) {
           },
         }}
         onClick={() => {
-          reqDM(profile, userContext, dmContext, navigate);
+          reqDM(profile, UserContext_LM, dmContext, navigate);
         }}
         variant="filled"
       >
@@ -92,7 +92,7 @@ function DmMemberTile({ profile, profileIndex }) {
       <Link
         to={directMessageInfoPath}
         state={{
-          communityId: userContext.community.id,
+          communityId: userContext_LM.community.id,
           memberId: profile.id,
           isFromAllMembers: true,
         }}

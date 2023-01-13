@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { myClient, UserContext } from "../..";
+import { myClient, UserContext_LM } from "../..";
 import { config, getConversationsForGroup } from "../../sdkFunctions";
 import RegularBox from "../commons/RegularBox";
 import { GroupContext } from "../../Main";
@@ -73,7 +73,7 @@ function GroupChatArea() {
   const chatRoomContext = useContext(ChatRoomContext);
   const conversationContext = useContext(ConversationContext);
   let groupContext = useContext(GroupContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   let db = myClient.fbInstance();
   const ref = useRef(null);
   const scrollTop = useRef(null);
@@ -97,10 +97,10 @@ function GroupChatArea() {
       return 
     }
     if(conversationContext?.conversationsArray[convoArrLength-1][lastConvoArrLength-1]?.member?.id 
-      == userContext.currentUser.id){
+      == userContext_LM.currentUser.id){
       updateHeight();
     }
-    console.log(conversationContext.conversationsArray, convoArrLength, lastConvoArrLength, userContext.currentUser)
+    console.log(conversationContext.conversationsArray, convoArrLength, lastConvoArrLength, UserContext_LM.currentUser)
   }, [conversationContext.conversationsArray]);
 
   
@@ -174,7 +174,7 @@ function GroupChatArea() {
   }, [groupContext.activeGroup]);
 
   useEffect(() => {
-    const query = REF(db, `users/${userContext.currentUser.id}`);
+    const query = REF(db, `users/${userContext_LM.currentUser.id}`);
     return onValue(query, (snapshot) => {
       // const data = snapshot.val();
       if (

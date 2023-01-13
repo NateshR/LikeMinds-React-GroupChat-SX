@@ -26,7 +26,7 @@ root.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-export const UserContext = React.createContext({
+export const UserContext_LM = React.createContext({
   currentUser: null,
   setCurrentUser: () => {},
   community: {},

@@ -6,7 +6,7 @@ import camera from "./../../assets/svg/camera.svg";
 import mic from "./../../assets/svg/mic.svg";
 import paperclip from "./../../assets/svg/paperclip.svg";
 import { GroupContext } from "../../Main";
-import { myClient, UserContext } from "../..";
+import { myClient, UserContext_LM } from "../..";
 import {
   ConversationContext,
   CurrentSelectedConversationContext,
@@ -46,7 +46,7 @@ function InputDM({ updateHeight }) {
 
 function InputSearchField({ updateHeight }) {
   const dmContext = useContext(DmContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const ref = useRef();
 
   const getChatroomConversations = async (
@@ -305,7 +305,7 @@ function InputSearchField({ updateHeight }) {
           spellCheck="false"
           placeholder={
             dmContext.currentChatroom?.chat_request_state === 0
-              ? userContext.currentUser.id.toString() ===
+              ? userContext_LM.currentUser.id.toString() ===
                 dmContext.currentChatroom?.chat_requested_by
                 ? "Show Connection request pending. Messaging would be enabled once your request is approved."
                 : "Approve and Reject"

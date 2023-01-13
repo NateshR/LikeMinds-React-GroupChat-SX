@@ -3,7 +3,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { leaveChatRoom } from "../sdkFunctions";
 import { GroupContext } from "../Main";
-import { UserContext } from "..";
+import { UserContext_LM } from "..";
 import leaveIcon from "../assets/svg/leave.svg";
 import { useNavigate } from "react-router-dom";
 import { ChatRoomContext } from "../components/Groups/Groups";
@@ -13,7 +13,7 @@ import { directMessagePath } from "../routes";
 export function MoreOptions() {
   const [open, setOpen] = useState(false);
   const groupContext = useContext(GroupContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const [anchor, setAnchor] = useState(null);
   const chatroomContext = useContext(ChatRoomContext);
   function closeMenu() {
@@ -25,7 +25,7 @@ export function MoreOptions() {
   function leaveGroup() {
     leaveChatRoom(
       groupContext.activeGroup.chatroom.id,
-      userContext.currentUser.id,
+      userContext_LM.currentUser.id,
       groupContext.refreshContextUi
     )
       .then((r) => {
@@ -83,7 +83,7 @@ export function MoreOptions() {
 export function MoreOptionsDM() {
   const [open, setOpen] = useState(false);
   const dmContext = useContext(DmContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const [anchor, setAnchor] = useState(null);
 
   function closeMenu() {
@@ -95,7 +95,7 @@ export function MoreOptionsDM() {
   function leaveGroup() {
     leaveChatRoom(
       dmContext.currentChatroom.id,
-      userContext.currentUser.id,
+      userContext_LM.currentUser.id,
       dmContext.refreshContext()
     )
       .then((r) => {

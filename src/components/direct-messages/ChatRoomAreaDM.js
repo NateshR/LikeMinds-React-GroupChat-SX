@@ -3,13 +3,13 @@ import { DmContext } from "./DirectMessagesMain";
 import RegularBox from "../commons/RegularBox";
 import { getConversationsForGroup } from "../../sdkFunctions";
 import InputDM from "./InputDM";
-import { UserContext } from "../..";
+import { UserContext_LM } from "../..";
 import { Button } from "@mui/material";
 import LetThemAcceptInvite from "./LetThemAcceptInvite";
 import AcceptTheirInviteFirst from "./AcceptTheirInviteFirst";
 function ChatRoomAreaDM() {
   const dmContext = useContext(DmContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const ref = useRef(null);
 
   // Scroll to bottom
@@ -70,11 +70,11 @@ function ChatRoomAreaDM() {
     >
       {Object.keys(dmContext.currentChatroom).length > 0 ? (
         dmContext.currentChatroom.chat_request_state === 0 ? (
-          userContext.currentUser.id ==
+          userContext_LM.currentUser.id ==
           dmContext.currentChatroom.chat_requested_by[0].id ? (
             <LetThemAcceptInvite
               title={
-                userContext.currentUser.id ===
+                userContext_LM.currentUser.id ===
                 dmContext.currentChatroom.member.id
                   ? dmContext.currentChatroom.chatroom_with_user.name
                   : dmContext.currentChatroom.member.name
@@ -83,7 +83,7 @@ function ChatRoomAreaDM() {
           ) : (
             <AcceptTheirInviteFirst
               title={
-                userContext.currentUser.id ===
+                userContext_LM.currentUser.id ===
                 dmContext.currentChatroom.member.id
                   ? dmContext.currentChatroom.chatroom_with_user.name
                   : dmContext.currentChatroom.member.name
@@ -101,7 +101,7 @@ function ChatRoomAreaDM() {
             <div ref={ref}></div>
             {dmContext.currentChatroom.chat_request_state == 0 ? (
               <>
-                {/* {userContext.currentUser.id ==
+                {/* {userContext_LM.currentUser.id ==
                 dmContext.currentChatroom.chat_requested_by[0].id ? (
                   <div className="flex justify-center items-center fixed bottom-0 w-[62.1%] py-4">
                     Connection request pending. Messaging would be enabled once

@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import { myClient, UserContext } from "../..";
+import { myClient, UserContext_LM } from "../..";
 import { dmAction, getChatRoomDetails } from "../../sdkFunctions";
 import acceptLogo from "./../../assets/acceptInvite.png";
 import { DmContext } from "./DirectMessagesMain";

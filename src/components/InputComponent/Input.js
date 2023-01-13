@@ -14,7 +14,7 @@ import camera from "./../../assets/svg/camera.svg";
 import mic from "./../../assets/svg/mic.svg";
 import paperclip from "./../../assets/svg/paperclip.svg";
 import { GroupContext } from "../../Main";
-import { myClient, UserContext } from "../..";
+import { myClient, UserContext_LM } from "../..";
 import {
   ConversationContext,
   CurrentSelectedConversationContext,
@@ -88,7 +88,7 @@ function Input({updateHeight}) {
 
 function InputSearchField() {
   const groupContext = useContext(GroupContext);
-  const userContext = useContext(UserContext);
+  const userContext_LM = useContext(UserContext_LM);
   const ref = useRef();
   const conversationContext = useContext(ConversationContext);
   const inputContext = useContext(InputContext);
@@ -236,16 +236,21 @@ function InputSearchField() {
       let oldConversationArr = conversationContext.conversationsArray;
       let oldLength = oldConversationArr.length;
       let newConvoArr = [...oldConversationArr];
+      console.log("A")
       // newConvoArr.push(callRes.conversation);
       if (
+        
         callRes.conversation.date === oldConversationArr[oldLength - 1][0].date
       ) {
-        callRes.conversation.member = userContext.currentUser;
+        console.log("B")
+        callRes.conversation.member = userContext_LM.currentUser;
         newConvoArr[oldLength - 1].push(callRes.conversation);
       } else {
-        callRes.conversation.member = userContext.currentUser;
+        console.log("C")
+        callRes.conversation.member = userContext_LM.currentUser;
         newConvoArr.push([...callRes.conversation]);
       }
+      console.log("D")
       console.log("checkpoint " + count++)
       conversationContext.setConversationArray(newConvoArr);
       console.log("checkpoint " + count++)
