@@ -39,17 +39,12 @@ function PersonInfo() {
   const ref = useRef();
   let dmContext = useContext(DmContext);
 
-  // useEffect(()=>{
-  //   if(location.pathname.split("/")[1] == "direct-message"){
-  //     let c =
-  //   }
-  // })
+  
   useEffect(() => {
     const fn = async () => {
       try {
-        const memberCall = await myClient.profileData({
-          community_id: userContext_LM.community.id,
-          member_id: location.state.memberId,
+        const memberCall = await myClient.getProfile({
+          user_id: location.state.memberId,
         });
         if(memberCall?.member.id === profileDate.id){
           return
