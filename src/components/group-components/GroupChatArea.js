@@ -3,15 +3,15 @@ import { styled } from "@mui/system";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { myClient, UserContext } from "../..";
 import { config, getConversationsForGroup, markRead } from "../../sdkFunctions";
-import RegularBox, { DateSpecifier } from "../channelGroups/RegularBox";
+import RegularBox, { DateSpecifier } from "./RegularBox";
 import { GroupContext } from "../../Main";
-import Input from "../InputComponent/Input";
-import Tittle from "./tittle/Tittle";
+import Input from "../extras-and-common/Input";
+import Tittle from "./Tittle";
 // import { getDatabase } from "firebase/database";
 import { onValue, ref as REF } from "firebase/database";
 // import { initializeApp } from "firebase/app";
-import { ChatRoomContext } from "../Groups/Groups";
-import MessageBlock from "../channelGroups/MessageBlock";
+import { ChatRoomContext } from "./Groups";
+import MessageBlock from "./MessageBlock";
 import { useParams } from "react-router-dom";
 // Exported Styled Box
 

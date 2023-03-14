@@ -7,10 +7,10 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import filterIcon from "../../../assets/svg/menu.svg";
-import searchIcon from "../../../assets/svg/searchBoxIcon.svg";
-import { myClient } from "../../..";
-import SearchBarContainer from "../../SearchBar/SearchBar";
+import filterIcon from "../../assets/svg/menu.svg";
+import searchIcon from "../../assets/svg/searchBoxIcon.svg";
+import { myClient } from "../..";
+import SearchBarContainer from "../extras-and-common/SearchBar";
 
 function SearchbarGroups() {
   const [searchString, setSearchString] = useState("");

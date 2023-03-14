@@ -12,21 +12,21 @@ import { UserContext } from "../..";
 import { addReaction, linkConverter, tagExtracter } from "../../sdkFunctions";
 import { Link, useNavigate } from "react-router-dom";
 import { myClient } from "../..";
-import ReportConversationDialogBox from "../reportConversation/ReportConversationDialogBox";
+import ReportConversationDialogBox from "../extras-and-common/ReportConversationDialogBox";
 import emojiIcon from "../../assets/svg/smile.svg";
 import moreIcon from "../../assets/svg/more-vertical.svg";
 import pdfIcon from "../../assets/svg/pdf-document.svg";
 import EmojiPicker from "emoji-picker-react";
 // import { GroupContext } from "../Groups/Groups";
 import { GroupContext } from "../../Main";
-import { directMessagePath, groupPersonalInfoPath } from "./../../routes";
+import { directMessagePath, groupPersonalInfoPath } from "../../routes";
 import {
   ConversationContext,
   CurrentSelectedConversationContext,
-} from "../groupChatArea/GroupChatArea";
+} from "./GroupChatArea";
 import parse from "html-react-parser";
-import { DmContext } from "../direct-messages/DirectMessagesMain";
-import { ChatRoomContext } from "../Groups/Groups";
+import { DmContext } from "../direct-messages-components/DirectMessagesMain";
+import { ChatRoomContext } from "./Groups";
 
 function MessageBox({
   username,

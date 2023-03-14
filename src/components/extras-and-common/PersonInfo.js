@@ -5,7 +5,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import { StyledBox } from "./GroupChatArea";
+import { StyledBox } from "../group-components/GroupChatArea";
 import { IconButton } from "@mui/material";
 import { Typography } from "@mui/material";
 import {
@@ -20,16 +20,16 @@ import backIcon from "../../assets/svg/arrow-left.svg";
 
 import userIcon from "./../../assets/user.png";
 import { GroupContext, RouteContext } from "../../Main";
-import Tittle from "./tittle/Tittle";
+import Tittle from "../group-components/Tittle";
 import { getChatRoomDetails, requestDM } from "../../sdkFunctions";
-import { DmContext } from "../direct-messages/DirectMessagesMain";
-import { reqDM } from "../direct-messages/DmMemberTile";
+import { DmContext } from "../direct-messages-components/DirectMessagesMain";
+import { reqDM } from "../direct-messages-components/DmMemberTile";
 import {
   directMessageChatPath,
   directMessagePath,
   groupPath,
 } from "../../routes";
-import TittleDm from "../direct-messages/TitleDM";
+import TittleDm from "../direct-messages-components/TitleDM";
 
 function PersonInfo() {
   const routeContext = useContext(RouteContext);

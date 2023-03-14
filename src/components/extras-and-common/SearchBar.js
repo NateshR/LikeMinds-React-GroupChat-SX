@@ -8,7 +8,7 @@ import {
   joinChatRoom,
   markRead,
 } from "../../sdkFunctions";
-import { ChatRoomContext } from "../Groups/Groups";
+import { ChatRoomContext } from "../group-components/Groups";
 import NotFoundLogo from "./../../assets/Icon.png";
 import { groupMainPath } from "../../routes";
 import { Button } from "@mui/material";

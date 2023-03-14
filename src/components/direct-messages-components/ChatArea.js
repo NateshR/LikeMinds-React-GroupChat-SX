@@ -1,10 +1,10 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import { styled } from "@mui/system";
 import React, { useContext, useEffect } from "react";
-import ChatRoomAreaDM from "../ChatConversationsArea/ChatRoomAreaDM";
+import ChatRoomAreaDM from "./ChatRoomAreaDM";
 
 import TittleDm from "./TitleDM";
-import { dmChatFeed, getConversationsForGroup } from "../../sdkFunctions";
+import { dmChatFeed, getConversationsForGroup, log } from "../../sdkFunctions";
 
 import { onValue, ref } from "firebase/database";
 import { myClient, UserContext } from "../..";
@@ -22,7 +22,6 @@ export async function getChatroomConversations(chatroomId, pageNo, dmContext) {
   if (chatroomId == null) {
     return;
   }
-  // // console.log(chatroomId);
   let optionObject = {
     chatroomID: chatroomId,
     page: pageNo,
@@ -34,7 +33,7 @@ export async function getChatroomConversations(chatroomId, pageNo, dmContext) {
 
     dmContext.setCurrentChatroomConversations(conversations);
   } else {
-    // console.log(response.errorMessage);
+    log(response.errorMessage);
   }
 }
 export async function loadHomeFeed(pageNo, dmContext, userContext) {
@@ -43,17 +42,12 @@ export async function loadHomeFeed(pageNo, dmContext, userContext) {
     let newFeedArray = feedCall.data.dm_chatrooms;
     dmContext.setHomeFeed(newFeedArray);
   } catch (error) {
-    // // console.log(error);
+    log(error);
   }
 }
 function ChatArea() {
   const userContext = useContext(UserContext);
   const dmContext = useContext(DmContext);
-
-  // useEffect(() => {
-  //   let chatroomId = dmContext.currentChatroom.id;
-  //   getChatroomConversations(chatroomId, 1000, dmContext);
-  // }, [dmContext.currentChatroom]);
 
   return (
     <>

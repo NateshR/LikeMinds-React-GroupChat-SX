@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 import { Box, Menu, MenuItem, Typography } from "@mui/material";
 import React, { useContext, useRef, useState } from "react";
-import Gap from "../../../styledAccessories/Gap";
+import Gap from "../../styledAccessories/Gap";
 
-import SearchBar from "../../../styledAccessories/SearchBar";
-import { MoreOptions } from "../../../styledAccessories/MoreOptions";
+import SearchBar from "../../styledAccessories/SearchBar";
+import { MoreOptions } from "../../styledAccessories/MoreOptions";
 import { Link } from "react-router-dom";
-import { groupInfoPath } from "../../../routes";
-import { GroupContext } from "../../../Main";
+import { groupInfoPath } from "../../routes";
+import { GroupContext } from "../../Main";
 const TitleBox = styled(Box)({
   display: "flex",
   width: "100%",

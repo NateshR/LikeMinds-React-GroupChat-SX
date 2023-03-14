@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect, createContext } from "react";
 import { Outlet } from "react-router-dom";
-import CurrentGroups from "./GroupsAndInvitations/CurrentGroups";
-import SearchbarGroups from "./SearchBar/SearchBarGroups";
-import Tittle from "../groupChatArea/tittle/Tittle";
+import CurrentGroups from "./CurrentGroups";
+import SearchbarGroups from "./SearchBarGroups";
+import Tittle from "./Tittle";
 import {
   ConversationContext,
   CurrentSelectedConversationContext,
   getChatroomConversationArray,
   StyledBox,
-} from "../groupChatArea/GroupChatArea";
+} from "./GroupChatArea";
 import "./Groups.css";
 import { Button } from "@mui/material";
 import { GroupContext } from "../../Main";

@@ -11,7 +11,7 @@ import pdfIcon from "../../assets/svg/pdf-document.svg";
 import {
   ConversationContext,
   CurrentSelectedConversationContext,
-} from "../groupChatArea/GroupChatArea";
+} from "../group-components/GroupChatArea";
 import {
   clearInputFiles,
   dmAction,
@@ -28,7 +28,7 @@ import { MentionsInput, Mention } from "react-mentions";
 
 import { Close } from "@mui/icons-material";
 import "./Input.css";
-import { DmContext } from "../direct-messages/DirectMessagesMain";
+import { DmContext } from "./DirectMessagesMain";
 
 function InputDM({ updateHeight }) {
   const ref = useRef();

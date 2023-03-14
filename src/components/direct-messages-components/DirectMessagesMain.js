@@ -2,11 +2,11 @@ import { onValue, ref } from "firebase/database";
 import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { myClient, UserContext } from "../..";
-import SearchBarContainer from "../SearchBar/SearchBar";
+import SearchBarContainer from "../extras-and-common/SearchBar";
 import { getChatroomConversations, loadHomeFeed } from "./ChatArea";
 
-import CurrentDms from "./searchbar/CurrentDms";
-import SearchBarDirectMessages from "./searchbar/SearchBarDirectMessages";
+import CurrentDms from "./CurrentDms";
+import SearchBarDirectMessages from "./SearchBarDirectMessages";
 
 function DirectMessagesMain() {
   const userContext = useContext(UserContext);

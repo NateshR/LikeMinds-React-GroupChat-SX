@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { GroupContext } from "../../Main";
-import Tittle from "./tittle/Tittle";
+import Tittle from "./Tittle";
 import backIcon from "../../assets/svg/arrow-left.svg";
 import rightArrow from "../../assets/svg/right-arrow.svg";
 import { getAllChatroomMember } from "../../sdkFunctions";

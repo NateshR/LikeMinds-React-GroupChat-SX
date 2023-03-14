@@ -1,21 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { DmContext } from "../direct-messages/DirectMessagesMain";
-import { DateSpecifier } from "../channelGroups/RegularBox";
-import { getConversationsForGroup } from "../../sdkFunctions";
+import { DmContext } from "./DirectMessagesMain";
+import { DateSpecifier } from "../group-components/RegularBox";
+import { getConversationsForGroup, log } from "../../sdkFunctions";
 import InputDM from "./InputDM";
 import { UserContext } from "../..";
 import { Button, CircularProgress } from "@mui/material";
-import LetThemAcceptInvite from "../direct-messages/LetThemAcceptInvite";
-import AcceptTheirInviteFirst from "../direct-messages/AcceptTheirInviteFirst";
+import LetThemAcceptInvite from "./LetThemAcceptInvite";
+import AcceptTheirInviteFirst from "./AcceptTheirInviteFirst";
 import InfiniteScroll from "react-infinite-scroll-component";
-import MessageBlock from "../channelGroups/MessageBlock";
+import MessageBlock from "../group-components/MessageBlock";
+import { useParams } from "react-router-dom";
 function ChatRoomAreaDM() {
   const dmContext = useContext(DmContext);
   const userContext = useContext(UserContext);
   const ref = useRef(null);
   const [hasMore, setHasMore] = useState(true);
   const scrollTop = useRef(null);
-
+  const { status } = useParams();
+  const [showLoaderScreen, setShowLoaderScreen] = useState(false);
   // Scroll to bottom
   const updateHeight = () => {
     const el = document.getElementById("chat");
@@ -40,7 +42,6 @@ function ChatRoomAreaDM() {
       conversation_id: sessionStorage.getItem("dmLastConvo"),
       scroll_direction: 0,
     };
-    // // console.log(optionObject);
     let response = await getConversationsForGroup(optionObject);
     if (!response.error) {
       let conversations = response.data;
@@ -54,10 +55,9 @@ function ChatRoomAreaDM() {
         ...conversations,
         ...dmContext.currentChatroomConversations,
       ];
-      // // console.log(newConversationArray);
       dmContext.setCurrentChatroomConversations(newConversationArray);
     } else {
-      // console.log(response.errorMessage);
+      log(response.errorMessage);
     }
   };
 
@@ -71,33 +71,32 @@ function ChatRoomAreaDM() {
     if (!response.error) {
       let conversations = response.data;
       sessionStorage.setItem("dmLastConvo", conversations[0].id);
-
       dmContext.setCurrentChatroomConversations(conversations);
     } else {
-      // // console.log(response.errorMessage);
+      log(response.errorMessage);
     }
   };
 
   useEffect(() => {
+    setShowLoaderScreen(true);
     if (Object.keys(dmContext.currentChatroom).length) {
-      getChatroomConversations(dmContext.currentChatroom.id, 100);
+      getChatroomConversations(dmContext.currentChatroom.id, 100).then(() => {
+        setShowLoaderScreen(false);
+      });
     }
   }, [dmContext.currentChatroom]);
 
   useEffect(() => {
     updateHeight();
   }, [dmContext.currentChatroomConversations]);
-  // useEffect(() => {
-  //   updateHeight();
-  // }, []);
-
   return (
     <div
       id="dmChat"
       className="relative overflow-x-hidden overflow-auto"
       style={{ height: "calc(100vh - 270px)" }}
     >
-      {Object.keys(dmContext.currentChatroom).length > 0 ? (
+      {Object.keys(dmContext.currentChatroom).length > 0 &&
+      showLoaderScreen == false ? (
         dmContext.currentChatroom.chat_request_state === 0 ? (
           userContext.currentUser.id ==
           dmContext.currentChatroom.chat_requested_by[0].id ? (
@@ -132,7 +131,6 @@ function ChatRoomAreaDM() {
                 currentHeight = currentHeight.toString();
 
                 if (current < 200 && current % 150 == 0) {
-                  // console.log("calling paginate");
                   paginateChatroomConversations(
                     dmContext.currentChatroom.id,
                     50
@@ -177,11 +175,11 @@ function ChatRoomAreaDM() {
             ) : null}
           </>
         )
-      ) : (
+      ) : showLoaderScreen == true ? (
         <div className="h-full flex justify-center items-center text-[#999]">
           <CircularProgress />
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

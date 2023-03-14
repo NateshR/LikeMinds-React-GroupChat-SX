@@ -9,12 +9,12 @@ import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import FilterListIcon from "@mui/icons-material/FilterList";
 // import SearchIcon from "@mui/icons-material/Search";
-import SearchBarContainer from "../../SearchBar/SearchBar";
+import SearchBarContainer from "../extras-and-common/SearchBar";
 // import searchIcon from "./../../../assets/search.png";
 
-import filterIcon from "../../../assets/svg/menu.svg";
-import searchIcon from "../../../assets/svg/searchBoxIcon.svg";
-import { myClient } from "../../..";
+import filterIcon from "../../assets/svg/menu.svg";
+import searchIcon from "../../assets/svg/searchBoxIcon.svg";
+import { myClient } from "../..";
 function SearchBarDirectMessages() {
   const [searchString, setSearchString] = useState("");
   const [shouldOpen, setShouldOpen] = useState(false);

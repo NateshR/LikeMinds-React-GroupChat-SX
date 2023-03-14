@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from "./Main";
-import Groups from "./components/Groups/Groups";
-import GroupInfo from "./components/groupChatArea/GroupInfo";
-import GroupChatArea from "./components/groupChatArea/GroupChatArea";
-import AcceptInvite from "./components/groupChatArea/AcceptInvite";
-import PersonInfo from "./components/groupChatArea/PersonInfo";
+import Groups from "./components/group-components/Groups";
+import GroupInfo from "./components/group-components/GroupInfo";
+import GroupChatArea from "./components/group-components/GroupChatArea";
+import AcceptInvite from "./components/extras-and-common/AcceptInvite";
+import PersonInfo from "./components/extras-and-common/PersonInfo";
 import {
   addedByMePath,
   directMessageChatPath,
@@ -19,13 +19,13 @@ import {
   groupPersonalInfoPath,
   mainPath,
 } from "./routes";
-import DirectMessagesMain from "./components/direct-messages/DirectMessagesMain";
+import DirectMessagesMain from "./components/direct-messages-components/DirectMessagesMain";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { UserContext } from ".";
 import { initiateSDK } from "./sdkFunctions";
-import ChatArea from "./components/direct-messages/ChatArea";
-import Error from "./components/errorPage/Error";
+import ChatArea from "./components/direct-messages-components/ChatArea";
+import Error from "./components/extras-and-common/Error";
 
 const router = createBrowserRouter([
   {

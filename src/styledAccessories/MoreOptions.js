@@ -11,8 +11,8 @@ import { GroupContext } from "../Main";
 import { myClient, UserContext } from "..";
 import leaveIcon from "../assets/svg/leave.svg";
 import { useNavigate } from "react-router-dom";
-import { ChatRoomContext } from "../components/Groups/Groups";
-import { DmContext } from "../components/direct-messages/DirectMessagesMain";
+import { ChatRoomContext } from "../components/group-components/Groups";
+import { DmContext } from "../components/direct-messages-components/DirectMessagesMain";
 import { directMessageInfoPath, directMessagePath } from "../routes";
 
 export function MoreOptions() {

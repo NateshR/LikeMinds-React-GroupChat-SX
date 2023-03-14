@@ -10,7 +10,7 @@ import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { communityId, myClient, UserContext } from "../..";
 import { GroupContext } from "../../Main";
-import ReportConversationDialogBox from "../reportConversation/ReportConversationDialogBox";
+import ReportConversationDialogBox from "../extras-and-common/ReportConversationDialogBox";
 import emojiIcon from "../../assets/svg/smile.svg";
 import moreIcon from "../../assets/svg/more-vertical.svg";
 import pdfIcon from "../../assets/svg/pdf-document.svg";
@@ -26,7 +26,7 @@ import {
   undoBlock,
 } from "../../sdkFunctions";
 import { directMessageInfoPath, directMessagePath } from "../../routes";
-import { DmContext } from "../direct-messages/DirectMessagesMain";
+import { DmContext } from "./DirectMessagesMain";
 
 async function getChatroomConversations(chatroomId, pageNo, dmContext) {
   if (chatroomId == null) {
@@ -449,27 +449,8 @@ function MoreOptions({ convoId, userId, convoObject }) {
     let response = await getConversationsForGroup(optionObject);
     if (!response.error) {
       let conversations = response.data;
-      let conversationToBeSetArray = [];
-      let newConversationArray = [];
-      let lastDate = "";
-      for (let convo of conversations) {
-        if (convo.date === lastDate) {
-          conversationToBeSetArray.push(convo);
-          lastDate = convo.date;
-        } else {
-          if (conversationToBeSetArray.length != 0) {
-            newConversationArray.push(conversationToBeSetArray);
-            conversationToBeSetArray = [];
-            conversationToBeSetArray.push(convo);
-            lastDate = convo.date;
-          } else {
-            conversationToBeSetArray.push(convo);
-            lastDate = convo.date;
-          }
-        }
-      }
-      newConversationArray.push(conversationToBeSetArray);
-      dmContext.setCurrentChatroomConversations(newConversationArray);
+      sessionStorage.setItem("dmLastConvo", conversations[0].id);
+      dmContext.setCurrentChatroomConversations(conversations);
     } else {
       // // console.log(response.errorMessage);
     }

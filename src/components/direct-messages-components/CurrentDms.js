@@ -2,27 +2,27 @@ import { Box, Button, Collapse, IconButton, Typography } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { DmContext } from "../DirectMessagesMain";
+import { DmContext } from "./DirectMessagesMain";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import {
   allChatroomMembersDm,
   dmChatFeed,
   getChatRoomDetails,
+  log,
   markRead,
-} from "../../../sdkFunctions";
-import { directMessageChatPath } from "../../../routes";
-import DmMemberTile from "../DmMemberTile";
+} from "../../sdkFunctions";
+import { directMessageChatPath } from "../../routes";
+import DmMemberTile from "./DmMemberTile";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { myClient, UserContext } from "../../..";
+import { myClient, UserContext } from "../..";
 import { onValue, ref } from "firebase/database";
-import { getChatroomConversations } from "../ChatArea";
+import { getChatroomConversations } from "./ChatArea";
 
 function CurrentDms() {
   const dmContext = useContext(DmContext);
   const userContext = useContext(UserContext);
   const { status } = useParams();
-  // console.log(status);
   const [openAllUsers, setOpenAllUsers] = useState(true);
   const [totalMembersFiltered, setTotalMembersFiltered] = useState(null);
   const [lastCaughtPageAllMembers, setLastCaughtPageAllMembers] = useState(1);
@@ -37,7 +37,6 @@ function CurrentDms() {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [listenAgain, setListenAgain] = useState(0);
 
-  // // console.log(status);
   function joinFeed(oldArray, newArray, serialObject) {
     serialObject = { ...serialObject };
     for (let feed of newArray) {
@@ -115,7 +114,7 @@ function CurrentDms() {
       setLastCaughtPageAllMembers(lastCaughtPageAllMembers + 1);
       dmContext.setMembersFeed(newArr);
     } catch (error) {
-      // // console.log(error);
+      log(error);
     }
   }
 
@@ -133,17 +132,17 @@ function CurrentDms() {
       dmContext.setCurrentProfile(call.data);
       dmContext.setShowLoadingBar(false);
     } catch (error) {
-      // console.log(error);
+      log(error);
     }
   }
 
   async function setProfile(chatroom) {
     try {
-      dmContext.setShowLoadingBar(true);
+      // dmContext.setShowLoadingBar(true);
       sessionStorage.setItem("currentChatRoomKey", chatroom);
       await markReadCall(chatroom);
     } catch (error) {
-      // console.log(error);
+      log(error);
     }
   }
 
@@ -154,7 +153,6 @@ function CurrentDms() {
 
   useEffect(() => {
     if (sessionStorage.getItem("dmContext") !== null) {
-      // // console.log(dmContext);
       if (
         dmContext.currentProfile != undefined &&
         Object.keys(dmContext.currentProfile)?.length
@@ -192,8 +190,6 @@ function CurrentDms() {
   // for getting the id for the currentchatroom from the session storage
   const getCurrentChatroomID = () => {
     let l = Object.keys(dmContext.currentChatroom).length;
-
-    // // console.log(l);
     if (l > 0) {
       return dmContext.currentChatroom.id;
     } else {
@@ -203,7 +199,6 @@ function CurrentDms() {
 
   // for resetting the conversation of the current chatroom
   useEffect(() => {
-    // console.log(dmContext);
     const fetchCall = async (id) => {
       try {
         let call = await myClient.fetchChatroomHome({
@@ -221,7 +216,6 @@ function CurrentDms() {
     const homeFeedUpdate = async (snap) => {
       try {
         const arr = dmContext.homeFeed;
-        // console.log(arr);
         for (let item of arr) {
           if (snap[item.chatroom.id] != undefined) {
             let call = await fetchCall(item.chatroom.id);
@@ -233,7 +227,7 @@ function CurrentDms() {
           }
         }
       } catch (error) {
-        // console.log(error);
+        log(error);
       }
     };
 
@@ -241,8 +235,6 @@ function CurrentDms() {
     return onValue(query, (snapshot) => {
       if (snapshot.exists()) {
         const snap = snapshot.val();
-        // console.log(snap);
-        // console.log(dmContext.homeFeed);
         homeFeedUpdate(snap);
       }
     });
@@ -277,16 +269,7 @@ function CurrentDms() {
           scrollableTarget="hf-container"
         >
           {dmContext.homeFeed.map((feed, feedIndex) => {
-            return (
-              <DmTile
-                profile={feed}
-                key={feedIndex}
-                loadHomeFeed={loadHomeFeed}
-                selectedId={selectedIndex}
-                setSelectedId={setSelectedIndex}
-                index={feedIndex}
-              />
-            );
+            return <DmTile profile={feed} key={feed.chatroom.id} />;
           })}
         </InfiniteScroll>
       </div>
@@ -329,12 +312,9 @@ function CurrentDms() {
   );
 }
 
-function DmTile({ profile, loadHomeFeed, selectedId, setSelectedId, index }) {
-  const dmContext = useContext(DmContext);
+function DmTile({ profile }) {
   const userContext = useContext(UserContext);
   const { status } = useParams();
-  const [shouldNotShow, setShouldNotShow] = useState(false);
-
   return (
     <Link
       to={directMessageChatPath + "/" + profile.chatroom.id}
@@ -380,7 +360,6 @@ function DmTile({ profile, loadHomeFeed, selectedId, setSelectedId, index }) {
                   ? "#3884F7"
                   : "#323232"
                 : "white",
-            // display: shouldNotShow ? 'none' : 'inline'
           }}
         >
           {profile.unseen_conversation_count != undefined ? (

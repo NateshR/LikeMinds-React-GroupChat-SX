@@ -12,20 +12,20 @@ import {
   getUnjoinedRooms,
   joinChatRoom,
   markRead,
-} from "../../../sdkFunctions";
-import { myClient, UserContext } from "../../..";
+} from "../../sdkFunctions";
+import { myClient, UserContext } from "../..";
 import { Link, NavLink } from "react-router-dom";
-import { groupMainPath } from "../../../routes";
-import cancelIcon from "../../../assets/svg/cancel.svg";
-import acceptIcon from "../../../assets/svg/accept.svg";
-import { GroupContext } from "../../../Main";
+import { groupMainPath } from "../../routes";
+import cancelIcon from "../../assets/svg/cancel.svg";
+import acceptIcon from "../../assets/svg/accept.svg";
+import { GroupContext } from "../../Main";
 import {
   ChatRoomContext,
   fn,
   getUnjoinedList,
   paginateHomeFeed,
   paginateUnjoinedFeed,
-} from "../Groups";
+} from "./Groups";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -37,7 +37,6 @@ function CurrentGroups() {
   async function setChatroom(chatroomId) {
     try {
       const markReadCall = await markRead(chatroomId);
-      // // console.log(markReadCall);
       const chatRoomData = await getChatRoomDetails(myClient, chatroomId);
 
       if (!chatRoomData.error) {
@@ -45,39 +44,28 @@ function CurrentGroups() {
           chatRoomData.data.community.id,
           chatRoomData.data.chatroom.id
         );
-
         chatRoomData.data.membersDetail = tagCall.data.members;
         groupContext.setActiveGroup(chatRoomData.data);
         groupContext.setShowLoadingBar(false);
       } else {
-        // // console.log(chatRoomData.errorMessage);
       }
     } catch (error) {}
   }
   useEffect(() => {
-    // // console.log("here");
     if (status) {
       setChatroom(status);
     }
   }, [status]);
   return (
     <Box>
-      {/*  */}
       <PublicGroup groupList={chatroomContext.chatRoomsList} />
-
       <div className="flex justify-between text-[20px] mt-[10px] py-4 px-5 items-center">
         <span>All Public Groups</span>
         <IconButton onClick={() => setShouldPublicCard(!shouldOpenPublicCard)}>
           {!shouldOpenPublicCard ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
         </IconButton>
       </div>
-      <Collapse
-        in={shouldOpenPublicCard}
-        // sx={{
-        //   maxHeight: "400px",
-        //   overflowY: "auto",
-        // }}
-      >
+      <Collapse in={shouldOpenPublicCard}>
         <div className="max-h-[400px] overflow-auto" id="unjoinedContainer">
           <InfiniteScroll
             hasMore={true}

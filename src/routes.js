@@ -14,7 +14,7 @@ export const groupPersonalInfoPath = "/groups/personal-info";
 export const eventsPath = "events";
 
 // path for dms
-export const directMessagePath = "/direct-messages";
+export const directMessagePath = "/direct-message";
 export const directMessageChatPath = directMessagePath + "/chat";
 export const directMessageInfoPath = directMessagePath + "/info";
 export const directMessageAcceptInvitePath =
