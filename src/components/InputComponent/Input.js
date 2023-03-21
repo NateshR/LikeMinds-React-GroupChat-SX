@@ -178,9 +178,7 @@ function InputSearchField({ updateHeight }) {
             chatroomId: groupContext.activeGroup.chatroom.id,
             file: newFile,
           };
-
           let fileType;
-
           if (filesArray[0].type.split("/")[1] === "pdf") {
             fileType = "pdf";
           } else if (filesArray[0].type.split("/")[0] === "audio") {
