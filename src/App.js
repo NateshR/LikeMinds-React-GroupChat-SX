@@ -89,9 +89,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [community, setCommunity] = useState({});
   useEffect(() => {
-    initiateSDK(false, "70315a15-92bc-4211-ac9b-03729c6a7ab4", "")
-      // 0d6f9958-a2db-46aa-a4b1-c40d268b767b
-      // initiateSDK(false, "0d6f9958-a2db-46aa-a4b1-c40d268b767b", "")
+    // initiateSDK(false, "70315a15-92bc-4211-ac9b-03729c6a7ab4", "")
+    // 0d6f9958-a2db-46aa-a4b1-c40d268b767b
+    initiateSDK(false, "60d19927-8b66-4f78-af91-c6005950847c", "")
       .then((res) => {
         setCommunity(res?.data?.community);
         setCurrentUser(res?.data?.user);

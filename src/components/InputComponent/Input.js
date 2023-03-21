@@ -25,6 +25,7 @@ import {
   getConversationsForGroup,
   getString,
   getUsername,
+  log,
   mergeInputFiles,
 } from "../../sdkFunctions";
 import EmojiPicker from "emoji-picker-react";
@@ -92,11 +93,15 @@ function InputSearchField({ updateHeight }) {
   const groupContext = useContext(GroupContext);
   const userContext = useContext(UserContext);
   const ref = useRef();
+  const [isSendingDisabled, setIsSendingDisabled] = useState(false);
   const conversationContext = useContext(ConversationContext);
   const inputContext = useContext(InputContext);
   const selectedConversationContext = useContext(
     CurrentSelectedConversationContext
   );
+  useEffect(() => {
+    setTimeout(() => setIsSendingDisabled(false), 100);
+  }, [isSendingDisabled]);
   const fn = async (chatroomId, pageNo, setConversationArray) => {
     let optionObject = {
       chatroomID: chatroomId,
@@ -133,16 +138,19 @@ function InputSearchField({ updateHeight }) {
       // // console.log(response.errorMessage);
     }
   };
-  let count = 1;
   let handleSendMessage = async () => {
     try {
+      if (isSendingDisabled) {
+        return;
+      } else {
+        setIsSendingDisabled(true);
+      }
       let isRepliedConvo = selectedConversationContext.isSelected;
       let { text, setText } = inputContext;
+      setText("");
       let filesArray = mergeInputFiles(inputContext);
       let res = null;
-      // textValT = textVal.
       let tv = text;
-      // // console.log("checkpoint " + count++);
       if (tv.length != 0) {
         if (!filesArray.length) {
           res = await fnew(false, 0, tv, setText, isRepliedConvo);
@@ -158,7 +166,10 @@ function InputSearchField({ updateHeight }) {
       } else if (filesArray.length > 0) {
         res = await fnew(true, filesArray.length, tv, setText, isRepliedConvo);
       }
-
+      let currConvoArr = [...conversationContext.conversationsArray];
+      res.data.conversation.member = userContext.currentUser;
+      currConvoArr.push(res.data.conversation);
+      conversationContext.setConversationArray(currConvoArr);
       if (res != null && filesArray.length > 0) {
         let index = 0;
         for (let newFile of filesArray) {
@@ -166,7 +177,6 @@ function InputSearchField({ updateHeight }) {
             messageId: res.data.id,
             chatroomId: groupContext.activeGroup.chatroom.id,
             file: newFile,
-            // index?: number,
           };
 
           let fileType;
@@ -201,7 +211,6 @@ function InputSearchField({ updateHeight }) {
             conversationContext
           );
           updateHeight();
-          // await conversationContext.refreshConversationArray();
         }
       } else {
         return {
@@ -224,15 +233,12 @@ function InputSearchField({ updateHeight }) {
     isRepliedConvo
   ) => {
     try {
-      // // console.log("checkpoint " + count++);
       let config = {
         text: tv.toString(),
         created_at: Date.now(),
         has_files: false,
-        // attachment_count: false,
         chatroom_id: groupContext.activeGroup.chatroom.id,
       };
-      // // console.log(config);
       if (has_files) {
         config.attachment_count = attachment_count;
         config.has_files = true;
@@ -241,38 +247,12 @@ function InputSearchField({ updateHeight }) {
         config.replied_conversation_id =
           selectedConversationContext.conversationObject.id;
       }
-
       let callRes = await myClient.onConversationsCreate(config);
-
-      // let oldConversationArr = conversationContext.conversationsArray;
-      // let oldLength = oldConversationArr.length;
-      // let newConvoArr = [...oldConversationArr];
-
-      // // console.log("3");
-      // if (
-      //   callRes.conversation.date === oldConversationArr[oldLength - 1][0].date
-      // ) {
-      //   callRes.conversation.member = userContext.currentUser;
-      //   newConvoArr[oldLength - 1].push(callRes.conversation);
-      // } else {
-      //   callRes.conversation.member = userContext.currentUser;
-      //   newConvoArr.push([...callRes.conversation]);
-      // }
-      // // console.log("4");
-      // conversationContext.setConversationArray(newConvoArr);
-
       setTextVal("");
       inputContext.setText("");
       selectedConversationContext.setIsSelected(false);
       selectedConversationContext.setConversationObject(null);
       clearInputFiles(inputContext);
-
-      // await getChatroomConversationArray(
-      //   groupContext.activeGroup.chatroom.id,
-      //   1000,
-      //   conversationContext
-      // );
-
       return { error: false, data: callRes };
     } catch (error) {
       return { error: true, errorMessage: error };
