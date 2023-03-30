@@ -95,12 +95,16 @@ const GroupChatArea = () => {
   }, []);
 
   useEffect(() => {
-    const convoArrLength = conversationContext.conversationsArray.length;
-    const lastConvoArrLength =
-      conversationContext.conversationsArray[convoArrLength - 1]?.length;
-    if (conversationContext.conversationsArray.length === 0) {
+    if (
+      conversationContext.conversationsArray == undefined ||
+      conversationContext.conversationsArray.length === 0
+    ) {
       return;
     }
+    const convoArrLength = conversationContext.conversationsArray?.length;
+    const lastConvoArrLength =
+      conversationContext.conversationsArray[convoArrLength - 1]?.length;
+
     if (
       conversationContext?.conversationsArray[convoArrLength - 1][
         lastConvoArrLength - 1
