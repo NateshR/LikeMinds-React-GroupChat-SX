@@ -386,9 +386,9 @@ function InputSearchField({ updateHeight }) {
             appendSpaceOnAdd={true}
             renderSuggestion={(
               suggestion,
-              search,
-              highlightedDisplay,
-              index,
+              searchParam,
+              highlightedDisplayParam,
+              indexParam,
               focused
             ) => {
               return (

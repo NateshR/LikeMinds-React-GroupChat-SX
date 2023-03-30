@@ -6,7 +6,7 @@ import { GroupContext } from "../../Main";
 import Tittle from "./tittle/Tittle";
 import backIcon from "../../assets/svg/arrow-left.svg";
 import rightArrow from "../../assets/svg/right-arrow.svg";
-import { getAllChatroomMember, log } from "../../sdkFunctions";
+import { getAllChatroomMember } from "../../sdkFunctions";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { myClient } from "../..";
 import { groupPersonalInfoPath, groupMainPath } from "../../routes";
@@ -21,24 +21,16 @@ function GroupInfo() {
   const [loadMode, setLoadMore] = useState(true);
   const [totalMembers, setTotalMembers] = useState(0);
   let callFn = (isSecret) => {
-    log("here");
     const getMemberList = async (isSecret) => {
       try {
-        let page = Math.floor(participantList.length / 10) + 1;
         let call = await myClient.viewParticipants({
           chatroom_id: gc.activeGroup.chatroom.id,
           is_secret: isSecret,
-          page: page,
-          page_size: 10,
+          page: 1,
+          page_size: gc.activeGroup.participant_count,
         });
-        if (call.participants.length < 10) {
-          setLoadMore(false);
-        }
-        let newList = participantList.concat(call.participants);
-        setParticipantList(newList);
-      } catch (error) {
-        log(error);
-      }
+        setParticipantList(call.participants);
+      } catch (error) {}
     };
     getMemberList(isSecret);
   };
@@ -76,15 +68,11 @@ function GroupInfo() {
         {/* Member list */}
         <div className="ml-1 pl-[5px] h-full">
           <div className="text-4 font-[700] text-[#323232]">Participants</div>
-          <div
-            className="py-[18px] overflow-auto max-h-[70%]"
-            id="participant-list"
-          >
+          <div className="py-[18px] overflow-auto max-h-[70%]">
             <InfiniteScroll
-              next={() => callFn(gc.activeGroup.chatroom.is_secret)}
-              hasMore={loadMode}
+              next={callFn}
+              hasMore={false}
               dataLength={participantList.length}
-              scrollableTarget="participant-list"
             >
               {participantList?.map((profile, profileIndex) => {
                 return (
