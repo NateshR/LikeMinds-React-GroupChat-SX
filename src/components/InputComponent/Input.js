@@ -25,6 +25,7 @@ import {
   getConversationsForGroup,
   getString,
   getUsername,
+  log,
   mergeInputFiles,
 } from "../../sdkFunctions";
 import EmojiPicker from "emoji-picker-react";
@@ -35,6 +36,7 @@ import MessageBox from "../channelGroups/MessageBox";
 import { Close } from "@mui/icons-material";
 import "./Input.css";
 import { getChatroomConversationArray } from "../groupChatArea/GroupChatArea";
+import { useParams } from "react-router-dom";
 const StyledInputWriteComment = styled(TextField)({
   background: "#F9F9F9",
   borderRadius: "20px",
@@ -90,15 +92,22 @@ function Input({ updateHeight }) {
 
 function InputSearchField({ updateHeight }) {
   const groupContext = useContext(GroupContext);
-  const userContext = useContext(UserContext);
+  const [debounceBool, setDebounceBool] = useState(true);
   const ref = useRef();
-
+  const { status } = useParams();
   const conversationContext = useContext(ConversationContext);
   const inputContext = useContext(InputContext);
   const selectedConversationContext = useContext(
     CurrentSelectedConversationContext
   );
   const [disable, setDisable] = useState(false);
+  useEffect(() => {
+    if (!debounceBool) {
+      setTimeout(() => {
+        setDebounceBool(true);
+      }, 1000);
+    }
+  });
   useEffect(() => {
     setTimeout(() => {
       setDisable(false);
@@ -260,6 +269,20 @@ function InputSearchField({ updateHeight }) {
       return { error: true, errorMessage: error };
     }
   };
+  async function getTaggingMembers(searchString, pageNo) {
+    try {
+      let call = await myClient.getTaggingList({
+        chatroomId: status,
+        page: pageNo,
+        pageSize: 10,
+        searchName: searchString,
+      });
+      log(call);
+      return call.community_members;
+    } catch (error) {
+      log(error);
+    }
+  }
 
   const [openReplyBox, setOpenReplyBox] = useState(false);
 
@@ -268,28 +291,31 @@ function InputSearchField({ updateHeight }) {
   }, [selectedConversationContext.conversationObject]);
 
   const [memberDetailsArray, setMemberDetailsArray] = useState([]);
-  useEffect(() => {
-    let memberArr = [];
+  // useEffect(() => {
+  //   let memberArr = [];
 
-    if (groupContext.activeGroup.membersDetail?.length > 0) {
-      for (let member of groupContext.activeGroup?.membersDetail) {
-        memberArr.push({
-          id: member.id,
-          display: member.name,
-          community: groupContext.activeGroup.community.id,
-          imageUrl: member.image_url,
-        });
-      }
-    }
+  //   if (groupContext.activeGroup.membersDetail?.length > 0) {
+  //     for (let member of groupContext.activeGroup?.membersDetail) {
+  //       memberArr.push({
+  //         id: member.id,
+  //         display: member.name,
+  //         community: groupContext.activeGroup.community.id,
 
-    setMemberDetailsArray(memberArr);
-  }, [groupContext.activeGroup]);
+  //       (r) => {
+  //         let m = r.map((item, index) => {
+  //           item.display = item.name;
+  //           return item;
+  //         });
+  //         log(m);
+  //         setMemberDetailsArray(m);
+  //       }
+  //       // console.log(r.members)
+  //     );
+  //   }, 1000);
 
-  let keyObj = {
-    enter: false,
-    shift: false,
-  };
-
+  //   return () => clearTimeout(timeoutSearch);
+  // }
+  // }, [inputContext.text]);
   useEffect(() => {
     inputContext.setTextVal("");
   }, [groupContext.activeGroup]);
@@ -386,7 +412,17 @@ function InputSearchField({ updateHeight }) {
         >
           <Mention
             trigger="@"
-            data={memberDetailsArray}
+            data={(search, callback) => {
+              setDebounceBool(false);
+              if (debounceBool) {
+                getTaggingMembers(search, 1).then((r) => {
+                  let a = r.map((item) => {
+                    return (item.display = item.name);
+                  });
+                  callback(a);
+                });
+              }
+            }}
             markup="<<__display__|route://member_profile/__id__?member_id=__id__&community_id=__community__>>"
             style={{
               backgroundColor: "#daf4fa",
@@ -400,9 +436,10 @@ function InputSearchField({ updateHeight }) {
               index,
               focused
             ) => {
+              log(suggestion);
               return (
                 <div className={`user ${focused ? "focused" : ""}`}>
-                  {suggestion.imageUrl.length > 0 ? (
+                  {suggestion.imageUrl?.length > 0 ? (
                     <div className="imgBlock">
                       <img src={suggestion.imageUrl} alt="profile_image" />
                     </div>
