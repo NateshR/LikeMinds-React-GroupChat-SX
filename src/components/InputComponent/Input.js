@@ -358,7 +358,7 @@ function InputSearchField({ updateHeight }) {
       <div className="relative">
         <IconButton
           onClick={handleSendMessage}
-          className="absolute right-[8.6%] top-[9.5%] "
+          className="absolute right-[8.6%] top-[9.5%]"
           sx={{
             position: "absolute",
             top: "9.5%",
