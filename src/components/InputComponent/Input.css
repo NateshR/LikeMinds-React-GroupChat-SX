@@ -1,5 +1,5 @@
 .mentions div {
-  max-height: 230px;
+  max-height: 200px;
   -ms-overflow-style: none; /* Edge, Internet Explorer */
   scrollbar-width: none; /* Firefox */
   overflow-y: scroll;

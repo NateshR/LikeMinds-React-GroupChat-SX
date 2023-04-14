@@ -410,15 +410,18 @@ function InputSearchField({ updateHeight }) {
           customSuggestionsContainer={(children) => {
             return (
               <div
-                className="max-h-[400px] overflow-auto hello_world"
+                className="max-h-[200px] overflow-auto hello_world"
                 ref={suggestionsRef}
                 onScroll={() => {
+                  log(throttleScroll);
+                  log(loadMoreMembers);
                   if (!loadMoreMembers || !throttleScroll) {
                     return;
                   }
                   let current = suggestionsRef.current.scrollTop;
                   let currentHeight = suggestionsRef.current.clientHeight;
                   currentHeight = currentHeight.toString();
+                  log(currentHeight + "current=>" + current);
                   if (current >= currentHeight) {
                     setThrottleScroll(false);
                     // console.log("calling paginate");
@@ -439,6 +442,9 @@ function InputSearchField({ updateHeight }) {
                       cbRef.current(n);
                     });
                   }
+                }}
+                style={{
+                  maxHeight: "200px",
                 }}
                 onClick={() => {
                   log(children);
@@ -470,7 +476,6 @@ function InputSearchField({ updateHeight }) {
             trigger="@"
             data={(search, callback) => {
               timeOut.current = setTimeout(() => {
-                log(groupContext.activeGroup.chatroom.is_secret);
                 getTaggingMembers(
                   search,
                   1,
