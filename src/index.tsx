@@ -13,7 +13,7 @@ export const myClient = new LikeMinds({
   baseUrl: process.env.REACT_APP_BASE_URL,
   baseUrlCaravan: process.env.REACT_APP_BASE_URL_CARAVAN,
   xPlatformCode: "rt",
-  xVersionCode: 22,
+  xVersionCode: 25,
 });
 
 root.render(
