@@ -37,7 +37,9 @@ export default function MemberDialogBox({
           page: 1,
           page_size: 10,
         });
-        setMembers(call.members);
+        let newArr: any = [];
+        newArr = newArr.concat(call.members);
+        setMembers(newArr);
       }, 500);
       return () => clearTimeout(timeout);
     } else {
@@ -50,20 +52,37 @@ export default function MemberDialogBox({
         chatroomId: id,
         page: pg,
       });
-      if (call.members.length < 10) {
-        setShouldLoadMore(false);
-      }
-      if (members.length < 10) {
-        setMembers(call.members);
+
+      if (pg === 1) {
+        if (call.members.length < 11) {
+          setShouldLoadMore(false);
+        }
+        if (members.length < 10) {
+          setMembers(call.members);
+        } else {
+          let newM = [...members];
+          newM = newM.concat(call.members);
+          setMembers(newM);
+        }
       } else {
-        let newM = [...members];
-        newM = newM.concat(call.members);
-        setMembers(newM);
+        if (call.members.length < 10) {
+          setShouldLoadMore(false);
+        }
+        if (members.length < 10) {
+          setMembers(call.members);
+        } else {
+          let newM = [...members];
+          newM = newM.concat(call.members);
+          setMembers(newM);
+        }
       }
     } catch (error) {
       log(error);
     }
   }
+  useEffect(() => {
+    log(members);
+  }, [members]);
 
   async function addAllMembers() {
     await myClient.sendInvites({
@@ -113,7 +132,10 @@ export default function MemberDialogBox({
           />
         </div>
       </div>
-      <div className="max-h-[300px] overflow-auto mb-3" id="memberlist">
+      <div
+        className="max-h-[300px] overflow-auto mb-3"
+        id="memberlistContainer"
+      >
         <InfiniteScroll
           ref={infiniteScrollRef}
           dataLength={members?.length}
@@ -147,9 +169,10 @@ export default function MemberDialogBox({
           }}
           hasMore={shouldLoadMore}
           loader={null}
-          scrollableTarget="memberlist"
+          scrollableTarget="memberlistContainer"
         >
           {members?.map((member: any, index: any) => {
+            log(members);
             return (
               <div className="mx-6 py-1 border-b" key={member?.id + index}>
                 <Checkbox

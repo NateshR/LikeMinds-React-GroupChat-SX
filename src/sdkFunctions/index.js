@@ -450,10 +450,10 @@ export async function createDM(memberId) {
   }
 }
 
-export async function sendDmRequest(chatroomId, messageText) {
+export async function sendDmRequest(chatroomId, messageText, chat_request_state) {
   try {
     let call = await myClient.sendDMRequest({
-      chat_request_state: 0,
+      chat_request_state: chat_request_state || 0,
       chatroom_id: chatroomId,
       text: messageText
     })

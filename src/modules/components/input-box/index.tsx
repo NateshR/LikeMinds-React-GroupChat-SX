@@ -108,7 +108,7 @@ function InputSearchField({ setBufferMessage }: any) {
       setMemberDetailsArray(list);
     }
 
-    getAllMembers();
+    // getAllMembers();
   }, [id]);
   useEffect(() => {
     if (!!inputBoxRef.current) {

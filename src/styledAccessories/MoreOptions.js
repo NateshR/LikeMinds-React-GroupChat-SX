@@ -34,14 +34,14 @@ export function MoreOptions() {
   }
   useEffect(() => {
     myClient.getProfile({
-      userId: userContext.currentUser.id
+      userId: userContext?.currentUser?.id
     }).then(res => {
       log(res)
       if (res?.member?.state === 1) {
         setShouldShowInviteBox(true)
       }
     })
-  }, [id])
+  }, [id, generalContext.currentProfile, generalContext.currentChatroom])
   const { mode } = useParams()
   async function muteNotifications(id) {
     try {
