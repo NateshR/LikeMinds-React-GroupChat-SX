@@ -17,6 +17,7 @@ import { UserContext } from "../../contexts/userContext";
 import LetThemAcceptInvite, {
   AcceptTheirInviteFirst,
 } from "../direct-messages-trans-state";
+import { messageStrings } from "../../../enums/strings";
 
 const ChatContainer: React.FC = () => {
   const { id = "" } = useParams();
@@ -243,12 +244,18 @@ const ChatContainer: React.FC = () => {
           />
         ) : null}
       </div>
-      <Input
-        disableInputBox={
-          generalContext.currentChatroom.chat_request_state === 2
-        }
-        setBufferMessage={setBufferMessage}
-      />
+      {userContext.currentUser?.memberRights[4]?.is_selected ? (
+        <Input
+          disableInputBox={
+            generalContext.currentChatroom.chat_request_state === 2
+          }
+          setBufferMessage={setBufferMessage}
+        />
+      ) : (
+        <p className="text-center">
+          {messageStrings.chatroomResponseNotAllowed}
+        </p>
+      )}
     </>
   );
 };
