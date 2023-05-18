@@ -11,7 +11,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState<any>({});
   const [community, setCommunity] = useState();
   useEffect(() => {
-    initiateSDK(false, "", "")
+    initiateSDK(false, "02964524-3f90-495c-9ed6-54e5f616f6fb", "Madara")
       .then((res: any) => {
         setCommunity(res?.data?.community);
         setCurrentUser(res?.data?.user);
@@ -31,7 +31,8 @@ function App() {
       })
       .then((res: any) => {
         let newUserObject = { ...currentUser };
-        newUserObject.memberState = res.member.state;
+        newUserObject.memberState = res?.member?.state;
+        newUserObject.memberRights = res?.member_rights;
         setCurrentUser(newUserObject);
       });
   }, [currentUser]);
