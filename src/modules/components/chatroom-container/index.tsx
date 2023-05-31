@@ -251,6 +251,10 @@ const ChatContainer: React.FC = () => {
           }
           setBufferMessage={setBufferMessage}
         />
+      ) : generalContext?.currentChatroom?.member_can_message === false ? (
+        <p className="text-center">
+          {messageStrings.chatroomResponseOnlyCMCanRespond}
+        </p>
       ) : (
         <p className="text-center">
           {messageStrings.chatroomResponseNotAllowed}
