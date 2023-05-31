@@ -25,6 +25,9 @@ function App() {
     if (currentUser?.memberState !== undefined) {
       return;
     }
+    if (currentUser?.id === undefined) {
+      return;
+    }
     myClient
       .getMemberState({
         memberId: currentUser?.id,
@@ -36,6 +39,10 @@ function App() {
         setCurrentUser(newUserObject);
       });
   }, [currentUser]);
+
+  if (currentUser?.id === undefined || currentUser.memberState === undefined) {
+    return null;
+  }
 
   return (
     <UserContext.Provider
