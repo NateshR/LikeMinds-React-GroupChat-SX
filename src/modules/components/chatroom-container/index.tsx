@@ -256,7 +256,7 @@ const ChatContainer: React.FC = () => {
           {messageStrings.chatroomResponseOnlyCMCanRespond}
         </p>
       ) : (
-        <p className="text-center">
+        <p className="text-center py-2">
           {messageStrings.chatroomResponseNotAllowed}
         </p>
       )}
