@@ -71,8 +71,9 @@ const ChatContainer: React.FC = () => {
         paginateBy: pageNo,
       };
       const response: any = await getConversationsForGroup(optionObject);
+      console.log(response);
       if (!response.error) {
-        const conversations = response.data;
+        const conversations = response.data.conversations;
         sessionStorage.setItem("dmLastConvo", conversations[0].id);
         chatroomContext.setConversationList(conversations);
       } else {
@@ -131,10 +132,14 @@ const ChatContainer: React.FC = () => {
         log(error);
       }
     }
-    loadChatAndMarkReadChatroom().then(() => {
-      setNewHeight();
-      setPageNo(1);
-    });
+    loadChatAndMarkReadChatroom()
+      .then(() => {
+        setNewHeight();
+        setPageNo(1);
+      })
+      .catch((er) => {
+        console.log("error here", er);
+      });
   }, [id, generalContext.currentChatroom]);
 
   useEffect(() => {

@@ -5,17 +5,19 @@
 /* eslint-disable camelcase */
 import LikeMinds from 'likeminds-chat-beta';
 import { myClient } from '..';
-export const jsonReturnHandler = (data, error) => {
-  const returnObject = {
-    error: false
-  };
-  if (!error) {
-    returnObject.data = data;
-  } else {
-    returnObject.error = true;
-    returnObject.errorMessage = error;
-  }
-  return returnObject;
+export const jsonReturnHandler = (callRes, error) => {
+  // log("response hai")
+  // log(callRes)
+  // const returnObject = {
+  //   error: false
+  // };
+  // if (!error) {
+  //   returnObject.data = callRes;
+  // } else {
+  //   returnObject.error = true;
+  //   returnObject.errorMessage = error;
+  // }
+  return callRes;
 };
 
 export const createNewClient = (key) => {
@@ -33,9 +35,9 @@ export const getChatRoomDetails = async (myClient, chatRoomId) => {
       page: 1
     };
     const chatRoomResponse = await myClient.getChatroom(params);
-
+    console.log(chatRoomResponse)
     // // console.log(chatRoomResponse);
-    return jsonReturnHandler(chatRoomResponse, null);
+    return jsonReturnHandler({ data: chatRoomResponse }, null);
   } catch (error) {
     // // console.log(error);
     return jsonReturnHandler(null, error);
@@ -45,7 +47,8 @@ export const getChatRoomDetails = async (myClient, chatRoomId) => {
 export const getConversationsForGroup = async (optionObject) => {
   try {
     const conversationCall = await myClient.getConversation(optionObject);
-    return jsonReturnHandler(conversationCall.conversations, null);
+    console.log(conversationCall)
+    return jsonReturnHandler(conversationCall, null);
   } catch (error) {
     return jsonReturnHandler(null, error);
   }
@@ -129,19 +132,6 @@ export async function pushReport(convoId, tagId, reason, reportedMemberId) {
       reported_Member_id: reportedMemberId
     });
     return jsonReturnHandler(pushReportCall, null);
-  } catch (error) {
-    return jsonReturnHandler(null, error);
-  }
-}
-
-export async function initiateSDK(isGuest, userUniqueId, username) {
-  try {
-    const initiateCall = await myClient.initiateUser({
-      is_guest: isGuest,
-      user_unique_id: userUniqueId,
-      user_name: username
-    });
-    return jsonReturnHandler(initiateCall, null);
   } catch (error) {
     return jsonReturnHandler(null, error);
   }
@@ -326,7 +316,7 @@ export async function joinChatRoom(collabId, userId) {
 export async function markRead(chatroomId) {
   try {
     const markCall = await myClient.markReadChatroom({
-      chatroom_id: chatroomId
+      chatroomId: chatroomId
     });
     return jsonReturnHandler(markCall, null);
   } catch (error) {
@@ -382,9 +372,9 @@ export async function allChatroomMembersDm(communityId, page) {
 
 export async function requestDM(memberId, communityId) {
   try {
-    log(memberId);
+    console.log(memberId)
     const call = await myClient.checkDMLimit({
-      memberId
+      memberId: memberId
     });
     return jsonReturnHandler(call, null);
   } catch (error) {
@@ -406,8 +396,9 @@ export async function canDirectMessage(chatroomId) {
 
 export async function createDM(memberId) {
   try {
+    log(memberId)
     const call = await myClient.createDMChatroom({
-      member_id: memberId
+      memberId: memberId
     });
     return jsonReturnHandler(call, null);
   } catch (error) {
@@ -418,8 +409,8 @@ export async function createDM(memberId) {
 export async function sendDmRequest(chatroomId, messageText, state) {
   try {
     const call = await myClient.sendDMRequest({
-      chat_request_state: state,
-      chatroom_id: chatroomId,
+      chatRequestState: state,
+      chatroomId: chatroomId,
       text: messageText
     });
     return jsonReturnHandler(call, null);
@@ -431,8 +422,8 @@ export async function sendDmRequest(chatroomId, messageText, state) {
 export async function dmAction(requestState, chatroomId, text) {
   try {
     const config = {
-      chatroom_id: chatroomId,
-      chat_request_state: requestState,
+      chatroomId: chatroomId,
+      chatRequestState: requestState,
 
     };
     if (text != null) {

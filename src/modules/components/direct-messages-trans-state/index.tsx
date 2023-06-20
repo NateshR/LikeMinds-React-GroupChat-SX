@@ -145,8 +145,8 @@ export const AcceptTheirInviteFirst = ({ title }: any) => {
               onClick={() => {
                 myClient
                   .inviteAction({
-                    channel_id: id!,
-                    invite_status: 1,
+                    channelId: id!,
+                    inviteStatus: 1,
                   })
                   .then(() => {
                     generalContext.setShowSnackBar(true);
