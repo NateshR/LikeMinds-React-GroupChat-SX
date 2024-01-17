@@ -1,5 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { useEffect, useState } from "react";
 import "./App.css";
 import RouteProvider from "./modules/components/routes";

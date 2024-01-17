@@ -1,20 +1,16 @@
 /* eslint-disable react/require-default-props */
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 
 import { Link, useParams } from "react-router-dom";
 import { groupInfoPath } from "../../../routes";
-
 import { MoreOptions } from "../../../styledAccessories/MoreOptions";
-import SearchBar from "../../../styledAccessories/SearchBar";
 import routeVariable from "../../../enums/routeVariables";
 import searchIcon from "./../../../assets/svg/search.svg";
-import { useState } from "react";
-import ChannelSearch from "../channel-search";
 
 type propsTitle = {
-  title: any;
-  memberCount?: any;
-  chatroomUrl: any;
+  title: string;
+  memberCount?: number;
+  chatroomUrl: string;
   openSearch?: any;
   setOpenSearch?: any;
 };
@@ -67,7 +63,6 @@ const TitleArea = ({ title, memberCount, chatroomUrl }: propsTitle) => {
           {chatroomUrl && mode === "groups" ? (
             <img
               src={chatroomUrl}
-              alt=""
               className="h-[40px] w-[40px] rounded inline mr-2"
             />
           ) : title?.length > 0 && mode === "groups" ? (

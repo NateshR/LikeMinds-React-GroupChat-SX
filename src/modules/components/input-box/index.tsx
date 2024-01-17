@@ -17,7 +17,6 @@ import mic from "../../../assets/svg/mic.svg";
 import giffy from "../../../assets/svg/giffy.svg";
 import paperclip from "../../../assets/svg/paperclip.svg";
 import pdfIcon from "../../../assets/svg/pdf-document.svg";
-import "./Input.css";
 import ChatroomContext from "../../contexts/chatroomContext";
 import { clearInputFiles } from "../../../sdkFunctions";
 import { sendMessage } from "./input";
@@ -28,9 +27,11 @@ import { INPUT_BOX_DEBOUNCE_TIME } from "../../constants/constants";
 import { GeneralContext } from "../../contexts/generalContext";
 import routeVariable from "../../../enums/routeVariables";
 import Poll from "../../post-polls";
-import PollSharpIcon from "@mui/icons-material/PollSharp";
-import pollIcon from "../../../assets/pollIcon.png";
-import pollInputIcon from "../../../assets/pollInputOptionsIcon.svg";
+import "./Input.css";
+
+import ReactGiphySearchbox from "react-giphy-searchbox";
+import { Grid } from "@giphy/react-components";
+import { GiphyFetch } from "@giphy/js-fetch-api";
 
 const Input = ({ setBufferMessage, disableInputBox }: any) => {
   const [messageText, setMessageText] = useState("");
@@ -38,6 +39,7 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
   const [mediaAttachments, setMediaAttachments] = useState([]);
   const [documentAttachments, setDocumentAttachments] = useState([]);
   const inputBoxContainerRef = useRef<any>(null);
+
   return (
     <InputFieldContext.Provider
       value={{
@@ -145,8 +147,32 @@ const InputSearchField = ({ setBufferMessage, disableInputBox }: any) => {
     shift: false,
   };
 
+  //
+  // const gf = new GiphyFetch("9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR");
+  // const searchTerm = "hello";
+  // const fetchGifs = (offset: number) =>
+  //   gf.search(searchTerm, { offset, limit: 10 });
+
   return (
     <Box sx={{ position: "relative" }}>
+      <div className="w-full">
+        {/* <Grid
+          width={800}
+          columns={3}
+          gutter={6}
+          fetchGifs={fetchGifs}
+          key={searchTerm}
+        /> */}
+        <ReactGiphySearchbox
+          apiKey="9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR" // Required: get your on https://developers.giphy.com
+          onSelect={(item: any) => console.log(item)}
+          poweredByGiphy="false"
+          searchPlaceholder="Search GIPHY"
+          wrapperClassName="gifContainer"
+          width={800}
+          columns={3}
+        />
+      </div>
       {/* for adding reply */}
       {chatroomContext.isSelectedConversation ? (
         <ReplyBox
@@ -337,10 +363,6 @@ const InputOptions = ({ containerRef, disableInputBox }: any) => {
       Icon: smiley,
     },
     {
-      title: "gif",
-      Icon: giffy,
-    },
-    {
       title: "audio",
       Icon: mic,
       file: audioAttachments,
@@ -357,6 +379,10 @@ const InputOptions = ({ containerRef, disableInputBox }: any) => {
       Icon: paperclip,
       file: documentAttachments,
       setFile: setDocumentAttachments,
+    },
+    {
+      title: "gif",
+      Icon: giffy,
     },
     {
       title: "poll",

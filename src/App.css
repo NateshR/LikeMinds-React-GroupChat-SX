@@ -45,3 +45,7 @@
 .feed-panel::-webkit-scrollbar {
   display: none;
 }
+
+.gifContainer{
+  width: 100% !important;
+}
