@@ -14,6 +14,7 @@ import SendIcon from "../../../assets/svg/send.svg";
 import smiley from "../../../assets/svg/smile.svg";
 import camera from "../../../assets/svg/camera.svg";
 import mic from "../../../assets/svg/mic.svg";
+import giffy from "../../../assets/svg/giffy.svg";
 import paperclip from "../../../assets/svg/paperclip.svg";
 import pdfIcon from "../../../assets/svg/pdf-document.svg";
 import "./Input.css";
@@ -336,6 +337,10 @@ const InputOptions = ({ containerRef, disableInputBox }: any) => {
       Icon: smiley,
     },
     {
+      title: "gif",
+      Icon: giffy,
+    },
+    {
       title: "audio",
       Icon: mic,
       file: audioAttachments,
@@ -442,7 +447,7 @@ const InputOptions = ({ containerRef, disableInputBox }: any) => {
 const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
   const ref = useRef<any>(null);
   useEffect(() => {
-    if (file.length === 0) {
+    if (file?.length === 0) {
       if (ref.current != null) {
         ref.current!.value = null;
       }

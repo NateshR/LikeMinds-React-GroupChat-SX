@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import ImageAndMedia from './ImageAndMedia';
-import { attType } from './MessageBox';
-import pdfIcon from '../../../assets/svg/pdf-document.svg';
+import ImageAndMedia from "./ImageAndMedia";
+import { attType } from "./MessageBox";
+import pdfIcon from "../../../assets/svg/pdf-document.svg";
 
 type AttachmentHolderType = {
   attachmentsObject: attType;
@@ -9,7 +9,11 @@ type AttachmentHolderType = {
   setMediaData: any;
 };
 
-const AttachmentsHolder = ({ attachmentsObject, setMediaDisplayModel, setMediaData }: AttachmentHolderType) => (
+const AttachmentsHolder = ({
+  attachmentsObject,
+  setMediaDisplayModel,
+  setMediaData,
+}: AttachmentHolderType) => (
   <>
     {attachmentsObject.mediaAttachments?.length > 0 ? (
       <ImageAndMedia
@@ -21,8 +25,13 @@ const AttachmentsHolder = ({ attachmentsObject, setMediaDisplayModel, setMediaDa
     {attachmentsObject.audioAttachments?.length > 0 ? (
       <>
         {attachmentsObject.audioAttachments.map((item: any) => (
-          <audio controls src={item.url} className="my-2 w-[230]" key={item.url}>
-            {' '}
+          <audio
+            controls
+            src={item.url}
+            className="my-2 w-[230]"
+            key={item.url}
+          >
+            {" "}
             <a href={item.url}>Download audio</a>
           </audio>
         ))}
@@ -31,9 +40,17 @@ const AttachmentsHolder = ({ attachmentsObject, setMediaDisplayModel, setMediaDa
     {attachmentsObject.docAttachments?.length > 0 ? (
       <>
         {attachmentsObject.docAttachments?.map((item: any) => (
-          <a href={item.url} target="_blank" rel="noreferrer" className="mb-2 w-[200px] flex" key={item.url}>
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noreferrer"
+            className="mb-2 w-[200px] flex"
+            key={item.url}
+          >
             <img src={pdfIcon} alt="pdf" className="w-[24px]" />
-            <span className="text-[#323232] text-[14px] ml-2 mt-1">{item.name}</span>
+            <span className="text-[#323232] text-[14px] ml-2 mt-1">
+              {item.name}
+            </span>
             <br />
           </a>
         ))}
