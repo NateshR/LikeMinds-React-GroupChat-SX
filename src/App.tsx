@@ -14,11 +14,7 @@ function App() {
   useEffect(() => {
     const initiateClient = async () => {
       try {
-        let call: any = await initiateSDK(
-          false,
-          "",
-          ""
-        );
+        const call: any = await initiateSDK(false, "swedfrtgyhuz", "test1");
         setCommunity(call?.data?.community);
         setCurrentUser(call?.data?.user);
         sessionStorage.setItem("communityId", call?.data?.community?.id);
@@ -42,7 +38,7 @@ function App() {
         }
         const res: any = await retrieveMemberStates(currentUser.id);
 
-        let newUserObject = { ...currentUser };
+        const newUserObject = { ...currentUser };
 
         newUserObject.memberState = res?.data?.member?.state;
         newUserObject.memberRights = res?.data?.member_rights;

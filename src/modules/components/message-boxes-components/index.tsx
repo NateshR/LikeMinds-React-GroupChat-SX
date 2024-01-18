@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
-import React, { useContext } from 'react';
-import MessageBlock from './MessageBlock';
-import ChatroomContext from '../../contexts/chatroomContext';
+import React, { useContext } from "react";
+import MessageBlock from "./MessageBlock";
+import ChatroomContext from "../../contexts/chatroomContext";
 
 type regularBoxType = {
   convoArray: any;

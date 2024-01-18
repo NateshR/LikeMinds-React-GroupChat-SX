@@ -4,11 +4,10 @@ type RouteVariableType = {
   id: string;
 };
 enum routeVariable {
-  mode = 'step',
-  operation = 'id',
-  id = 'status',
-  replyPrivatelyVariable = 'replyPrivatelyVariable'
+  mode = "step",
+  operation = "id",
+  id = "status",
+  replyPrivatelyVariable = "replyPrivatelyVariable",
 }
 
 export default routeVariable;
-

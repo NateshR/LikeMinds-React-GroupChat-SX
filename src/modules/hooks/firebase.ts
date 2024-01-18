@@ -8,7 +8,7 @@ import { SEARCHED_CONVERSATION_ID } from "../../enums/localStorageConstants";
 export function useFirebaseChatConversations(
   getChatroomConversations: any,
   setBufferMessage: any,
-  setNewMessage: any
+  setNewMessage: any,
 ) {
   const db = myClient.fbInstance();
   const params = useParams();

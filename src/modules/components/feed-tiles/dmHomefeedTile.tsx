@@ -14,7 +14,7 @@ const DmTile = ({ profile }: any) => {
   const id: any = params[routeVariable.id];
   const routeContext = useContext(RouteContext);
   const [unreadMessages, setUnreadMessages] = useState(
-    profile.unseen_conversation_count
+    profile.unseen_conversation_count,
   );
   return (
     <Link
@@ -56,10 +56,10 @@ const DmTile = ({ profile }: any) => {
                   ? "#3884F7"
                   : "#323232"
                 : profile.unread_messages !== undefined
-                ? profile.unread_messages > 0
-                  ? "#3884F7"
-                  : "#323232"
-                : "white",
+                  ? profile.unread_messages > 0
+                    ? "#3884F7"
+                    : "#323232"
+                  : "white",
             // display: shouldNotShow ? 'none' : 'inline'
           }}
         >

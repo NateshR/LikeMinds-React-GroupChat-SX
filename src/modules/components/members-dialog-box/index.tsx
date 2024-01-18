@@ -66,7 +66,7 @@ const MemberDialogBox = ({ open, onClose, id }: MemberDialogBoxType) => {
     });
     if (addedParticants.length === 0) {
       generalContext.setSnackBarMessage(
-        "Select atleast one participant to send invite"
+        "Select atleast one participant to send invite",
       );
       generalContext.setShowSnackBar(true);
       return;
@@ -77,7 +77,7 @@ const MemberDialogBox = ({ open, onClose, id }: MemberDialogBoxType) => {
       chatroomParticipants: addedParticants,
     });
     generalContext.setSnackBarMessage(
-      "Selected participants invited successfully"
+      "Selected participants invited successfully",
     );
     generalContext.setShowSnackBar(true);
     onClose();

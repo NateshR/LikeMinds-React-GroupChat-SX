@@ -40,13 +40,13 @@ const sendMessage = async (
   inputFieldContext: InputFieldContextType,
   setBufferMessage: any,
   setEnableInputBox: any,
-  mode: any
+  mode: any,
 ) => {
   try {
     if (chat_request_state === null && mode === "direct-messages") {
       await sendDmRequest(chatroom_id, inputFieldContext.messageText, state);
       document.dispatchEvent(
-        new CustomEvent("joinEvent", { detail: chatroom_id })
+        new CustomEvent("joinEvent", { detail: chatroom_id }),
       );
       if (state === 1) {
         document.dispatchEvent(new CustomEvent("addedByStateOne"));
@@ -110,13 +110,13 @@ const sendMessage = async (
     const createConversationCall = await myClient.postConversation(config);
 
     document.dispatchEvent(
-      new CustomEvent("sentMessage", { detail: chatroom_id })
+      new CustomEvent("sentMessage", { detail: chatroom_id }),
     );
     // log(createConversationCall);
     localHandleConversation(
       createConversationCall?.data?.conversation,
       filesArray,
-      setBufferMessage
+      setBufferMessage,
     );
     // render local changes here
 
@@ -166,7 +166,7 @@ export { sendMessage };
 async function localHandleConversation(
   conversation: any,
   media: any,
-  setBufferMessage: any
+  setBufferMessage: any,
 ) {
   // // log(media);
   let count = 1;

@@ -207,6 +207,7 @@ export type attType = {
   mediaAttachments: any[];
   audioAttachments: any[];
   docAttachments: any[];
+  voiceNote: any;
 };
 const StringBox = ({
   username,
@@ -225,17 +226,37 @@ const StringBox = ({
     mediaAttachments: [],
     audioAttachments: [],
     docAttachments: [],
+    voiceNote: {},
   });
   useEffect(() => {
     const att = { ...attachmentObject };
-    attachments?.forEach((element: any) => {
-      const type = element.type.split("/")[0];
-      if (type === "image" || type === "video") {
-        att.mediaAttachments.push(element);
-      } else if (type === "audio") {
-        att.audioAttachments.push(element);
-      } else if (type === "pdf") {
-        att.docAttachments.push(element);
+    attachments?.forEach((attachment: any) => {
+      // if (type === "image" || type === "video") {
+      //   att.mediaAttachments.push(attachment);
+      // } else if (type === "audio") {
+      //   att.audioAttachments.push(attachment);
+      // } else if (type === "pdf") {
+      //   att.docAttachments.push(attachment);
+      // }
+      const type = attachment.type.split("/")[0];
+      switch (type) {
+        case "voice_note": {
+          att.voiceNote = attachment;
+          break;
+        }
+        case "image":
+        case "video": {
+          att.mediaAttachments.push(attachment);
+          break;
+        }
+        case "audio": {
+          att.audioAttachments.push(attachment);
+          break;
+        }
+        case "pdf": {
+          att.docAttachments.push(attachment);
+          break;
+        }
       }
     });
     setAttachmentObject(att);

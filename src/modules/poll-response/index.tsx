@@ -45,7 +45,7 @@ const PollResponse = ({ conversation }: PollResponseProps) => {
 
     if (isPollIndexIncluded) {
       const selectedIndex = newSelectedPolls.findIndex(
-        (index) => index === pollIndex
+        (index) => index === pollIndex,
       );
       newSelectedPolls.splice(selectedIndex, 1);
     } else {
@@ -87,7 +87,7 @@ const PollResponse = ({ conversation }: PollResponseProps) => {
       setHasPollEnded(true);
     }
     if (difference > 0) {
-      let timer = setTimeout(() => {
+      const timer = setTimeout(() => {
         setHasPollEnded(true);
       }, difference);
 
@@ -162,7 +162,6 @@ const PollResponse = ({ conversation }: PollResponseProps) => {
       const conversations = await myClient.getConversation(op);
       chatroomContext.setConversationList(conversations?.data?.conversations);
     } catch (error) {
-
       console.log(error);
     }
   }
@@ -256,7 +255,7 @@ const PollResponse = ({ conversation }: PollResponseProps) => {
                 r="12"
                 fill="#3884f7"
                 stroke="none"
-                stroke-width="3"
+                strokeWidth="3"
               />
               <path d="M9 17H7V11H9V17Z" fill="white" />
               <path d="M13 17H11V8H13V17Z" fill="white" />
@@ -294,7 +293,7 @@ const PollResponse = ({ conversation }: PollResponseProps) => {
                   selectedPolls={selectedPolls}
                 />
               );
-            }
+            },
           )}
         </div>
         <div
@@ -517,7 +516,7 @@ function VoteOptionField({
             if (poll?.is_anonymous) {
               generalContext.setShowSnackBar(true);
               generalContext.setSnackBarMessage(
-                "Viewing Results Not Available In Anonymous Polls"
+                "Viewing Results Not Available In Anonymous Polls",
               );
               return;
             }

@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-use-before-define */
@@ -395,8 +395,8 @@ const InputOptions = ({ containerRef, disableInputBox }: any) => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M11.4269 19.0057H7.63737V0.0583496H11.4269V19.0057ZM3.84796 19.0057H0.0584717V5.74254H3.84796V19.0057ZM15.2163 19.0057H19.0058V11.4268H15.2163V19.0057Z"
                     fill="black"
                   />
