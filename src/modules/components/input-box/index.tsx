@@ -1,44 +1,37 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-use-before-define */
-/* eslint-disable react/jsx-no-constructed-context-values */
 import { Box, Dialog, IconButton, Menu } from "@mui/material";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { MentionsInput, Mention } from "react-mentions";
 import { Close } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
-import SendIcon from "../../../assets/svg/send.svg";
-import smiley from "../../../assets/svg/smile.svg";
-import camera from "../../../assets/svg/camera.svg";
-import mic from "../../../assets/svg/mic.svg";
-import giffy from "../../../assets/svg/giffy.svg";
-import paperclip from "../../../assets/svg/paperclip.svg";
-import pdfIcon from "../../../assets/svg/pdf-document.svg";
-import ChatroomContext from "../../contexts/chatroomContext";
-import { clearInputFiles } from "../../../sdkFunctions";
-import { sendMessage } from "./input";
-import ReplyBox from "./replyContainer";
-import { myClient } from "../../..";
-import InputFieldContext from "../../contexts/inputFieldContext";
+import ReactGiphySearchbox from "react-giphy-searchbox";
+
 import { INPUT_BOX_DEBOUNCE_TIME } from "../../constants/constants";
+import InputFieldContext from "../../contexts/inputFieldContext";
 import { GeneralContext } from "../../contexts/generalContext";
+import ChatroomContext from "../../contexts/chatroomContext";
+import pdfIcon from "../../../assets/svg/pdf-document.svg";
+import paperclip from "../../../assets/svg/paperclip.svg";
 import routeVariable from "../../../enums/routeVariables";
+import { clearInputFiles } from "../../../sdkFunctions";
+import SendIcon from "../../../assets/svg/send.svg";
+import camera from "../../../assets/svg/camera.svg";
+import smiley from "../../../assets/svg/smile.svg";
+import giffy from "../../../assets/svg/giffy.svg";
+import mic from "../../../assets/svg/mic.svg";
+import ReplyBox from "./replyContainer";
+import { sendMessage } from "./input";
+import { myClient } from "../../..";
 import Poll from "../../post-polls";
 import "./Input.css";
-
-import ReactGiphySearchbox from "react-giphy-searchbox";
-import { Grid } from "@giphy/react-components";
-import { GiphyFetch } from "@giphy/js-fetch-api";
 
 const Input = ({ setBufferMessage, disableInputBox }: any) => {
   const [messageText, setMessageText] = useState("");
   const [audioAttachments, setAudioAttachments] = useState([]);
   const [mediaAttachments, setMediaAttachments] = useState([]);
-  const [documentAttachments, setDocumentAttachments] = useState([]);
   const inputBoxContainerRef = useRef<any>(null);
+  const [documentAttachments, setDocumentAttachments] = useState([]);
+  const [toggleGifRef, setToggleGifRef] = useState(() => {});
 
   return (
     <InputFieldContext.Provider
@@ -61,22 +54,28 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
         <InputSearchField
           setBufferMessage={setBufferMessage}
           disableInputBox={disableInputBox}
+          setToggleGifRef={setToggleGifRef}
         />
         <InputOptions
           containerRef={inputBoxContainerRef}
           disableInputBox={disableInputBox}
+          toggleGifRef={toggleGifRef}
         />
       </Box>
     </InputFieldContext.Provider>
   );
 };
 
-const InputSearchField = ({ setBufferMessage, disableInputBox }: any) => {
+const InputSearchField = ({
+  setBufferMessage,
+  disableInputBox,
+  setToggleGifRef,
+}: any) => {
   const [memberDetailsArray, setMemberDetailsArray] = useState<Array<any>>([]);
   const [enableInputBox, setEnableInputBox] = useState(false);
   const [searchString, setSearchString] = useState("");
   const [loadMoreMembers, setLoadMoreMembers] = useState<any>(true);
-  const [debounceBool, setDebounceBool] = useState(true);
+  // const [debounceBool, setDebounceBool] = useState(true);
   const chatroomContext = useContext(ChatroomContext);
   const inputFieldContext = useContext(InputFieldContext);
   const generalContext = useContext(GeneralContext);
@@ -147,15 +146,30 @@ const InputSearchField = ({ setBufferMessage, disableInputBox }: any) => {
     shift: false,
   };
 
+  // State to manage the visibility of the div
+  const [isDivVisible, setIsDivVisible] = useState(true);
+
+  // Function to toggle the visibility state
+  const toggleDivVisibility = () => {
+    console.log("giff clicked");
+    setIsDivVisible(!isDivVisible);
+  };
+
+  useEffect(() => {
+    console.log(toggleDivVisibility);
+    setToggleGifRef(toggleDivVisibility);
+  }, []);
+
   return (
     <Box sx={{ position: "relative" }}>
       <div className="w-full">
+        {/* Giphy Searchbox component */}
         <ReactGiphySearchbox
-          apiKey="9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR" // Required: get your on https://developers.giphy.com
+          apiKey="9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR"
           onSelect={(item: any) => console.log(item)}
           poweredByGiphy={false}
           searchPlaceholder="Search GIPHY"
-          wrapperClassName="gifContainer"
+          wrapperClassName={`gifContainer ${isDivVisible ? "visible" : "hidden"}`}
           searchFormClassName="gifSearchBox"
           masonryConfig={[
             { columns: 2, imageWidth: 140, gutter: 10 },
@@ -337,7 +351,7 @@ const InputSearchField = ({ setBufferMessage, disableInputBox }: any) => {
   );
 };
 
-const InputOptions = ({ containerRef, disableInputBox }: any) => {
+const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
   const [openPollDialog, setOpenPollDialog] = useState(false);
   const inputFieldContext = useContext(InputFieldContext);
   const {
@@ -399,6 +413,23 @@ const InputOptions = ({ containerRef, disableInputBox }: any) => {
           accept = ".pdf";
           fileType = "doc";
         }
+        // GIPHY
+        if (title === "gif") {
+          return (
+            <IconButton
+              key={title}
+              className="p-2"
+              onClick={() => {
+                console.log(0);
+                toggleGifRef();
+              }}
+            >
+              <img src={giffy} alt="gif" />
+            </IconButton>
+          );
+        }
+
+        // Poll Room
         if (title === "poll") {
           return (
             <IconButton
