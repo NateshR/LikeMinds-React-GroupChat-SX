@@ -155,16 +155,14 @@ const InputSearchField = ({
   };
 
   // State to manage the visibility of the div
-  const [isDivVisible, setIsDivVisible] = useState(true);
+  const [isDivVisible, setIsDivVisible] = useState(false);
 
   // Function to toggle the visibility state
   const toggleDivVisibility = () => {
-    console.log("giff clicked");
     setIsDivVisible(!isDivVisible);
   };
 
   useEffect(() => {
-    console.log(toggleDivVisibility);
     setToggleGifRef(() => toggleDivVisibility);
   }, [isDivVisible]);
 
@@ -176,9 +174,9 @@ const InputSearchField = ({
           apiKey="9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR"
           onSelect={(item: any) => {
             console.log(item);
-            inputFieldContext.setGiphyUrl(item.embed_url);
+            // console.log(item?.images?.fixed_height?.url);
+            inputFieldContext.setGiphyUrl(item?.images?.fixed_height?.url);
             toggleDivVisibility();
-            // inputFieldContext?.setGiphyUrl(item.embed_url);
           }}
           poweredByGiphy={false}
           searchPlaceholder="Search GIPHY"
@@ -226,7 +224,7 @@ const InputSearchField = ({
               }
             });
           }}
-          className="absolute right-[8.6%] top-[9.5%] "
+          className="absolute right-[8.6%] top-[9.5%]"
           sx={{
             position: "absolute",
             top: "9.5%",
@@ -616,19 +614,16 @@ const ImagePreview = () => {
           if (fileTypeInitial === "video") {
             return (
               <div className="max-w-[120px]" key={file.name + fileIndex}>
-                <video
-                  src={URL.createObjectURL(file)}
-                  // type="video/mp4"
-                  controls
-                />
+                <video src={URL.createObjectURL(file)} controls />
               </div>
             );
           }
           return null;
         })}
+        {/* GIPHY Preview  */}
         {giphyUrl.length > 0 ? (
           <div className="max-w-[120px]">
-            <img src={giphyUrl} alt="" />
+            <img src={giphyUrl} alt="giphy image" />
           </div>
         ) : null}
         <IconButton
