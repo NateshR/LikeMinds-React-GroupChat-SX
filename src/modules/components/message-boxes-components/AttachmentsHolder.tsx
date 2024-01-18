@@ -56,12 +56,20 @@ const AttachmentsHolder = ({
         ))}
       </>
     ) : null}
-    {attachmentsObject.voiceNote ? <VoiceNote /> : null}
+    {attachmentsObject.voiceNote ? (
+      <VoiceNote attachmentsObject={attachmentsObject.voiceNote} />
+    ) : null}
   </>
 );
 
-const VoiceNote = () => {
-  return null;
+const VoiceNote = ({ attachmentsObject }: any) => {
+  return (
+    <div>
+      <audio controls>
+        <source src={attachmentsObject.url} type="audio/mp3" />
+      </audio>
+    </div>
+  );
 };
 
 export default AttachmentsHolder;

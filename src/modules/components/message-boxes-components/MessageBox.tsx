@@ -226,7 +226,7 @@ const StringBox = ({
     mediaAttachments: [],
     audioAttachments: [],
     docAttachments: [],
-    voiceNote: {},
+    voiceNote: null,
   });
   useEffect(() => {
     const att = { ...attachmentObject };
