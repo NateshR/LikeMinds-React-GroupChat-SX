@@ -175,7 +175,8 @@ const InputSearchField = ({
           onSelect={(item: any) => {
             console.log(item);
             // console.log(item?.images?.fixed_height?.url);
-            inputFieldContext.setGiphyUrl(item?.images?.fixed_height?.url);
+            inputFieldContext.setGiphyUrl(item);
+            // inputFieldContext.setGiphyUrl(item?.images?.fixed_height?.url);
             toggleDivVisibility();
           }}
           poweredByGiphy={false}
@@ -432,7 +433,6 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
               key={title}
               className="p-2"
               onClick={() => {
-                console.log(0);
                 toggleGifRef();
               }}
             >
@@ -621,9 +621,9 @@ const ImagePreview = () => {
           return null;
         })}
         {/* GIPHY Preview  */}
-        {giphyUrl.length > 0 ? (
+        {giphyUrl?.images?.fixed_height?.url?.length > 0 ? (
           <div className="max-w-[120px]">
-            <img src={giphyUrl} alt="giphy image" />
+            <img src={giphyUrl?.images?.fixed_height?.url} alt="giphy image" />
           </div>
         ) : null}
         <IconButton

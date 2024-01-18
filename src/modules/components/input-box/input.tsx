@@ -74,12 +74,15 @@ const sendMessage = async (
       setMediaAttachments,
       documentAttachments,
       setDocumentAttachments,
+      giphyUrl,
+      setGiphyUrl,
     } = inputFieldContext;
     const message = messageText;
     const mediaContext = {
       mediaAttachments: [...mediaAttachments],
       audioAttachments: [...audioAttachments],
       documentAttachments: [...documentAttachments],
+      giphyUrl: [...giphyUrl],
     };
     const filesArray = mergeInputFiles(mediaContext);
 
@@ -155,6 +158,20 @@ const sendMessage = async (
           myClient.putMultimedia(onUploadConfig);
         });
       }
+    }
+
+    if (giphyUrl) {
+      console.log(giphyUrl);
+      //  const onUploadConfig = {
+      //    conversationId: parseInt(createConversationCall?.data?.id, 10),
+      //    filesCount: 1,
+      //    index:0,
+      //    meta: { size: newFile.size },
+      //    name: newFile.name,
+      //    type: fileType,
+      //    url: fileResponse.Location,
+      //  };
+      //  myClient.putMultimedia(onUploadConfig);
     }
   } catch (error) {
     // log(error);
