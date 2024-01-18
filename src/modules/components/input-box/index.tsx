@@ -147,30 +147,21 @@ const InputSearchField = ({ setBufferMessage, disableInputBox }: any) => {
     shift: false,
   };
 
-  //
-  // const gf = new GiphyFetch("9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR");
-  // const searchTerm = "hello";
-  // const fetchGifs = (offset: number) =>
-  //   gf.search(searchTerm, { offset, limit: 10 });
-
   return (
     <Box sx={{ position: "relative" }}>
       <div className="w-full">
-        {/* <Grid
-          width={800}
-          columns={3}
-          gutter={6}
-          fetchGifs={fetchGifs}
-          key={searchTerm}
-        /> */}
         <ReactGiphySearchbox
           apiKey="9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR" // Required: get your on https://developers.giphy.com
           onSelect={(item: any) => console.log(item)}
-          poweredByGiphy="false"
+          poweredByGiphy={false}
           searchPlaceholder="Search GIPHY"
           wrapperClassName="gifContainer"
-          width={800}
-          columns={3}
+          searchFormClassName="gifSearchBox"
+          masonryConfig={[
+            { columns: 2, imageWidth: 140, gutter: 10 },
+            { mq: "700px", columns: 3, imageWidth: 200, gutter: 10 },
+            { mq: "1000px", columns: 4, imageWidth: 220, gutter: 10 },
+          ]}
         />
       </div>
       {/* for adding reply */}
