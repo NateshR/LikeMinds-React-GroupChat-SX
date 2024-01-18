@@ -1,5 +1,5 @@
 import { Box, Dialog, IconButton, Menu } from "@mui/material";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { MentionsInput, Mention } from "react-mentions";
 import { Close } from "@mui/icons-material";
@@ -29,10 +29,15 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
   const [messageText, setMessageText] = useState("");
   const [audioAttachments, setAudioAttachments] = useState([]);
   const [mediaAttachments, setMediaAttachments] = useState([]);
+  const [giphyUrl, setGiphyUrl] = useState("");
   const inputBoxContainerRef = useRef<any>(null);
   const [documentAttachments, setDocumentAttachments] = useState([]);
-  const [toggleGifRef, setToggleGifRef] = useState(() => {});
-
+  const [toggleGifRef, setToggleGifRef] = useState(function () {
+    console.log("heheh");
+  });
+  useEffect(() => {
+    // console.log(toggleGifRef);
+  }, [toggleGifRef]);
   return (
     <InputFieldContext.Provider
       value={{
@@ -44,6 +49,8 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
         setMediaAttachments,
         documentAttachments,
         setDocumentAttachments,
+        giphyUrl,
+        setGiphyUrl,
       }}
     >
       <Box
@@ -60,6 +67,7 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
           containerRef={inputBoxContainerRef}
           disableInputBox={disableInputBox}
           toggleGifRef={toggleGifRef}
+          // toggleGifRef={() => {}}
         />
       </Box>
     </InputFieldContext.Provider>
@@ -157,8 +165,8 @@ const InputSearchField = ({
 
   useEffect(() => {
     console.log(toggleDivVisibility);
-    setToggleGifRef(toggleDivVisibility);
-  }, []);
+    setToggleGifRef(() => toggleDivVisibility);
+  }, [isDivVisible]);
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -166,7 +174,12 @@ const InputSearchField = ({
         {/* Giphy Searchbox component */}
         <ReactGiphySearchbox
           apiKey="9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR"
-          onSelect={(item: any) => console.log(item)}
+          onSelect={(item: any) => {
+            console.log(item);
+            inputFieldContext.setGiphyUrl(item.embed_url);
+            toggleDivVisibility();
+            // inputFieldContext?.setGiphyUrl(item.embed_url);
+          }}
           poweredByGiphy={false}
           searchPlaceholder="Search GIPHY"
           wrapperClassName={`gifContainer ${isDivVisible ? "visible" : "hidden"}`}
@@ -191,6 +204,7 @@ const InputSearchField = ({
       ) : null}
 
       {/* for preview Image */}
+
       <DocPreview />
       <AudioPreview />
       <ImagePreview />
@@ -566,6 +580,7 @@ const ImagePreview = () => {
     setMediaAttachments,
     documentAttachments,
     setDocumentAttachments,
+    giphyUrl,
   } = inputFieldContext;
 
   const [mediaArray, setMediaArray] = useState<Array<any>>([]);
@@ -582,7 +597,12 @@ const ImagePreview = () => {
     setMediaArray(newArr);
   }, [audioAttachments, mediaAttachments, documentAttachments]);
   return (
-    <div style={{ display: mediaArray.length > 0 ? "block" : "none" }}>
+    <div
+      style={{
+        display:
+          mediaArray.length > 0 || giphyUrl.length > 0 ? "block" : "none",
+      }}
+    >
       <div className="w-full shadow-sm p-3 flex justify-between">
         {mediaArray.map((file: any, fileIndex) => {
           const fileTypeInitial = file.type.split("/")[0];
@@ -606,6 +626,11 @@ const ImagePreview = () => {
           }
           return null;
         })}
+        {giphyUrl.length > 0 ? (
+          <div className="max-w-[120px]">
+            <img src={giphyUrl} alt="" />
+          </div>
+        ) : null}
         <IconButton
           onClick={() => {
             clearInputFiles({
