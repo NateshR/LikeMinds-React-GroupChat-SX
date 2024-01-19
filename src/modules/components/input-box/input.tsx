@@ -1,11 +1,5 @@
-/* eslint-disable no-loop-func */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-use-before-define */
-/* eslint-disable camelcase */
 import { myClient } from "../../..";
 import { mergeInputFiles, sendDmRequest } from "../../../sdkFunctions";
-// import { chatroomContextType } from "../../contexts/chatroomContext";
 import { InputFieldContextType } from "../../contexts/inputFieldContext";
 import { chatroomContextType } from "../../contexts/chatroomContext";
 import {
@@ -82,7 +76,6 @@ const sendMessage = async (
       mediaAttachments: [...mediaAttachments],
       audioAttachments: [...audioAttachments],
       documentAttachments: [...documentAttachments],
-      giphyUrl: [...giphyUrl],
     };
     const filesArray = mergeInputFiles(mediaContext);
 
@@ -91,7 +84,11 @@ const sendMessage = async (
     setMediaAttachments([]);
     setDocumentAttachments([]);
 
-    if (messageText.trim() === "" && filesArray.length === 0) {
+    if (
+      messageText.trim() === "" &&
+      filesArray.length === 0 &&
+      giphyUrl?.images?.fixed_height?.url === undefined
+    ) {
       return;
     }
     const config: any = {
@@ -161,17 +158,16 @@ const sendMessage = async (
     }
 
     if (giphyUrl) {
-      console.log(giphyUrl);
-      //  const onUploadConfig = {
-      //    conversationId: parseInt(createConversationCall?.data?.id, 10),
-      //    filesCount: 1,
-      //    index:0,
-      //    meta: { size: newFile.size },
-      //    name: newFile.name,
-      //    type: fileType,
-      //    url: fileResponse.Location,
-      //  };
-      //  myClient.putMultimedia(onUploadConfig);
+      const onUploadConfig = {
+        conversationId: parseInt(createConversationCall?.data?.id, 10),
+        filesCount: 1,
+        index: 0,
+        meta: { size: giphyUrl.images.fixed_height.size },
+        name: giphyUrl.title,
+        type: giphyUrl.type,
+        url: giphyUrl.images.fixed_height.url,
+      };
+      myClient.putMultimedia(onUploadConfig);
     }
   } catch (error) {
     // log(error);

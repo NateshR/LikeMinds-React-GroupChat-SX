@@ -175,13 +175,15 @@ const InputSearchField = ({
           onSelect={(item: any) => {
             console.log(item);
             // console.log(item?.images?.fixed_height?.url);
+            // inputFieldContext.setGiphyUrl(item);
             inputFieldContext.setGiphyUrl(item);
-            // inputFieldContext.setGiphyUrl(item?.images?.fixed_height?.url);
             toggleDivVisibility();
           }}
           poweredByGiphy={false}
           searchPlaceholder="Search GIPHY"
-          wrapperClassName={`gifContainer ${isDivVisible ? "visible" : "hidden"}`}
+          wrapperClassName={`gifContainer ${
+            isDivVisible ? "visible" : "hidden"
+          }`}
           searchFormClassName="gifSearchBox"
           masonryConfig={[
             { columns: 2, imageWidth: 140, gutter: 10 },
@@ -598,7 +600,10 @@ const ImagePreview = () => {
     <div
       style={{
         display:
-          mediaArray.length > 0 || giphyUrl.length > 0 ? "block" : "none",
+          mediaArray.length > 0 ||
+          giphyUrl?.images?.fixed_height?.url?.length > 0
+            ? "block"
+            : "none",
       }}
     >
       <div className="w-full shadow-sm p-3 flex justify-between">
@@ -621,8 +626,10 @@ const ImagePreview = () => {
           return null;
         })}
         {/* GIPHY Preview  */}
-        {giphyUrl?.images?.fixed_height?.url?.length > 0 ? (
+        {/* {giphyUrl?.images?.fixed_height?.url?.length > 0 ? ( */}
+        {giphyUrl?.url?.length > 0 ? (
           <div className="max-w-[120px]">
+            {/* <img src={giphyUrl?.url} alt="giphy image" /> */}
             <img src={giphyUrl?.images?.fixed_height?.url} alt="giphy image" />
           </div>
         ) : null}

@@ -230,7 +230,6 @@ const StringBox = ({
   useEffect(() => {
     const att = { ...attachmentObject };
     attachments?.forEach((element: any) => {
-      console.log("Type=> ", element.type);
       const type = element.type.split("/")[0];
       if (type === "image" || type === "video" || type === "gif") {
         att.mediaAttachments.push(element);
