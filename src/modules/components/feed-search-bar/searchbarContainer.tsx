@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-restricted-syntax */
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
@@ -56,7 +54,7 @@ const MatchTileFields = ({ title, match, showJoinButton }: any) => {
     try {
       const call = await joinChatRoom(
         match.chatroom.id,
-        userContext.currentUser.id,
+        userContext.currentUser.id
       );
       if (!call.error) {
         navigate(`${groupMainPath}/${match.chatroom.id}`);
@@ -125,7 +123,7 @@ const SearchBarContainer = ({ searchResults, shouldShowLoading }: any) => {
           if (!shouldShowSearchScreen) {
             setShouldShowSearchScreen(true);
           }
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
+
           return () => {};
         }
       }
