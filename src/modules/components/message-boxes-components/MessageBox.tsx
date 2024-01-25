@@ -28,10 +28,11 @@ import AttachmentsHolder from "./AttachmentsHolder";
 import MediaCarousel from "../carousel";
 import routeVariable from "../../../enums/routeVariables";
 import PollResponse from "../../poll-response";
+import { GIF_MESSAGE } from "../../constants/constants";
 
 async function getChatroomConversations(
-  chatroomId: any,
-  pageNo: any,
+  chatroomId: number,
+  pageNo: number,
   chatroomContext: any
 ) {
   if (chatroomId == null) {
@@ -51,16 +52,16 @@ async function getChatroomConversations(
   }
 }
 type messageBoxType = {
-  username: any;
-  messageString: any;
+  username: string;
+  messageString: string;
   time: any;
-  userId: any;
+  userId: string;
   attachments: any;
-  convoId: any;
+  convoId: number;
   conversationReactions: any;
   conversationObject: any;
   replyConversationObject: any;
-  index: any;
+  index: number;
 };
 const MessageBoxDM = ({
   username,
@@ -230,7 +231,7 @@ const StringBox = ({
     const att = { ...attachmentObject };
     attachments?.forEach((element: any) => {
       const type = element.type.split("/")[0];
-      if (type === "image" || type === "video") {
+      if (type === "image" || type === "video" || type === "gif") {
         att.mediaAttachments.push(element);
       } else if (type === "audio") {
         att.audioAttachments.push(element);

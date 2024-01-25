@@ -45,3 +45,29 @@
 .feed-panel::-webkit-scrollbar {
   display: none;
 }
+
+.gifContainer {
+  width: 100% !important;
+}
+.gifSearchBox {
+  position: relative;
+}
+.gifSearchBox input {
+  border-radius: 10px !important;
+  border: 1px solid #d0d8e2 !important;
+  padding: 10px 10px 10px 40px !important;
+  color: #d0d8e2 !important;
+}
+
+.gifSearchBox:before {
+  content: url(./assets/search.png);
+  position: absolute;
+  left: 10px;
+  top: 13px;
+  height: 24px;
+  width: 24px;
+  overflow: visible;
+  display: inline-block;
+  line-height: 24px;
+  z-index: 1;
+}

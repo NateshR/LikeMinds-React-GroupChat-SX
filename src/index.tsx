@@ -1,8 +1,8 @@
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import LMChatClient from "@likeminds.community/chat-js-beta";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter } from "react-router-dom";
-import LMChatClient from "@likeminds.community/chat-js";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
