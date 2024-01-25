@@ -17,11 +17,10 @@ const ImageAndMedia = ({
           setMediaDisplayModel(true);
         }}
       >
-        {mediaArray[0].type === "image" ? (
+        {mediaArray[0].type === "image" || mediaArray[0].type === "gif" ? (
           <img
             src={mediaArray[0].url!}
             className="max-w-full max-h-full block h-auto w-auto"
-            alt=""
           />
         ) : (
           <video
@@ -29,7 +28,6 @@ const ImageAndMedia = ({
             preload="none"
             className="max-w-full max-h-full block h-auto w-auto"
             key={mediaArray[0]?.url}
-            //   onClick={}
           >
             <source src={mediaArray[0]?.url} type="video/mp4" />
             <source src={mediaArray[0]?.url} type="video/ogg" />

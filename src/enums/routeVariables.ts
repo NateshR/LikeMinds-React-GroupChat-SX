@@ -1,8 +1,8 @@
-type RouteVariableType = {
-  mode: string;
-  operation: string;
-  id: string;
-};
+// type RouteVariableType = {
+//   mode: string;
+//   operation: string;
+//   id: string;
+// };
 enum routeVariable {
   mode = "step",
   operation = "id",

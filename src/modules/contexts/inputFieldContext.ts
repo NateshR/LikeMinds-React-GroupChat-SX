@@ -9,6 +9,8 @@ export type InputFieldContextType = {
   setMediaAttachments: any;
   documentAttachments: any;
   setDocumentAttachments: any;
+  giphyUrl: any;
+  setGiphyUrl: any;
 };
 
 const InputFieldContext = createContext<InputFieldContextType>({
@@ -20,6 +22,8 @@ const InputFieldContext = createContext<InputFieldContextType>({
   setMediaAttachments: null,
   documentAttachments: [],
   setDocumentAttachments: null,
+  giphyUrl: "",
+  setGiphyUrl: null,
 });
 
 export default InputFieldContext;

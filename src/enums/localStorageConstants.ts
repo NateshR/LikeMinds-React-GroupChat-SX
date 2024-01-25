@@ -1,5 +1,3 @@
-import { constants } from "fs/promises";
-
 export const CONVERSATION_LAST_SCROLL = "lastScrollPositionConversation";
 export const SEARCHED_CONVERSATION_ID = "searchConversationId";
 export const LAST_CONVERSATION_ID = "dmLastConvo";
