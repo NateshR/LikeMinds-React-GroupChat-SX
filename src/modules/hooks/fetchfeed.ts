@@ -28,7 +28,7 @@ export function useFetchFeed(
   setShouldLoadDmMoreHome: React.Dispatch<boolean>,
   setShouldLoadDmMoreAll: React.Dispatch<boolean>,
   loadDmMoreHomeFeed: any,
-  loadDmMoreAllFeed: any
+  loadDmMoreAllFeed: any,
 ) {
   const params = useParams();
   const id: any = params[routeVariable.id];
@@ -53,7 +53,7 @@ export function useFetchFeed(
               loadMoreHome,
               setShouldLoadMoreHome,
               loadMoreAll,
-              setShouldLoadMoreAll
+              setShouldLoadMoreAll,
             );
             break;
           }
@@ -64,7 +64,7 @@ export function useFetchFeed(
               setShouldLoadMore: setShouldLoadDmMoreHome,
             }).then(() => {
               document.dispatchEvent(
-                new CustomEvent("feedLoaded", { detail: true })
+                new CustomEvent("feedLoaded", { detail: true }),
               );
             });
             fetchAllDMFeeds({
@@ -179,7 +179,7 @@ export async function fetchActiveHomeFeeds({
     const pageNo = Math.floor(currentFeedList.length / 10) + 1;
     const call: any = await dmChatFeed(
       sessionStorage.getItem("communityId")!,
-      pageNo
+      pageNo,
     );
     // log("line 180");
     // log(call);
@@ -204,7 +204,7 @@ export async function fetchAllDMFeeds({
     const pageNo = Math.floor(currentChatroomLength / 10) + 1;
     const call: any = await allChatroomMembersDm(
       sessionStorage.getItem("communityId"),
-      pageNo
+      pageNo,
     );
 
     if (pageNo === 1) {
@@ -212,7 +212,7 @@ export async function fetchAllDMFeeds({
       for (let index = 1; index < 3; index++) {
         const call: any = await allChatroomMembersDm(
           sessionStorage.getItem("communityId"),
-          index + 1
+          index + 1,
         );
         chatrooms = chatrooms.concat(call.data.members);
         if (call.data.members.length < 10) {
@@ -271,7 +271,7 @@ export async function loadGroupFeed(
   loadMoreHome: any,
   setLoadMoreHome: any,
   loadMoreAll: any,
-  setLoadMoreAll: any
+  setLoadMoreAll: any,
 ) {
   try {
     homeFeed = [...homeFeed];

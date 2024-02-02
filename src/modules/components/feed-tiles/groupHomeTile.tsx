@@ -17,7 +17,7 @@ const GroupHomeTile = ({
   unseenConversationCount,
 }: GroupHomeTileProps) => {
   const [unreadMessages, setUnreadMessages] = useState<number>(
-    unseenConversationCount
+    unseenConversationCount,
   );
   const params = useParams();
   const id: any = params[routeVariable.id];

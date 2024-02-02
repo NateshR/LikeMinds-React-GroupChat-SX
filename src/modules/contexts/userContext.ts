@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import React from 'react';
+import React from "react";
 
 export const UserContext = React.createContext<{
   currentUser: any;
@@ -10,5 +9,5 @@ export const UserContext = React.createContext<{
   currentUser: null,
   setCurrentUser: () => {},
   community: {},
-  setCommunity: () => {}
+  setCommunity: () => {},
 });

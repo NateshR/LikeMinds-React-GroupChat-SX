@@ -5,7 +5,6 @@ import { MentionsInput, Mention } from "react-mentions";
 import { Close } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import ReactGiphySearchbox from "react-giphy-searchbox";
-
 import { INPUT_BOX_DEBOUNCE_TIME } from "../../constants/constants";
 import InputFieldContext from "../../contexts/inputFieldContext";
 import { GeneralContext } from "../../contexts/generalContext";
@@ -221,7 +220,7 @@ const InputSearchField = ({
               inputFieldContext,
               setBufferMessage,
               setEnableInputBox,
-              mode
+              mode,
             ).then(() => {
               if (!generalContext.currentChatroom?.follow_status) {
               }
@@ -301,7 +300,7 @@ const InputSearchField = ({
                 inputFieldContext,
                 setBufferMessage,
                 setEnableInputBox,
-                mode
+                mode,
               );
             }
           }}
@@ -344,7 +343,7 @@ const InputSearchField = ({
               _search,
               _highlightedDisplay,
               _index,
-              focused
+              focused,
             ) => (
               <div className={`user ${focused ? "focused" : ""}`}>
                 {suggestion?.imageUrl?.length > 0 ? (

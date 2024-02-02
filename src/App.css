@@ -21,6 +21,7 @@
 
 .App {
 }
+
 .MuiOutlinedInput-notchedOutline {
   border: none !important;
 }
@@ -49,9 +50,11 @@
 .gifContainer {
   width: 100% !important;
 }
+
 .gifSearchBox {
   position: relative;
 }
+
 .gifSearchBox input {
   border-radius: 10px !important;
   border: 1px solid #d0d8e2 !important;

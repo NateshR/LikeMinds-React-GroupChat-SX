@@ -58,7 +58,7 @@ const Feeds: React.FC = () => {
     try {
       let newHomeFeed = [];
       newHomeFeed = homeFeed.filter(
-        (group: any) => parseInt(group?.chatroom?.id) !== parseInt(id)
+        (group: any) => parseInt(group?.chatroom?.id) !== parseInt(id),
       );
       let newAllFeed = [];
       newAllFeed = allFeed.map((group: any) => {
@@ -128,7 +128,7 @@ const Feeds: React.FC = () => {
     setLoadDmMoreHomeFeed,
     setLoadDmMoreAllFeed,
     loadDmMoreHomeFeed,
-    loadDmMoreAllFeed
+    loadDmMoreAllFeed,
   );
 
   useEffect(() => {
@@ -137,11 +137,11 @@ const Feeds: React.FC = () => {
     return () => {
       document.removeEventListener(
         events.leaveEvent,
-        leaveChatroomContextRefresh
+        leaveChatroomContextRefresh,
       );
       document.removeEventListener(
         events.joinEvent,
-        joinChatroomContextRefresh
+        joinChatroomContextRefresh,
       );
     };
   });
@@ -235,7 +235,7 @@ const GroupFeedContainer = ({
         }
         const newFeedFirstHalf = newHomeFeed.slice(0, index);
         const newFeedFirstHalfIDs = newFeedFirstHalf.map(
-          (item: any) => item.chatroom.id
+          (item: any) => item.chatroom.id,
         );
         const oldFeed = homeFeed.map((item: any) => {
           if (newFeedFirstHalfIDs.includes(item.chatroom.id)) {
@@ -339,7 +339,7 @@ const GroupFeedContainer = ({
             loadMoreHome,
             setShouldLoadMoreHome,
             loadMoreAll,
-            setShouldLoadMoreAll
+            setShouldLoadMoreAll,
           );
         }}
         dataLength={getFeedLength()}
@@ -369,11 +369,11 @@ const GroupFeedContainer = ({
                   onClick={() => {
                     if (id != group.chatroom.id) {
                       generalContext.setChatroomUrl(
-                        group?.chatroom?.chatroom_image_url
+                        group?.chatroom?.chatroom_image_url,
                       );
                     }
                     routeContext.setIsNavigationBoxOpen(
-                      !routeContext.isNavigationBoxOpen
+                      !routeContext.isNavigationBoxOpen,
                     );
                   }}
                   key={group.chatroom.id + groupIndex + group.chatroom.header}
@@ -443,7 +443,7 @@ const DirectMessagesFeedContainer = ({
         }
         const newFeedFirstHalf = newHomeFeed.slice(0, index);
         const newFeedFirstHalfIDs = newFeedFirstHalf.map(
-          (item: any) => item.chatroom.id
+          (item: any) => item.chatroom.id,
         );
         const oldFeed = dmHomeFeed.map((item: any) => {
           if (newFeedFirstHalfIDs.includes(item.chatroom.id)) {

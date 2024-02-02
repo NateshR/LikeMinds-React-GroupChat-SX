@@ -38,9 +38,9 @@ function PollBody({ closeDialog }: any) {
   const params = useParams();
   const id = params[routeVariable.id];
   useEffect(() => {
-    let id_1 = nanoid();
-    let id_2 = nanoid();
-    let initialOptionArray = [
+    const id_1 = nanoid();
+    const id_2 = nanoid();
+    const initialOptionArray = [
       {
         id: id_1,
         text: "",
@@ -84,8 +84,8 @@ function PollBody({ closeDialog }: any) {
     setOptionsArray(newOptions);
   }
   function addNewOption() {
-    let newOptionsArr = [...optionsArray];
-    let newOption = {
+    const newOptionsArr = [...optionsArray];
+    const newOption = {
       id: nanoid(),
       text: "",
     };
@@ -137,7 +137,7 @@ function PollBody({ closeDialog }: any) {
       }
       if (Date.now() > expiryTime) {
         generalContext.setSnackBarMessage(
-          "Poll expiry time should not be less than current time"
+          "Poll expiry time should not be less than current time",
         );
         generalContext.setShowSnackBar(true);
         return;
@@ -156,13 +156,10 @@ function PollBody({ closeDialog }: any) {
         multipleSelectNo: voteAllowedPerUser,
       };
 
-
       const pollCall = await myClient.postPollConversation(pollOptions);
 
       closeDialog();
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -230,7 +227,7 @@ function PollBody({ closeDialog }: any) {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <rect width="28" height="28" fill="white" fill-opacity="0.01" />
+              <rect width="28" height="28" fill="white" fillOpacity="0.01" />
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"

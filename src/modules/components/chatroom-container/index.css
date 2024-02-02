@@ -1,22 +1,19 @@
-.lineItem{
-    background-color: transparent;
+.lineItem {
+  background-color: transparent;
+}
+
+.flash {
+  animation-name: color_change;
+  animation-duration: 6s;
+  animation-iteration-count: initial;
+}
+
+@keyframes color_change {
+  from {
+    background-color: rgb(236, 243, 255);
   }
-  
-  .flash {
-      animation-name: color_change;
-      animation-duration: 6s;
-      animation-iteration-count: initial;
+
+  to {
+    background-color: none;
   }
-  
-  @keyframes color_change {
-      from {
-          background-color: rgb(236, 243, 255);
-      }
-  
-      to {
-          background-color: none;
-      }
-  }
-  
-  
-       
+}

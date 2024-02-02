@@ -6,7 +6,7 @@ async function searchConversationsInsideChatroom(
   search: string,
   followStatus: boolean,
   page?: number,
-  pageSize?: number
+  pageSize?: number,
 ) {
   try {
     const searchCall = await myClient.searchConversation({

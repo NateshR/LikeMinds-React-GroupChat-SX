@@ -4,7 +4,7 @@ import { myClient } from "..";
 export async function initiateSDK(
   isGuest: boolean,
   userUniqueId: string,
-  userName: string
+  userName: string,
 ) {
   try {
     const initiateCall = await myClient.initiateUser({
