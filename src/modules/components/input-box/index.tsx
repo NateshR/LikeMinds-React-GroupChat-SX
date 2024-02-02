@@ -31,12 +31,8 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
   const [giphyUrl, setGiphyUrl] = useState("");
   const inputBoxContainerRef = useRef<any>(null);
   const [documentAttachments, setDocumentAttachments] = useState([]);
-  const [toggleGifRef, setToggleGifRef] = useState(function () {
-    console.log("heheh");
-  });
-  useEffect(() => {
-    // console.log(toggleGifRef);
-  }, [toggleGifRef]);
+  const [toggleGifRef, setToggleGifRef] = useState(function () {});
+
   return (
     <InputFieldContext.Provider
       value={{
