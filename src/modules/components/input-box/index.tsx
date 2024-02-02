@@ -220,7 +220,7 @@ const InputSearchField = ({
               inputFieldContext,
               setBufferMessage,
               setEnableInputBox,
-              mode,
+              mode
             ).then(() => {
               if (!generalContext.currentChatroom?.follow_status) {
               }
@@ -300,7 +300,7 @@ const InputSearchField = ({
                 inputFieldContext,
                 setBufferMessage,
                 setEnableInputBox,
-                mode,
+                mode
               );
             }
           }}
@@ -343,7 +343,7 @@ const InputSearchField = ({
               _search,
               _highlightedDisplay,
               _index,
-              focused,
+              focused
             ) => (
               <div className={`user ${focused ? "focused" : ""}`}>
                 {suggestion?.imageUrl?.length > 0 ? (
@@ -381,12 +381,12 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
       title: "emojis",
       Icon: smiley,
     },
-    {
-      title: "audio",
-      Icon: mic,
-      file: audioAttachments,
-      setFile: setAudioAttachments,
-    },
+    // {
+    //   title: "audio",
+    //   Icon: mic,
+    //   file: audioAttachments,
+    //   setFile: setAudioAttachments,
+    // },
     {
       title: "camera",
       Icon: camera,
@@ -461,8 +461,8 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M11.4269 19.0057H7.63737V0.0583496H11.4269V19.0057ZM3.84796 19.0057H0.0584717V5.74254H3.84796V19.0057ZM15.2163 19.0057H19.0058V11.4268H15.2163V19.0057Z"
                     fill="black"
                   />
@@ -595,6 +595,11 @@ const ImagePreview = () => {
     }
     setMediaArray(newArr);
   }, [audioAttachments, mediaAttachments, documentAttachments]);
+  function removeMediaAttachment(index: number) {
+    const newDocAttachments = [...mediaAttachments];
+    newDocAttachments.splice(index, 1);
+    setMediaAttachments(newDocAttachments);
+  }
   return (
     <div
       style={{
@@ -605,20 +610,60 @@ const ImagePreview = () => {
             : "none",
       }}
     >
-      <div className="w-full shadow-sm p-3 flex justify-between">
+      <div className="w-full  p-3 pt-0 flex">
         {mediaArray.map((file: any, fileIndex) => {
           const fileTypeInitial = file.type.split("/")[0];
           if (fileTypeInitial === "image") {
             return (
-              <div className="max-w-[120px]" key={file.name + fileIndex}>
-                <img src={URL.createObjectURL(file)} alt="preview" />
+              <div
+                className="max-w-[120px] w-[90px] h-[90px] mr-2 relative"
+                key={file.name + fileIndex}
+              >
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="preview"
+                  className="h-full w-full cover rounded-[12px]  "
+                />
+                <span
+                  onClick={() => {
+                    removeMediaAttachment(fileIndex);
+                  }}
+                  className="absolute top-[-12px] right-[-8px] width-[24px] height-[24px] text-center rounded-full bg-[#f9f9f9]  cursor-pointer"
+                >
+                  <Close
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                    }}
+                  />
+                </span>
               </div>
             );
           }
           if (fileTypeInitial === "video") {
             return (
-              <div className="max-w-[120px]" key={file.name + fileIndex}>
-                <video src={URL.createObjectURL(file)} controls />
+              <div
+                className="max-w-[120px] w-[90px] h-[90px] mr-2 relative"
+                key={file.name + fileIndex}
+              >
+                <video
+                  src={URL.createObjectURL(file)}
+                  controls
+                  className="h-full w-full cover rounded-[12px] "
+                />
+                <span
+                  onClick={() => {
+                    removeMediaAttachment(fileIndex);
+                  }}
+                  className="absolute top-[-12px] right-[-8px] width-[24px] height-[24px] text-center rounded-full bg-[#f9f9f9]  cursor-pointer"
+                >
+                  <Close
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                    }}
+                  />
+                </span>
               </div>
             );
           }
@@ -632,18 +677,23 @@ const ImagePreview = () => {
             <img src={giphyUrl?.images?.fixed_height?.url} alt="giphy image" />
           </div>
         ) : null}
-        <IconButton
-          onClick={() => {
-            clearInputFiles({
-              setDocFiles: setDocumentAttachments,
-              setMediaFiles: setMediaAttachments,
-              setAudioFiles: setAudioAttachments,
-            });
-          }}
-        >
-          <Close />
-        </IconButton>
       </div>
+      <IconButton
+        style={{
+          position: "absolute",
+          right: "16px",
+          top: "0px",
+        }}
+        onClick={() => {
+          clearInputFiles({
+            setDocFiles: setDocumentAttachments,
+            setMediaFiles: setMediaAttachments,
+            setAudioFiles: setAudioAttachments,
+          });
+        }}
+      >
+        <Close />
+      </IconButton>
     </div>
   );
 };
@@ -671,7 +721,7 @@ const AudioPreview = () => {
   }, [audioAttachments, mediaAttachments, documentAttachments]);
   return (
     <div style={{ display: mediaArray.length > 0 ? "block" : "none" }}>
-      <div className="w-full shadow-sm p-3 flex justify-between">
+      <div className="w-full  p-3 pt-0 flex justify-between">
         {mediaArray.map((file: any, fileIndex) => {
           const fileTypeInitial = file.type.split("/")[0];
 
@@ -711,7 +761,7 @@ const DocPreview = () => {
     setDocumentAttachments,
   } = inputFieldContext;
 
-  const [mediaArray, setMediaArray] = useState<Array<[]>>([]);
+  const [mediaArray, setMediaArray] = useState<unknown[] | any>([]);
   useEffect(() => {
     const newArr: any = [];
     for (const nf of documentAttachments) {
@@ -721,10 +771,20 @@ const DocPreview = () => {
     }
     setMediaArray(newArr);
   }, [audioAttachments, documentAttachments, mediaAttachments]);
+  function removeDocumentAttachment(index: number) {
+    const newDocAttachments = [...documentAttachments];
+    newDocAttachments.splice(index, 1);
+    setDocumentAttachments(newDocAttachments);
+  }
   return (
-    <div style={{ display: mediaArray.length > 0 ? "block" : "none" }}>
-      <div className="w-full shadow-sm p-3 flex justify-between">
-        {mediaArray.map((file: any, fileIndex) => {
+    <div
+      style={{
+        display: mediaArray.length > 0 ? "block" : "none",
+        position: "relative",
+      }}
+    >
+      <div className="w-full  p-3 pt-0 flex items-center grow-0">
+        {/* {mediaArray.map((file: any, fileIndex) => {
           const fileTypeInitial = file.type.split("/")[1];
 
           if (fileTypeInitial === "pdf") {
@@ -735,19 +795,53 @@ const DocPreview = () => {
             );
           }
           return null;
+        })} */}
+        {mediaArray.map((item: any, index: number) => {
+          return (
+            <>
+              <div className=" bg-[#f9f9f9] rounded-[12px] p-4 flex justify-center items-center relative mr-5">
+                <a
+                  href={item?.url?.toString() || ""}
+                  target="_blank"
+                  rel="noreferrer"
+                  key={item?.url}
+                >
+                  <img src={pdfIcon} alt="pdf" className="w-[24px]" />
+                </a>
+                <span
+                  onClick={() => {
+                    removeDocumentAttachment(index);
+                  }}
+                  className="absolute top-[-12px] right-[-8px] width-[24px] height-[24px] text-center rounded-full bg-[#f9f9f9]  cursor-pointer"
+                >
+                  <Close
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                    }}
+                  />
+                </span>
+              </div>
+            </>
+          );
         })}
-        <IconButton
-          onClick={() => {
-            clearInputFiles({
-              setDocFiles: setDocumentAttachments,
-              setMediaFiles: setMediaAttachments,
-              setAudioFiles: setAudioAttachments,
-            });
-          }}
-        >
-          <Close />
-        </IconButton>
       </div>
+      <IconButton
+        style={{
+          position: "absolute",
+          right: "16px",
+          top: "0px",
+        }}
+        onClick={() => {
+          clearInputFiles({
+            setDocFiles: setDocumentAttachments,
+            setMediaFiles: setMediaAttachments,
+            setAudioFiles: setAudioAttachments,
+          });
+        }}
+      >
+        <Close />
+      </IconButton>
     </div>
   );
 };

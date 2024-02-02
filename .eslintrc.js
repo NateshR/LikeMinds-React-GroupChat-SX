@@ -33,7 +33,6 @@ module.exports = {
         "@typescript-eslint/no-inferrable-types": "warn",
         "@typescript-eslint/ban-types": "warn",
         "@typescript-eslint/no-extra-semi": "warn",
-
         "no-case-declarations": "warn",
         "prefer-const": "warn",
         "no-useless-escape": "warn",
@@ -42,6 +41,7 @@ module.exports = {
         "no-unsafe-optional-chaining": "warn",
         "no-empty": "warn",
         "no-dupe-else-if": "warn",
-        "no-prototype-builtins": "warn"
+        "no-prototype-builtins": "warn",
+        "react/react-in-jsx-scope": "off",
     },
 };

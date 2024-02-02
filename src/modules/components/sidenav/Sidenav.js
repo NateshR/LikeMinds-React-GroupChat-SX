@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { Box } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -33,7 +32,7 @@ const Sidenav = ({ setOpenMenu, openMenu }) => {
     if (userContext.currentUser?.id === undefined) {
       return;
     }
-    myClient.checkDMTab().then((e) => {});
+    myClient.checkDMTab().then((e) => { });
   });
   const navArray = [
     {
