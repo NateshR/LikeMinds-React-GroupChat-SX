@@ -49,9 +49,9 @@ const ChatContainer: React.FC = () => {
 
   // check if the scrollbar inside the chatroom is at the bottom
   const isScrollBarAtBottom = (ele: any) => {
-    var sh = ele.scrollHeight;
-    var st = ele.scrollTop;
-    var ht = ele.offsetHeight;
+    const sh = ele.scrollHeight;
+    const st = ele.scrollTop;
+    const ht = ele.offsetHeight;
     if (ht === 0) {
       return true;
     }
@@ -68,7 +68,7 @@ const ChatContainer: React.FC = () => {
     // console.log("the targeted conversation id is: ", targetedConversationId);
     if (targetedConversationId) {
       const element: Element | null = document.getElementById(
-        targetedConversationId?.toString()
+        targetedConversationId?.toString(),
       );
       if (element) {
         // console.log("The targeted element is", element);
@@ -92,10 +92,10 @@ const ChatContainer: React.FC = () => {
 
   const setHeightOnSearchedConversation = (convoId: any) => {
     const searchConvoElement: HTMLElement | null = document.getElementById(
-      convoId?.toString()
+      convoId?.toString(),
     );
     // console.log("the searched convoId is, ", convoId);
-    if (!!searchConvoElement) {
+    if (searchConvoElement) {
       setTimeout(() => {
         searchConvoElement.scrollIntoView();
         const msgNode = document.getElementById(convoId?.toString());
@@ -123,11 +123,11 @@ const ChatContainer: React.FC = () => {
         if (conversations.length) {
           sessionStorage.setItem(
             LAST_CONVERSATION_ID_BACKWARD,
-            conversations[0]?.id
+            conversations[0]?.id,
           );
           sessionStorage.setItem(
             LAST_CONVERSATION_ID_FORWARD,
-            conversations[conversations.length - 1]?.id
+            conversations[conversations.length - 1]?.id,
           );
         }
         chatroomContext.setConversationList(conversations);
@@ -143,7 +143,7 @@ const ChatContainer: React.FC = () => {
   const paginateChatroomConversations = async (
     chatroomId: any,
     pageBy: any,
-    scrollDirection: any
+    scrollDirection: any,
   ) => {
     // parameters for the fetch conversations API
     const optionObject = {
@@ -191,7 +191,7 @@ const ChatContainer: React.FC = () => {
           // setting the conversation id in the session storage and making the new conversation array
           sessionStorage.setItem(
             LAST_CONVERSATION_ID_FORWARD,
-            conversations[conversationsLength - 1]?.id
+            conversations[conversationsLength - 1]?.id,
           );
           newConversationArray = [
             ...chatroomContext.conversationList,
@@ -204,7 +204,7 @@ const ChatContainer: React.FC = () => {
           // setting the conversation id in the session storage and making the new conversation array
           sessionStorage.setItem(
             LAST_CONVERSATION_ID_BACKWARD,
-            conversations[0]?.id
+            conversations[0]?.id,
           );
           newConversationArray = [
             ...conversations,
@@ -245,12 +245,12 @@ const ChatContainer: React.FC = () => {
       if (callPre?.data?.conversations?.length > 0) {
         sessionStorage.setItem(
           LAST_CONVERSATION_ID_BACKWARD,
-          callPre?.data?.conversations[0]?.id
+          callPre?.data?.conversations[0]?.id,
         );
         sessionStorage.setItem(
           LAST_CONVERSATION_ID_FORWARD,
           callPre?.data?.conversations[callPre?.data?.conversations?.length - 1]
-            ?.id
+            ?.id,
         );
       }
       if (callPost?.data?.conversations?.length > 0) {
@@ -258,7 +258,7 @@ const ChatContainer: React.FC = () => {
           LAST_CONVERSATION_ID_FORWARD,
           callPost?.data?.conversations[
             callPost?.data?.conversations?.length - 1
-          ]?.id
+          ]?.id,
         );
       }
       const call: any = await checkDMStatus(id);
@@ -294,7 +294,7 @@ const ChatContainer: React.FC = () => {
     setLoadMoreBackwardConversations(true);
     setLoadMoreForwardConversations(true);
     const convoId = sessionStorage.getItem(SEARCHED_CONVERSATION_ID);
-    if (!!convoId) {
+    if (convoId) {
       getConversationsFromSearch(convoId)
         .then(() => {
           setHeightOnSearchedConversation(convoId);
@@ -323,7 +323,7 @@ const ChatContainer: React.FC = () => {
     return () => {
       document.removeEventListener(
         events.updateHeightOnPagination,
-        updateHeight
+        updateHeight,
       );
     };
   });
@@ -375,7 +375,7 @@ const ChatContainer: React.FC = () => {
   useFirebaseChatConversations(
     getChatroomConversations,
     setBufferMessage,
-    setNewHeight
+    setNewHeight,
   );
 
   if (generalContext?.currentChatroom?.chat_request_state === 0) {
@@ -440,9 +440,9 @@ const ChatContainer: React.FC = () => {
                   document.dispatchEvent(
                     new CustomEvent(events.updateHeightOnPagination, {
                       detail: e,
-                    })
+                    }),
                   );
-                }
+                },
               );
             } else if (
               scrollPosition === 1 &&
@@ -457,7 +457,7 @@ const ChatContainer: React.FC = () => {
                   document.dispatchEvent(
                     new CustomEvent(events.updateHeightOnPagination, {
                       detail: e,
-                    })
+                    }),
                   );
                 });
             }
@@ -492,7 +492,7 @@ const ChatContainer: React.FC = () => {
                 />
               </div>
             );
-          }
+          },
         )}
         {bufferMessage ? (
           <BufferStack

@@ -21,7 +21,7 @@ export async function reqDM(
   userContext: any,
   dmContext: any,
   setOpenSnackBar: any,
-  setSnackBarMessage: any
+  setSnackBarMessage: any,
 ) {
   try {
     // log(profile);
@@ -38,7 +38,7 @@ export async function reqDM(
     if (callData.chatroomId) {
       const profileData: any = await getChatRoomDetails(
         myClient,
-        call.data.chatroom_id
+        call.data.chatroom_id,
       );
       if (profileData.error) {
         // eslint-disable-next-line no-throw-literal
@@ -63,7 +63,7 @@ export async function reqDM(
       // // // console.log(createDmCall);
       const chatroomDetailsCall: any = await getChatRoomDetails(
         myClient,
-        createDmCall.data.chatroom.id
+        createDmCall.data.chatroom.id,
       );
       // // // console.log(chatroomDetailsCall);
       dmContext.setCurrentProfile(chatroomDetailsCall.data);
@@ -128,7 +128,7 @@ const DmMemberTile = ({ profile }: any) => {
             userContext,
             dmContext,
             setOpenSnackBar,
-            setSnackBarMessage
+            setSnackBarMessage,
           )
             .then((r) => {
               navigate(`${directMessageChatPath}/${r}`);

@@ -24,7 +24,7 @@ const MediaCarousel = ({ mediaArray }: CarouselType) => (
               <video
                 controls
                 preload="none"
-                className="max-w-full max-h-full block h-auto w-auto"
+                className="max-w-full max-h-full block h-auto w-full"
                 key={item?.url}
                 //   onClick={}
               >

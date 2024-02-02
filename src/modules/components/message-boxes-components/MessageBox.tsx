@@ -33,7 +33,7 @@ import { GIF_MESSAGE } from "../../constants/constants";
 async function getChatroomConversations(
   chatroomId: number,
   pageNo: number,
-  chatroomContext: any
+  chatroomContext: any,
 ) {
   if (chatroomId == null) {
     return;
@@ -108,7 +108,7 @@ const MessageBoxDM = ({
                       reaction={reactionObject.reaction}
                       key={reactionObjectIndex}
                     />
-                  )
+                  ),
                 )}
               </>
             )}
@@ -153,7 +153,7 @@ const MessageBoxDM = ({
                       reaction={reactionObject.reaction}
                       key={reactionObjectIndex}
                     />
-                  )
+                  ),
                 )}
               </>
             )}
@@ -178,11 +178,11 @@ const MessageBoxDM = ({
                   getChatroomConversations(
                     generalContext.currentChatroom.id,
                     100,
-                    chatroomContext
+                    chatroomContext,
                   ).then(() => {
                     getChatRoomDetails(
                       myClient,
-                      generalContext.currentChatroom.id
+                      generalContext.currentChatroom.id,
                     ).then((e: any) => {
                       generalContext.setCurrentChatroom(e.data.chatroom);
                       generalContext.setCurrentProfile(e.data);
@@ -302,8 +302,8 @@ const StringBox = ({
                 ) : null}
                 {parse(
                   linkConverter(
-                    tagExtracter(replyConversationObject?.answer, userContext)
-                  )
+                    tagExtracter(replyConversationObject?.answer, userContext),
+                  ),
                 )}
               </div>
             </div>
@@ -393,7 +393,7 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
         } else {
           return false;
         }
-      }
+      },
     );
     newConvoObject.reactions = convoObjectReactionsArray;
     newConvoObject?.reactions.push(reactionTemplate);
@@ -411,7 +411,7 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
     id: any,
     reason: any,
     convoid: any,
-    reportedMemberId: any
+    reportedMemberId: any,
   ) {
     try {
       const deleteCall = await myClient.pushReport({
@@ -472,19 +472,19 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
 
           if (checkDMLimitCall.chatroom_id) {
             navigate(
-              `${directMessageChatPath}/${checkDMLimitCall.chatroom_id}/${isReplyParam}`
+              `${directMessageChatPath}/${checkDMLimitCall.chatroom_id}/${isReplyParam}`,
             );
           } else if (!checkDMLimitCall.is_request_dm_limit_exceeded) {
             const createChatroomCall: any = await myClient.createDMChatroom({
               memberId: convoObject?.member?.id,
             });
             navigate(
-              `${directMessageChatPath}/${createChatroomCall?.chatroom?.id}/${isReplyParam}`
+              `${directMessageChatPath}/${createChatroomCall?.chatroom?.id}/${isReplyParam}`,
             );
           } else {
             generalContext.setShowSnackBar(true);
             generalContext.setSnackBarMessage(
-              `Limit Exceeded, new request timeout : ${checkDMLimitCall.new_request_dm_timestamp}`
+              `Limit Exceeded, new request timeout : ${checkDMLimitCall.new_request_dm_timestamp}`,
             );
           }
         } catch (error) {
@@ -593,7 +593,7 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
             addReaction(
               e.emoji,
               convoId,
-              generalContext.currentChatroom.id
+              generalContext.currentChatroom.id,
             ).then((_r) => {
               updateMessageLocally(e.emoji);
             });

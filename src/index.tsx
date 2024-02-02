@@ -5,11 +5,11 @@ import "./index.css";
 import App from "./App";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 
 export const myClient: LMChatClient = LMChatClient.setApiKey(
-  process.env.REACT_APP_API_KEY!
+  process.env.REACT_APP_API_KEY!,
 )
   .setPlatformCode(process.env.REACT_APP_XPLATFORM_CODE!)
   .setVersionCode(parseInt(process.env.REACT_APP_XVERSION_CODE!))
@@ -18,5 +18,5 @@ export const myClient: LMChatClient = LMChatClient.setApiKey(
 root.render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>
+  </BrowserRouter>,
 );

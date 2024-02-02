@@ -44,7 +44,7 @@ const ChannelSearch = ({ setOpenSearch }: any) => {
           }
         })(),
         pageNo,
-        pageSize
+        pageSize,
       );
       const response: any = call?.data?.conversations;
       log("the profiles after the search are");
@@ -136,7 +136,7 @@ const ChannelSearch = ({ setOpenSearch }: any) => {
           hasMore={loadMoreConversations}
           scrollableTarget="conversations-holder"
           dataLength={(() => {
-            if (!!searchArray) {
+            if (searchArray) {
               return 0;
             } else {
               return searchArray.length;

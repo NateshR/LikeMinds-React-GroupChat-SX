@@ -2,6 +2,7 @@
 import ImageAndMedia from "./ImageAndMedia";
 import { attType } from "./MessageBox";
 import pdfIcon from "../../../assets/svg/pdf-document.svg";
+import DocAttachments from "./DocAttachments";
 
 type AttachmentHolderType = {
   attachmentsObject: attType;
@@ -16,11 +17,13 @@ const AttachmentsHolder = ({
 }: AttachmentHolderType) => (
   <>
     {attachmentsObject.mediaAttachments?.length > 0 ? (
-      <ImageAndMedia
-        mediaArray={attachmentsObject.mediaAttachments}
-        setMediaDisplayModel={setMediaDisplayModel}
-        setMediaData={setMediaData}
-      />
+      <div>
+        <ImageAndMedia
+          mediaArray={attachmentsObject.mediaAttachments}
+          setMediaDisplayModel={setMediaDisplayModel}
+          setMediaData={setMediaData}
+        />
+      </div>
     ) : null}
     {attachmentsObject.audioAttachments?.length > 0 ? (
       <>
@@ -37,7 +40,7 @@ const AttachmentsHolder = ({
         ))}
       </>
     ) : null}
-    {attachmentsObject.docAttachments?.length > 0 ? (
+    {/* {attachmentsObject.docAttachments?.length > 0 ? (
       <>
         {attachmentsObject.docAttachments?.map((item: any) => (
           <a
@@ -55,7 +58,8 @@ const AttachmentsHolder = ({
           </a>
         ))}
       </>
-    ) : null}
+    ) : null} */}
+    <DocAttachments files={attachmentsObject?.docAttachments} />
   </>
 );
 
