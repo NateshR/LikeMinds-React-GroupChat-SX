@@ -32,7 +32,7 @@ const Sidenav = ({ setOpenMenu, openMenu }) => {
     if (userContext.currentUser?.id === undefined) {
       return;
     }
-    myClient.checkDMTab().then((e) => {});
+    myClient.checkDMTab().then((e) => { });
   });
   const navArray = [
     {

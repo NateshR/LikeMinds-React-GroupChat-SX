@@ -56,7 +56,7 @@ const MatchTileFields = ({ title, match, showJoinButton }: any) => {
     try {
       const call = await joinChatRoom(
         match.chatroom.id,
-        userContext.currentUser.id,
+        userContext.currentUser.id
       );
       if (!call.error) {
         navigate(`${groupMainPath}/${match.chatroom.id}`);

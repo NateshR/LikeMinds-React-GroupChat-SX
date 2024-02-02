@@ -15,7 +15,7 @@ function App() {
         const call: any = await initiateSDK(
           false,
           "fe088c01-e3f1-45c0-82af-c340c237c7c8",
-          "Pushpendra Singh",
+          "Pushpendra Singh"
         );
         setCommunity(call?.data?.community);
         setCurrentUser(call?.data?.user);
