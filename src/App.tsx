@@ -14,7 +14,7 @@ function App() {
       try {
         const call: any = await initiateSDK(
           false,
-          "fe088c01-e3f1-45c0-82af-c340c237c7c8",
+          "860050f8-f212-4dbe-b67f-7a565b85921a",
           "Pushpendra Singh"
         );
         setCommunity(call?.data?.community);
