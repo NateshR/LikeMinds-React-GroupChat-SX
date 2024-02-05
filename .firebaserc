@@ -1,16 +1,5 @@
 {
   "projects": {
-    "beta": "collabmates-beta",
-    "default": "collabmates-beta"
-  },
-  "targets": {
-    "collabmates-beta": {
-      "hosting": {
-        "lm-chat-beta": [
-          "betachat-lm"
-        ]
-      }
-    }
-  },
-  "etags": {}
+    "default": "betagroupchat"
+  }
 }

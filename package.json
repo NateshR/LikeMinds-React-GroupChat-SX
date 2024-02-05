@@ -11,6 +11,7 @@
     "@mui/icons-material": "5.10.9",
     "@mui/material": "5.10.13",
     "@mui/x-date-pickers": "6.9.1",
+    "@rajesh896/video-thumbnails-generator": "^2.3.9",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
@@ -45,7 +46,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "prettier:fix": "prettier --write .",
+    "deploy-beta": "react-scripts build && firebase deploy"
   },
   "eslintConfig": {
     "extends": [

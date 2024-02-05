@@ -4,7 +4,9 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable camelcase */
 // import LikeMinds from 'likeminds-chat-beta';
+import { getVideoCover } from "@rajesh896/video-thumbnails-generator";
 import { myClient } from "..";
+
 export const jsonReturnHandler = (callRes, error) => {
   // log("response hai")
   // log(callRes)
@@ -498,5 +500,16 @@ export async function blockUnblockChatroom(status, chatroom) {
   } catch (error) {
     log(error);
     return false;
+  }
+}
+
+export async function getThumbnailOfVideo(file) {
+  try {
+    const thumbnail = await getVideoCover(URL.createObjectURL(file))
+    return thumbnail
+  } catch (error) {
+    console.log("Error at generating thumbnail")
+    console.log(error)
+    return ''
   }
 }
