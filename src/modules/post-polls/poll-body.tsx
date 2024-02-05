@@ -107,6 +107,11 @@ function PollBody({ closeDialog }: any) {
 
       const tempPollOptionsMap: any = {};
       let shouldBreak = false;
+      if (!optionsArray.length) {
+        generalContext.setSnackBarMessage("A poll cannot have empty options.");
+        generalContext.setShowSnackBar(true);
+        return;
+      }
       const polls = optionsArray.map((item: any) => {
         if (
           tempPollOptionsMap[item?.text?.trim().toLowerCase()] !== undefined
@@ -137,7 +142,7 @@ function PollBody({ closeDialog }: any) {
       }
       if (Date.now() > expiryTime) {
         generalContext.setSnackBarMessage(
-          "Poll expiry time should not be less than current time",
+          "Poll expiry time should not be less than current time"
         );
         generalContext.setShowSnackBar(true);
         return;
@@ -381,6 +386,7 @@ function PollBody({ closeDialog }: any) {
               question?.trim().length !== 0 &&
               expiryTime?.length !== 0 &&
               Date.now() < expiryTime &&
+              optionsArray.length !== 0 &&
               isOptionsOkay
                 ? "#3884f7"
                 : "#ACB7C0",
