@@ -12,7 +12,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import logo from "../../../assets/Scalix.png";
+import logo from "../../../assets/traya_logo.webp";
+// import logo from "../../../assets/Scalix.png";
 // import Navigation from "./Navigation";
 
 const Search = styled("div")(({ theme }) => ({
@@ -152,12 +153,12 @@ const Header = () => {
       className="border-b-[1px] border-[#eeeeee] h-[72px]"
     >
       <AppBar position="static" sx={{ boxShadow: "none" }}>
-        <Toolbar className="bg-white px-0 py-7.5">
+        <Toolbar className="bg-[#414042] px-0 py-7.5">
           <img src={logo} alt="logo" />
           {/* <Navigation /> */}
           {/* === {userContext.currentUser} */}
           <Box className="grow" />
-          <Box className="xs:hidden md:flex">
+          {/* <Box className="xs:hidden md:flex">
             <div className="w-[40px] h-[40px] rounded-[50% flex justify-center items-center mt-2 font-bold">
               <img src="./../assets/bell.svg" alt="" />
             </div>
@@ -169,10 +170,10 @@ const Header = () => {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
             >
-              {/* {userContext?.currentUser?.user?.name[0]} */}
+              {userContext?.currentUser?.user?.name[0]}
             </div>
-          </Box>
-          <Box className="xs:hidden md:flex">
+          </Box> */}
+          {/* <Box className="xs:hidden md:flex">
             <IconButton
               size="large"
               aria-label="show more"
@@ -183,7 +184,7 @@ const Header = () => {
             >
               <MoreIcon />
             </IconButton>
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
