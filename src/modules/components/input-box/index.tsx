@@ -364,6 +364,10 @@ const InputSearchField = ({
 const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
   const [openPollDialog, setOpenPollDialog] = useState(false);
   const inputFieldContext = useContext(InputFieldContext);
+  const params = useParams();
+
+  const mode: any = params[routeVariable.mode];
+  const operation: any = params[routeVariable.operation];
   const {
     audioAttachments,
     setAudioAttachments,
@@ -439,7 +443,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
         }
 
         // Poll Room
-        if (title === "poll") {
+        if (title === "poll" && mode === "groups") {
           return (
             <IconButton
               onClick={() => {
@@ -467,7 +471,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
             </IconButton>
           );
         }
-        if (title !== "GIF" && title !== "emojis") {
+        if (title === "camera" || title === "attach") {
           return (
             <OptionButtonBox
               key={title}
@@ -478,13 +482,15 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
             />
           );
         }
-        return (
-          <EmojiButton
-            option={option}
-            key={option.title}
-            containerRef={containerRef}
-          />
-        );
+        if (title === "emojis") {
+          return (
+            <EmojiButton
+              option={option}
+              key={option.title}
+              containerRef={containerRef}
+            />
+          );
+        }
       })}
       <Dialog
         open={openPollDialog}

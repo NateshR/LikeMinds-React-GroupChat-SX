@@ -94,7 +94,8 @@ const ChatroomWrapper: React.FC = () => {
       }}
     >
       {!openSearch ? (
-        Object.keys(generalContext?.currentChatroom).length ? (
+        generalContext.currentChatroom &&
+        Object.keys(generalContext?.currentChatroom)?.length ? (
           <>
             <Tittle
               title={getChatroomDisplayName()}

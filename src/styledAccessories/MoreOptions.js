@@ -97,7 +97,7 @@ export function MoreOptions() {
       }}
     >
       {generalContext.currentChatroom?.is_secret &&
-      userContext.currentUser?.memberState === 1 ? (
+        userContext.currentUser?.memberState === 1 ? (
         <MenuItem
           key={"secretChatroomDialog"}
           onClick={() => {
@@ -114,10 +114,10 @@ export function MoreOptions() {
       ) : null}
       {generalContext.currentProfile?.chatroom_actions?.map((item) => {
         if (item.id === 21 && mode === "direct-messages") {
-          return <div onClick={() => {}} />;
+          return <div onClick={() => { }} />;
         }
 
-        if (item.id === 2) {
+        if (item.id === 2 || item.id === 5) {
           return null;
         }
         if (item.id === 27 && mode === "direct-messages") {
@@ -317,9 +317,9 @@ export function MoreOptionsDM() {
                     state: {
                       memberId:
                         userContext.currentUser.id ===
-                        chatroomContext.currentChatroom.member.id
+                          chatroomContext.currentChatroom.member.id
                           ? chatroomContext.currentChatroom.chatroom_with_user
-                              .id
+                            .id
                           : chatroomContext.currentChatroom.member.id,
                       communityId: userContext.community.id,
                     },

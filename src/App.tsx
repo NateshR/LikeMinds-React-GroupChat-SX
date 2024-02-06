@@ -16,8 +16,12 @@ function App() {
           false,
           // "860050f8-f212-4dbe-b67f-7a565b85921a",
           // "e31182cf-dc67-4ec9-a9e1-3ca8a025d014",
-          "usertesting123",
-          "Byjus app online"
+          // "usertesting123",
+          // "196ece59-275e-44e5-b5f9-98fb842e10c5",
+          "prodTestUserID",
+          // "Byjus app online",
+
+          "Prod User TS1"
         );
         setCommunity(call?.data?.community);
         setCurrentUser(call?.data?.user);

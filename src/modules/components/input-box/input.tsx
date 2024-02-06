@@ -176,7 +176,7 @@ const sendMessage = async (
             console.log(video.videoHeight + " " + video.videoWidth);
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            video.currentTime = 0.4;
+            video.currentTime = 1;
             video.addEventListener("seeked", async () => {
               ctx?.drawImage(video, 0, 0, canvas.width, canvas.height);
 
@@ -197,7 +197,8 @@ const sendMessage = async (
                   console.log(thumbnailConfig);
                   const responseUpload = myClient
                     .uploadMedia(thumbnailConfig)
-                    .then(() => {
+                    .then((thumbnailResponse: any) => {
+                      console.log(thumbnailResponse);
                       myClient
                         .uploadMedia(uploadConfig)
                         .then((fileResponse: any) => {
@@ -221,7 +222,7 @@ const sendMessage = async (
                             name: newFile.name,
                             type: fileType,
                             url: fileResponse.Location,
-                            thumbnailUrl: responseUpload.Location,
+                            thumbnailUrl: thumbnailResponse.Location,
                           };
 
                           console.log(onUploadConfig);
@@ -272,10 +273,13 @@ const sendMessage = async (
         conversationId: parseInt(createConversationCall?.data?.id, 10),
         filesCount: 1,
         index: 0,
-        meta: { size: giphyUrl.images.fixed_height.size },
-        name: giphyUrl.title,
-        type: giphyUrl.type,
-        url: giphyUrl.images.fixed_height.url,
+        meta: {
+          size: parseInt(giphyUrl?.images?.fixed_height?.size?.toString()),
+        },
+        name: giphyUrl?.title,
+        type: giphyUrl?.type,
+        url: giphyUrl?.images?.fixed_height?.url,
+        thumbnailUrl: giphyUrl?.images["480w_still"]?.url,
       };
       myClient.putMultimedia(onUploadConfig);
     }
