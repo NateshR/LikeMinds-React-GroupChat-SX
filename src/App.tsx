@@ -14,8 +14,10 @@ function App() {
       try {
         const call: any = await initiateSDK(
           false,
-          "860050f8-f212-4dbe-b67f-7a565b85921a",
-          "Pushpendra Singh"
+          // "860050f8-f212-4dbe-b67f-7a565b85921a",
+          // "e31182cf-dc67-4ec9-a9e1-3ca8a025d014",
+          "usertesting123",
+          "Byjus app online"
         );
         setCommunity(call?.data?.community);
         setCurrentUser(call?.data?.user);

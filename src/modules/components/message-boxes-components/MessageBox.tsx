@@ -229,17 +229,15 @@ const StringBox = ({
     docAttachments: [],
     voiceNote: null,
   });
+
+  function removeGifMessage(text: string): string {
+    const gifMessage = "* This is a gif message. Please update your app *";
+
+    return text.includes(gifMessage) ? text.replace(gifMessage, "") : text;
+  }
   useEffect(() => {
     const att = { ...attachmentObject };
     attachments?.forEach((attachment: any) => {
-      // const type = element.type.split("/")[0];
-      // if (type === "image" || type === "video" || type === "gif") {
-      //   att.mediaAttachments.push(element);
-      // } else if (type === "audio") {
-      //   att.audioAttachments.push(element);
-      // } else if (type === "pdf") {
-      //   att.docAttachments.push(element);
-      // }
       const type = attachment.type.split("/")[0];
       switch (type) {
         case "voice_note": {
@@ -325,7 +323,13 @@ const StringBox = ({
                 ) : null}
                 {parse(
                   linkConverter(
-                    tagExtracter(replyConversationObject?.answer, userContext)
+                    tagExtracter(
+                      attachmentObject.mediaAttachments.length > 0 &&
+                        attachmentObject.mediaAttachments[0]?.type === "gif"
+                        ? removeGifMessage(messageString)
+                        : messageString,
+                      userContext
+                    )
                   )
                 )}
               </div>
@@ -337,7 +341,17 @@ const StringBox = ({
           ) : (
             <div className="text-[14px] w-full font-[300] text-[#323232]">
               <span className="msgCard" ref={ref}>
-                {parse(linkConverter(tagExtracter(messageString, userContext)))}
+                {parse(
+                  linkConverter(
+                    tagExtracter(
+                      attachmentObject.mediaAttachments.length > 0 &&
+                        attachmentObject.mediaAttachments[0]?.type === "gif"
+                        ? removeGifMessage(messageString)
+                        : messageString,
+                      userContext
+                    )
+                  )
+                )}
               </span>
             </div>
           )}

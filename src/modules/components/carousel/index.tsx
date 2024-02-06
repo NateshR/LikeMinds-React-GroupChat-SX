@@ -26,6 +26,7 @@ const MediaCarousel = ({ mediaArray }: CarouselType) => (
                 preload="none"
                 className="max-w-full max-h-full block h-auto w-full"
                 key={item?.url}
+                poster={item?.thumbnail_url}
                 //   onClick={}
               >
                 <source src={item?.url} type="video/mp4" />

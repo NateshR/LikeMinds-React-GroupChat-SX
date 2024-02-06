@@ -32,34 +32,34 @@ const Sidenav = ({ setOpenMenu, openMenu }) => {
     if (userContext.currentUser?.id === undefined) {
       return;
     }
-    myClient.checkDMTab().then((e) => { });
+    myClient.checkDMTab().then((e) => {});
   });
   const navArray = [
-    {
-      title: "Forums",
-      path: forumPath,
-      Icon: forum,
-    },
+    // {
+    //   title: "Forums",
+    //   path: forumPath,
+    //   Icon: forum,
+    // },
     {
       title: "Groups",
       path: groupPath,
       Icon: groups,
     },
-    {
-      title: "Events",
-      path: eventsPath,
-      Icon: events,
-    },
+    // {
+    //   title: "Events",
+    //   path: eventsPath,
+    //   Icon: events,
+    // },
     {
       title: "Direct Messages",
       path: directMessagePath,
       Icon: dm,
     },
-    {
-      title: "Added By Me",
-      path: addedByMePath,
-      Icon: abm,
-    },
+    // {
+    //   title: "Added By Me",
+    //   path: addedByMePath,
+    //   Icon: abm,
+    // },
   ];
   const routeContext = useContext(RouteContext);
 
@@ -69,7 +69,9 @@ const Sidenav = ({ setOpenMenu, openMenu }) => {
 
   return (
     <div
-      className={`relative ${openMenu ? " z:max-sm:[143px] sm:max-md:w-[241px]" : ""}`}
+      className={`relative ${
+        openMenu ? " z:max-sm:[143px] sm:max-md:w-[241px]" : ""
+      }`}
     >
       {/* <div
         className="w-[26px] h-[26px] rounded-full border border-[#EEEEEE] md:none flex justify-center items-center bg-white absolute top-2.5 right-0 translate-x-[50%]"
