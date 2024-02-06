@@ -30,6 +30,7 @@ const ImageAndMedia: React.FC<ImageAndMediaType> = ({
             preload="none"
             className="max-w-full max-h-full block h-auto w-auto"
             key={mediaArray[0]?.url}
+            poster={mediaArray[0]?.thumbnail_url}
           >
             <source src={mediaArray[0]?.url} type="video/mp4" />
             <source src={mediaArray[0]?.url} type="video/ogg" />
@@ -42,7 +43,7 @@ const ImageAndMedia: React.FC<ImageAndMediaType> = ({
         <div
           // className="max-w-[50%] h-full grow"
           // className=""
-          className="max-w-[50%] h-full grow"
+          className="w-[278px] h-full grow"
           onClick={() => {
             setMediaData({ mediaObj: mediaArray, type: "image" });
             setMediaDisplayModel(true);
@@ -59,7 +60,7 @@ const ImageAndMedia: React.FC<ImageAndMediaType> = ({
               ) : (
                 <video
                   // controls={false}
-
+                  poster={mediaArray[0]?.thumbnail_url}
                   className="max-w-full max-h-full block h-auto w-auto"
                   key={mediaArray[0]?.url}
                   //   onClick={}
@@ -84,6 +85,7 @@ const ImageAndMedia: React.FC<ImageAndMediaType> = ({
                 <video
                   className="max-w-full max-h-full block h-auto w-auto"
                   key={mediaArray[1]?.url}
+                  poster={mediaArray[1]?.thumbnail_url}
                   //   onClick={}
                 >
                   <source src={mediaArray[1]?.url} type="video/mp4" />

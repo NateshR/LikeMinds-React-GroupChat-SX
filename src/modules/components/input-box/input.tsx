@@ -159,14 +159,14 @@ const sendMessage = async (
         } else {
           fileType = "image";
         }
-        index++;
+
         let thumbnail_url = "";
         // log(newFile);
         if (fileType === "video") {
           const video = document.createElement("video");
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
-
+          const localIndex = index;
           // Load the video
           const url = URL.createObjectURL(newFile);
           video.src = url;
@@ -176,64 +176,63 @@ const sendMessage = async (
             console.log(video.videoHeight + " " + video.videoWidth);
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
+            video.currentTime = 0.4;
+            video.addEventListener("seeked", async () => {
+              ctx?.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Draw the first frame of the video on the canvas
-            ctx?.drawImage(video, 0, 0, canvas.width, canvas.height);
+              // Convert canvas content to blob
+              canvas.toBlob(
+                (blob) => {
+                  blobEl = blob;
+                  const thumbnailConfig = {
+                    messageId: parseInt(createConversationCall?.data?.id, 10),
+                    chatroomId: chatroom_id,
+                    file: new File(
+                      [blobEl!],
+                      createConversationCall?.data?.id
+                        .toString()
+                        .concat("thumbnail.jpeg")
+                    ),
+                  };
+                  console.log(thumbnailConfig);
+                  const responseUpload = myClient
+                    .uploadMedia(thumbnailConfig)
+                    .then(() => {
+                      myClient
+                        .uploadMedia(uploadConfig)
+                        .then((fileResponse: any) => {
+                          const onUploadConfig: {
+                            conversationId: number;
+                            filesCount: number;
+                            index: number;
+                            meta: { size: number };
+                            name: string;
+                            type: string;
+                            url: string;
+                            thumbnailUrl: undefined | string;
+                          } = {
+                            conversationId: parseInt(
+                              createConversationCall?.data?.id,
+                              10
+                            ),
+                            filesCount: 1,
+                            index: localIndex,
+                            meta: { size: newFile.size },
+                            name: newFile.name,
+                            type: fileType,
+                            url: fileResponse.Location,
+                            thumbnailUrl: responseUpload.Location,
+                          };
 
-            // Convert canvas content to blob
-            canvas.toBlob(
-              async (blob) => {
-                // blobEl = new File([blob!], "thum.png", {
-                //   type: "image/jpeg",
-                // });
-                blobEl = blob;
-
-                // const blobEl = { ...blob, name: "thumbnail.jpg" };
-
-                const thumbnailConfig = {
-                  messageId: parseInt(createConversationCall?.data?.id, 10),
-                  chatroomId: chatroom_id,
-                  file: blobEl,
-                };
-                console.log(thumbnailConfig);
-                const responseUpload =
-                  await myClient.uploadMedia(thumbnailConfig);
-
-                await myClient
-                  .uploadMedia(uploadConfig)
-                  .then((fileResponse: any) => {
-                    const onUploadConfig: {
-                      conversationId: number;
-                      filesCount: number;
-                      index: number;
-                      meta: { size: number };
-                      name: string;
-                      type: string;
-                      url: string;
-                      thumbnailUrl: undefined | string;
-                    } = {
-                      conversationId: parseInt(
-                        createConversationCall?.data?.id,
-                        10
-                      ),
-                      filesCount: 1,
-                      index,
-                      meta: { size: newFile.size },
-                      name: newFile.name,
-                      type: fileType,
-                      url: fileResponse.Location,
-                      thumbnailUrl: responseUpload.Location,
-                    };
-                    // if (fileType === "video") {
-                    //   onUploadConfig.thumbnailUrl = responseUpload.Location || null || undefined || "";
-                    // }
-                    console.log(onUploadConfig);
-                    myClient.putMultimedia(onUploadConfig);
-                  });
-              },
-              "image/jpeg",
-              0.8
-            ); // You can change the format and quality as needed
+                          console.log(onUploadConfig);
+                          myClient.putMultimedia(onUploadConfig);
+                        });
+                    });
+                },
+                "image/jpeg",
+                0.8
+              );
+            });
           });
 
           video.load();
@@ -264,6 +263,7 @@ const sendMessage = async (
             myClient.putMultimedia(onUploadConfig);
           });
         }
+        index++;
       }
     }
 
