@@ -1953,3 +1953,8 @@ code {
     display: flex;
   }
 }
+
+
+.carousel .slide img{
+  object-fit: cover !important;
+}
