@@ -168,9 +168,6 @@ const InputSearchField = ({
         <ReactGiphySearchbox
           apiKey="9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR"
           onSelect={(item: any) => {
-            console.log(item);
-            // console.log(item?.images?.fixed_height?.url);
-            // inputFieldContext.setGiphyUrl(item);
             inputFieldContext.setGiphyUrl(item);
             toggleDivVisibility();
           }}
@@ -692,6 +689,7 @@ const ImagePreview = () => {
             setMediaFiles: setMediaAttachments,
             setAudioFiles: setAudioAttachments,
           });
+          inputFieldContext.setGiphyUrl(null);
         }}
       >
         <Close />

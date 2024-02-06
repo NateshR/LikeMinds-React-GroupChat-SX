@@ -15,14 +15,21 @@ const ImageAndMedia: React.FC<ImageAndMediaType> = ({
       <div
         className="w-full"
         onClick={() => {
-          setMediaData({ mediaObj: mediaArray, type: "image" });
-          setMediaDisplayModel(true);
+          if (mediaArray[0].type !== "gif") {
+            setMediaData({ mediaObj: mediaArray, type: "image" });
+            setMediaDisplayModel(true);
+          }
         }}
       >
         {mediaArray[0].type === "image" || mediaArray[0].type === "gif" ? (
           <img
             src={mediaArray[0].url!}
-            className="max-w-full max-h-full block h-auto w-auto"
+            className="max-w-full max-h-full block"
+            style={{
+              width: "100%",
+              objectFit: "cover",
+              aspectRatio: 1,
+            }}
           />
         ) : (
           <video
