@@ -28,10 +28,11 @@ import AttachmentsHolder from "./AttachmentsHolder";
 import MediaCarousel from "../carousel";
 import routeVariable from "../../../enums/routeVariables";
 import PollResponse from "../../poll-response";
+import { GIF_MESSAGE } from "../../constants/constants";
 
 async function getChatroomConversations(
-  chatroomId: any,
-  pageNo: any,
+  chatroomId: number,
+  pageNo: number,
   chatroomContext: any
 ) {
   if (chatroomId == null) {
@@ -51,16 +52,16 @@ async function getChatroomConversations(
   }
 }
 type messageBoxType = {
-  username: any;
-  messageString: any;
+  username: string;
+  messageString: string;
   time: any;
-  userId: any;
+  userId: string;
   attachments: any;
-  convoId: any;
+  convoId: number;
   conversationReactions: any;
   conversationObject: any;
   replyConversationObject: any;
-  index: any;
+  index: number;
 };
 const MessageBoxDM = ({
   username,
@@ -207,6 +208,7 @@ export type attType = {
   mediaAttachments: any[];
   audioAttachments: any[];
   docAttachments: any[];
+  voiceNote: any;
 };
 const StringBox = ({
   username,
@@ -225,17 +227,37 @@ const StringBox = ({
     mediaAttachments: [],
     audioAttachments: [],
     docAttachments: [],
+    voiceNote: null,
   });
+
+  function removeGifMessage(text: string): string {
+    const gifMessage = "* This is a gif message. Please update your app *";
+
+    return text.includes(gifMessage) ? text.replace(gifMessage, "") : text;
+  }
   useEffect(() => {
     const att = { ...attachmentObject };
-    attachments?.forEach((element: any) => {
-      const type = element.type.split("/")[0];
-      if (type === "image" || type === "video") {
-        att.mediaAttachments.push(element);
-      } else if (type === "audio") {
-        att.audioAttachments.push(element);
-      } else if (type === "pdf") {
-        att.docAttachments.push(element);
+    attachments?.forEach((attachment: any) => {
+      const type = attachment.type.split("/")[0];
+      switch (type) {
+        case "voice_note": {
+          att.voiceNote = attachment;
+          break;
+        }
+        case "gif":
+        case "image":
+        case "video": {
+          att.mediaAttachments.push(attachment);
+          break;
+        }
+        case "audio": {
+          att.audioAttachments.push(attachment);
+          break;
+        }
+        case "pdf": {
+          att.docAttachments.push(attachment);
+          break;
+        }
       }
     });
     setAttachmentObject(att);
@@ -281,7 +303,7 @@ const StringBox = ({
                 {replyConversationObject?.member?.name}
               </div>
 
-              <div className="text-[#323232] font-[300] text-[12px]">
+              <div className="text-[#323232] font-[300] text-[12px] truncate">
                 {replyConversationObject.attachment_count > 0 ? (
                   <>
                     {replyConversationObject.attachments?.map((item: any) => {
@@ -301,7 +323,13 @@ const StringBox = ({
                 ) : null}
                 {parse(
                   linkConverter(
-                    tagExtracter(replyConversationObject?.answer, userContext)
+                    tagExtracter(
+                      attachmentObject.mediaAttachments.length > 0 &&
+                        attachmentObject.mediaAttachments[0]?.type === "gif"
+                        ? removeGifMessage(replyConversationObject?.answer)
+                        : replyConversationObject?.answer,
+                      userContext
+                    )
                   )
                 )}
               </div>
@@ -312,8 +340,18 @@ const StringBox = ({
             <PollResponse conversation={conversationObject} />
           ) : (
             <div className="text-[14px] w-full font-[300] text-[#323232]">
-              <span className="msgCard" ref={ref}>
-                {parse(linkConverter(tagExtracter(messageString, userContext)))}
+              <span className="msgCard " ref={ref}>
+                {parse(
+                  linkConverter(
+                    tagExtracter(
+                      attachmentObject.mediaAttachments.length > 0 &&
+                        attachmentObject.mediaAttachments[0]?.type === "gif"
+                        ? removeGifMessage(messageString)
+                        : messageString,
+                      userContext
+                    )
+                  )
+                )}
               </span>
             </div>
           )}
@@ -456,9 +494,10 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
       title: "Reply Privately",
       clickFunction: async () => {
         try {
-          const checkDMLimitCall: any = await myClient.checkDMLimit({
+          let checkDMLimitCall: any = await myClient.checkDMLimit({
             memberId: convoObject?.member?.id,
           });
+          checkDMLimitCall = checkDMLimitCall?.data;
           let isReplyParam;
           if (
             userContext.currentUser?.memberState === 1 ||

@@ -65,10 +65,11 @@ export async function reqDM(
         myClient,
         createDmCall.data.chatroom.id
       );
+      console.log(chatroomDetailsCall);
       // // // console.log(chatroomDetailsCall);
-      dmContext.setCurrentProfile(chatroomDetailsCall.data);
-      dmContext.setCurrentChatroom(chatroomDetailsCall.data.chatroom);
-      return chatroomDetailsCall.data.chatroom.id;
+      dmContext.setCurrentProfile(chatroomDetailsCall.data.data);
+      dmContext.setCurrentChatroom(chatroomDetailsCall.data.data.chatroom);
+      return chatroomDetailsCall.data.data.chatroom.id;
     }
     alert(`now message at , ${call.data.new_request_dm_timestamp}`);
 
@@ -105,9 +106,7 @@ const DmMemberTile = ({ profile }: any) => {
           <div className="text-[12px] text-[#ADADAD]">
             {profile.custom_title}
           </div>
-        ) : (
-          <div className="text-[12px] text-[#ADADAD]">Other</div>
-        )}
+        ) : null}
       </div>
 
       <div style={{ flexGrow: 1 }} />
@@ -134,7 +133,8 @@ const DmMemberTile = ({ profile }: any) => {
               navigate(`${directMessageChatPath}/${r}`);
               dmContext.setShowLoadingBar(false);
             })
-            .catch(() => {
+            .catch((e) => {
+              console.log(e);
               dmContext.setShowLoadingBar(false);
               setOpenSnackBar(true);
               setSnackBarMessage("Error occoured while loading");
@@ -143,7 +143,7 @@ const DmMemberTile = ({ profile }: any) => {
       >
         Message
       </Button>
-      <Link
+      {/* <Link
         to={`${directMessageInfoPath}/${profile?.user_unique_id} `}
         state={{
           communityId: userContext.community.id,
@@ -163,7 +163,7 @@ const DmMemberTile = ({ profile }: any) => {
         >
           View Profile
         </Button>
-      </Link>
+      </Link> */}
       {openSnackBar ? (
         <Snackbar
           open={openSnackBar}

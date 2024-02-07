@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { createContext } from 'react';
+import { createContext } from "react";
 
 export const RouteContext = createContext<{
   currentRoute: any;
@@ -7,8 +7,8 @@ export const RouteContext = createContext<{
   isNavigationBoxOpen: any;
   setIsNavigationBoxOpen: any;
 }>({
-  currentRoute: '',
+  currentRoute: "",
   setCurrentRoute: () => {},
   isNavigationBoxOpen: Boolean,
-  setIsNavigationBoxOpen: () => {}
+  setIsNavigationBoxOpen: () => {},
 });

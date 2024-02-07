@@ -49,9 +49,9 @@ const ChatContainer: React.FC = () => {
 
   // check if the scrollbar inside the chatroom is at the bottom
   const isScrollBarAtBottom = (ele: any) => {
-    var sh = ele.scrollHeight;
-    var st = ele.scrollTop;
-    var ht = ele.offsetHeight;
+    const sh = ele.scrollHeight;
+    const st = ele.scrollTop;
+    const ht = ele.offsetHeight;
     if (ht === 0) {
       return true;
     }
@@ -95,7 +95,7 @@ const ChatContainer: React.FC = () => {
       convoId?.toString()
     );
     // console.log("the searched convoId is, ", convoId);
-    if (!!searchConvoElement) {
+    if (searchConvoElement) {
       setTimeout(() => {
         searchConvoElement.scrollIntoView();
         const msgNode = document.getElementById(convoId?.toString());
@@ -294,7 +294,7 @@ const ChatContainer: React.FC = () => {
     setLoadMoreBackwardConversations(true);
     setLoadMoreForwardConversations(true);
     const convoId = sessionStorage.getItem(SEARCHED_CONVERSATION_ID);
-    if (!!convoId) {
+    if (convoId) {
       getConversationsFromSearch(convoId)
         .then(() => {
           setHeightOnSearchedConversation(convoId);
@@ -501,24 +501,27 @@ const ChatContainer: React.FC = () => {
           />
         ) : null}
       </div>
-      {userContext.currentUser?.hasOwnProperty("memberRights") &&
-      userContext.currentUser?.memberRights[4]?.is_selected ? (
-        generalContext?.currentChatroom?.member_can_message === false ? (
-          <p className="text-center">
-            {messageStrings.chatroomResponseOnlyCMCanRespond}
-          </p>
-        ) : (
+
+      {generalContext.currentChatroom.type === 7 ? (
+        userContext.currentUser.memberState === 1 ? (
           <Input
             disableInputBox={
               generalContext.currentChatroom?.chat_request_state === 2
             }
             setBufferMessage={setBufferMessage}
           />
+        ) : (
+          <p className="text-center">
+            {messageStrings.chatroomResponseOnlyCMCanRespond}
+          </p>
         )
-      ) : generalContext?.currentChatroom?.member_can_message === false ? (
-        <p className="text-center">
-          {messageStrings.chatroomResponseOnlyCMCanRespond}
-        </p>
+      ) : userContext.currentUser?.memberRights[3]?.is_selected ? (
+        <Input
+          disableInputBox={
+            generalContext.currentChatroom?.chat_request_state === 2
+          }
+          setBufferMessage={setBufferMessage}
+        />
       ) : (
         <p className="text-center">
           {messageStrings.chatroomResponseNotAllowed}

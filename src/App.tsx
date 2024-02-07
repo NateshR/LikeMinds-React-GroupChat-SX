@@ -1,5 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { useEffect, useState } from "react";
 import "./App.css";
 import RouteProvider from "./modules/components/routes";
@@ -14,14 +12,18 @@ function App() {
   useEffect(() => {
     const initiateClient = async () => {
       try {
-        let call: any = await initiateSDK(
+        const queryParams = new URL(window.location.href).searchParams;
+        const call: any = await initiateSDK(
           false,
-          "",
+          queryParams.get("uuid") ||
+            window.sessionStorage.getItem("uuid") ||
+            "",
           ""
         );
         setCommunity(call?.data?.community);
         setCurrentUser(call?.data?.user);
         sessionStorage.setItem("communityId", call?.data?.community?.id);
+        sessionStorage.setItem("uuid", call?.data?.user?.uuid?.toString());
       } catch (error) {
         log(error);
       }
@@ -42,7 +44,7 @@ function App() {
         }
         const res: any = await retrieveMemberStates(currentUser.id);
 
-        let newUserObject = { ...currentUser };
+        const newUserObject = { ...currentUser };
 
         newUserObject.memberState = res?.data?.member?.state;
         newUserObject.memberRights = res?.data?.member_rights;

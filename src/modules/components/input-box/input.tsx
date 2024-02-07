@@ -1,11 +1,9 @@
-/* eslint-disable no-loop-func */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-use-before-define */
-/* eslint-disable camelcase */
 import { myClient } from "../../..";
-import { mergeInputFiles, sendDmRequest } from "../../../sdkFunctions";
-// import { chatroomContextType } from "../../contexts/chatroomContext";
+import {
+  getThumbnailOfVideo,
+  mergeInputFiles,
+  sendDmRequest,
+} from "../../../sdkFunctions";
 import { InputFieldContextType } from "../../contexts/inputFieldContext";
 import { chatroomContextType } from "../../contexts/chatroomContext";
 import {
@@ -32,6 +30,17 @@ type UploadConfigType = {
   type: string;
   url: string;
 };
+function base64ToBlob(base64String: string, contentType: string = ""): Blob {
+  const byteCharacters = Buffer.from(base64String, "base64").toString("binary");
+  console.log(byteCharacters);
+  const byteArray = new Uint8Array(byteCharacters.length);
+
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteArray[i] = byteCharacters.charCodeAt(i);
+  }
+
+  return new Blob([byteArray], { type: contentType });
+}
 const sendMessage = async (
   chat_request_state: any,
   state: any,
@@ -74,6 +83,8 @@ const sendMessage = async (
       setMediaAttachments,
       documentAttachments,
       setDocumentAttachments,
+      giphyUrl,
+      setGiphyUrl,
     } = inputFieldContext;
     const message = messageText;
     const mediaContext = {
@@ -88,7 +99,11 @@ const sendMessage = async (
     setMediaAttachments([]);
     setDocumentAttachments([]);
 
-    if (messageText.trim() === "" && filesArray.length === 0) {
+    if (
+      messageText.trim() === "" &&
+      filesArray.length === 0 &&
+      giphyUrl?.images?.fixed_height?.url === undefined
+    ) {
       return;
     }
     const config: any = {
@@ -100,6 +115,10 @@ const sendMessage = async (
     if (filesArray.length) {
       config.hasFiles = true;
       config.attachmentCount = filesArray.length;
+    }
+    if (giphyUrl) {
+      config.hasFiles = true;
+      config.attachmentCount = 1;
     }
     if (isSelectedConversation) {
       config.repliedConversationId = selectedConversation?.id;
@@ -140,22 +159,131 @@ const sendMessage = async (
         } else {
           fileType = "image";
         }
-        index++;
+
+        let thumbnail_url = "";
         // log(newFile);
-        await myClient.uploadMedia(uploadConfig).then((fileResponse: any) => {
-          const onUploadConfig = {
-            conversationId: parseInt(createConversationCall?.data?.id, 10),
-            filesCount: 1,
-            index,
-            meta: { size: newFile.size },
-            name: newFile.name,
-            type: fileType,
-            url: fileResponse.Location,
-          };
-          myClient.putMultimedia(onUploadConfig);
-        });
+        if (fileType === "video") {
+          const video = document.createElement("video");
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          const localIndex = index;
+          // Load the video
+          const url = URL.createObjectURL(newFile);
+          video.src = url;
+          let blobEl = null;
+          video.addEventListener("loadedmetadata", async () => {
+            // Set canvas dimensions to match video dimensions
+            console.log(video.videoHeight + " " + video.videoWidth);
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            video.currentTime = 1;
+            video.addEventListener("seeked", async () => {
+              ctx?.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+              // Convert canvas content to blob
+              canvas.toBlob(
+                (blob) => {
+                  blobEl = blob;
+                  const thumbnailConfig = {
+                    messageId: parseInt(createConversationCall?.data?.id, 10),
+                    chatroomId: chatroom_id,
+                    file: new File(
+                      [blobEl!],
+                      createConversationCall?.data?.id
+                        .toString()
+                        .concat("thumbnail.jpeg")
+                    ),
+                  };
+                  console.log(thumbnailConfig);
+                  const responseUpload = myClient
+                    .uploadMedia(thumbnailConfig)
+                    .then((thumbnailResponse: any) => {
+                      console.log(thumbnailResponse);
+                      myClient
+                        .uploadMedia(uploadConfig)
+                        .then((fileResponse: any) => {
+                          const onUploadConfig: {
+                            conversationId: number;
+                            filesCount: number;
+                            index: number;
+                            meta: { size: number };
+                            name: string;
+                            type: string;
+                            url: string;
+                            thumbnailUrl: undefined | string;
+                          } = {
+                            conversationId: parseInt(
+                              createConversationCall?.data?.id,
+                              10
+                            ),
+                            filesCount: 1,
+                            index: localIndex,
+                            meta: { size: newFile.size },
+                            name: newFile.name,
+                            type: fileType,
+                            url: fileResponse.Location,
+                            thumbnailUrl: thumbnailResponse.Location,
+                          };
+
+                          console.log(onUploadConfig);
+                          myClient.putMultimedia(onUploadConfig);
+                        });
+                    });
+                },
+                "image/jpeg",
+                0.8
+              );
+            });
+          });
+
+          video.load();
+        } else {
+          await myClient.uploadMedia(uploadConfig).then((fileResponse: any) => {
+            const onUploadConfig: {
+              conversationId: number;
+              filesCount: number;
+              index: number;
+              meta: { size: number };
+              name: string;
+              type: string;
+              url: string;
+              thumbnail_url: null | string;
+            } = {
+              conversationId: parseInt(createConversationCall?.data?.id, 10),
+              filesCount: 1,
+              index,
+              meta: { size: newFile.size },
+              name: newFile.name,
+              type: fileType,
+              url: fileResponse.Location,
+              thumbnail_url: null,
+            };
+            if (fileType === "video") {
+              onUploadConfig.thumbnail_url = thumbnail_url;
+            }
+            myClient.putMultimedia(onUploadConfig);
+          });
+        }
+        index++;
       }
     }
+
+    if (giphyUrl) {
+      const onUploadConfig = {
+        conversationId: parseInt(createConversationCall?.data?.id, 10),
+        filesCount: 1,
+        index: 0,
+        meta: {
+          size: parseInt(giphyUrl?.images?.fixed_height?.size?.toString()),
+        },
+        name: giphyUrl?.title,
+        type: giphyUrl?.type,
+        url: giphyUrl?.images?.fixed_height?.url,
+        thumbnailUrl: giphyUrl?.images["480w_still"]?.url,
+      };
+      myClient.putMultimedia(onUploadConfig);
+    }
+    inputFieldContext.setGiphyUrl(null);
   } catch (error) {
     // log(error);
   }

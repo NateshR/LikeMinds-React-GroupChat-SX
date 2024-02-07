@@ -34,7 +34,7 @@ jobs:
             echo "Version has not changed."
             exit 1
           fi
-        
+
       - name: Push Git Tag
         run: |
           # Git login

@@ -9,7 +9,6 @@ import Container from "../container";
 import Header from "../header";
 import "../../../index.css";
 import routeVariable from "../../../enums/routeVariables";
-import { log } from "../../../sdkFunctions";
 
 const Switch: React.FC = () => {
   const params = useParams();

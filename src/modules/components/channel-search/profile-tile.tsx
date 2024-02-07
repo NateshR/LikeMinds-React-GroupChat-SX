@@ -8,14 +8,14 @@ import { linkConverter, tagExtracter } from "../../../sdkFunctions";
 import { UserContext } from "../../contexts/userContext";
 
 function renderAnswers(text: string) {
-  let arr = [];
-  let parts = text.split(REGEX_USER_SPLITTING);
+  const arr = [];
+  const parts = text.split(REGEX_USER_SPLITTING);
   // console.log("the parts are");
   // console.log(parts);
-  if (!!parts) {
+  if (parts) {
     for (const matchResult of parts) {
-      if (!!matchResult.match(REGEX_USER_TAGGING)) {
-        let match: any = REGEX_USER_TAGGING.exec(matchResult);
+      if (matchResult.match(REGEX_USER_TAGGING)) {
+        const match: any = REGEX_USER_TAGGING.exec(matchResult);
         if (match !== null) {
           const { name, route } = match.groups;
           arr.push({

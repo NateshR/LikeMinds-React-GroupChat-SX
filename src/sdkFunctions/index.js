@@ -4,7 +4,9 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable camelcase */
 // import LikeMinds from 'likeminds-chat-beta';
-import { myClient } from '..';
+import { getVideoCover } from "@rajesh896/video-thumbnails-generator";
+import { myClient } from "..";
+
 export const jsonReturnHandler = (callRes, error) => {
   // log("response hai")
   // log(callRes)
@@ -24,7 +26,7 @@ export const getChatRoomDetails = async (myClient, chatRoomId) => {
   try {
     const params = {
       chatroomId: chatRoomId,
-      page: 1
+      page: 1,
     };
     const chatRoomResponse = await myClient.getChatroom(params);
     // console.log(chatRoomResponse)
@@ -62,7 +64,6 @@ export function getString(str) {
   const userMatchString = /(?<=>>)(@*).+/gs;
   const userName = str.match(userMatchString);
   return userName;
-
 }
 
 export async function createNewConversation(val, groupContext, options) {
@@ -73,7 +74,7 @@ export async function createNewConversation(val, groupContext, options) {
     created_at: Date.now(),
     has_files: hasFiles,
 
-    chatroom_id: groupContext.activeGroup.chatroom.id
+    chatroom_id: groupContext.activeGroup.chatroom.id,
   };
   if (hasFiles) {
     configObject.attachment_count = count;
@@ -91,7 +92,7 @@ export async function createNewConversation(val, groupContext, options) {
 export async function getReportingOptions() {
   try {
     const rep = await myClient.getReportTags({
-      type: 0
+      type: 0,
     });
     return jsonReturnHandler(rep, null);
   } catch (e) {
@@ -104,7 +105,7 @@ export async function addReaction(reaction, convoId, chatId) {
     const reactionCall = await myClient.putReaction({
       chatroomId: chatId,
       conversationId: convoId,
-      reaction
+      reaction,
     });
     return jsonReturnHandler(reactionCall, null);
   } catch (error) {
@@ -118,7 +119,7 @@ export async function pushReport(convoId, tagId, reason, reportedMemberId) {
       conversationId: convoId,
       tagId: tagId,
       reason,
-      reportedMemberId: reportedMemberId
+      reportedMemberId: reportedMemberId,
     });
     return jsonReturnHandler(pushReportCall, null);
   } catch (error) {
@@ -129,7 +130,7 @@ export async function pushReport(convoId, tagId, reason, reportedMemberId) {
 export async function getTaggingList(chatroomId) {
   try {
     const tagListCall = await myClient.getTaggingList({
-      chatroomId: parseInt(chatroomId)
+      chatroomId: parseInt(chatroomId),
     });
     return jsonReturnHandler(tagListCall, null);
   } catch (error) {
@@ -137,13 +138,19 @@ export async function getTaggingList(chatroomId) {
   }
 }
 
-export async function getAllChatroomMember(chatroomId, communityId, list, setFunction, setTotalMembers) {
+export async function getAllChatroomMember(
+  chatroomId,
+  communityId,
+  list,
+  setFunction,
+  setTotalMembers,
+) {
   try {
     const pageNoToCall = list.length / 10 + 1;
     const allMemberCall = await myClient.allMembers({
       chatroom_id: chatroomId,
       // community_id: communityId,
-      page: pageNoToCall
+      page: pageNoToCall,
     });
     if (setTotalMembers) {
       if (allMemberCall.total_members) {
@@ -161,9 +168,14 @@ export async function getAllChatroomMember(chatroomId, communityId, list, setFun
 }
 
 export function mergeInputFiles(inputContext) {
-  const { mediaAttachments, documentAttachments, audioAttachments } = inputContext;
+  const { mediaAttachments, documentAttachments, audioAttachments } =
+    inputContext;
 
-  const newArr = [...mediaAttachments, ...documentAttachments, ...audioAttachments];
+  const newArr = [
+    ...mediaAttachments,
+    ...documentAttachments,
+    ...audioAttachments,
+  ];
   return newArr;
 }
 
@@ -177,7 +189,7 @@ export async function getUnjoinedRooms(community_id, pageNo) {
   try {
     const unjoinedGroups = await myClient.fetchFeedData({
       order_type: 0,
-      page: pageNo || 1
+      page: pageNo || 1,
     });
     return jsonReturnHandler(unjoinedGroups, null);
   } catch (error) {
@@ -190,7 +202,7 @@ export async function joinNewGroup(collabId, userID, value) {
     const joinCall = await myClient.followCR({
       collabcard_id: collabId,
       member_id: userID,
-      value
+      value,
     });
     return jsonReturnHandler(joinCall, null);
   } catch (error) {
@@ -204,7 +216,7 @@ export async function leaveChatRoom(collabId, userId) {
     const leaveCall = await myClient.followChatroom({
       collabcardId: collabId,
       memberId: userId,
-      value: false
+      value: false,
     });
 
     if (!leaveCall.success) {
@@ -233,51 +245,54 @@ export async function leaveSecretChatroom(collabId, userId) {
 
 export function tagExtracter(str, userContext, state) {
   if (state === 1) {
-    const splitArr = str.split(`<<${userContext.currentUser.name}|route://member/${userContext.currentUser.id}>>`);
-    str = splitArr.join('');
+    const splitArr = str.split(
+      `<<${userContext.currentUser.name}|route://member/${userContext.currentUser.id}>>`,
+    );
+    str = splitArr.join("");
   }
 
-  let newContent = str.split('<<').join('<span hl="Sd" class="username" style="color: #3884F7; cursor:pointer;">');
-  newContent = newContent.split('|route').join('</span>|route');
-  const a = newContent.split('|route');
+  let newContent = str
+    .split("<<")
+    .join(
+      '<span hl="Sd" class="username" style="color: #3884F7; cursor:pointer;">',
+    );
+  newContent = newContent.split("|route").join("</span>|route");
+  const a = newContent.split("|route");
 
   let na = [];
   for (const ar of a) {
-    const ta = ar.split('>>');
+    const ta = ar.split(">>");
     if (ta.length > 1) {
       na.push(ta[1]);
     } else {
       na.push(ta);
     }
   }
-  na = na.join('');
+  na = na.join("");
 
   // add a new line
 
-  na = na.split(' \n ').join('<br/>');
-  na = na.split('http').join('^#$__##$@^');
+  na = na.split(" \n ").join("<br/>");
+  na = na.split("http").join("^#$__##$@^");
   return na;
 }
 
-
 export function linkConverter(sampleString) {
-  const newStr = sampleString.split('^#$__');
+  const newStr = sampleString.split("^#$__");
   const newStringArr = [];
   for (const str of newStr) {
-    if (str.substring(0, 5) === '##$@^') {
-      const subStringArr = str.split(' ');
+    if (str.substring(0, 5) === "##$@^") {
+      const subStringArr = str.split(" ");
       subStringArr[0] =
-        `<a target="_blank" href="http${subStringArr[0].substring(5)
-        }">` +
-        `http${subStringArr[0].substring(5)
-        }</a>`;
-      const s = subStringArr.join(' ');
+        `<a target="_blank" href="http${subStringArr[0].substring(5)}">` +
+        `http${subStringArr[0].substring(5)}</a>`;
+      const s = subStringArr.join(" ");
       newStringArr.push(s);
     } else {
       newStringArr.push(str);
     }
   }
-  return newStringArr.join('').trim();
+  return newStringArr.join("").trim();
 }
 
 // for joining the group
@@ -286,7 +301,7 @@ export async function joinChatRoom(collabId, userId) {
     const joinCall = await myClient.followChatroom({
       collabcardId: collabId,
       memberId: userId,
-      value: true
+      value: true,
     });
     // refreshContext();
 
@@ -299,7 +314,7 @@ export async function joinChatRoom(collabId, userId) {
 export async function markRead(chatroomId) {
   try {
     const markCall = await myClient.markReadChatroom({
-      chatroomId: chatroomId
+      chatroomId: chatroomId,
     });
     return jsonReturnHandler(markCall, null);
   } catch (error) {
@@ -332,7 +347,7 @@ export async function canDmHomeFeed(communityId) {
 export async function dmChatFeed(communityId, pageNo) {
   try {
     const dmFeedCall = await myClient.fetchDMFeed({
-      page: pageNo
+      page: pageNo,
     });
     return jsonReturnHandler(dmFeedCall, null);
   } catch (error) {
@@ -357,7 +372,7 @@ export async function requestDM(memberId, communityId) {
   try {
     // console.log(memberId)
     const call = await myClient.checkDMLimit({
-      memberId: memberId
+      memberId: memberId,
     });
     return jsonReturnHandler(call, null);
   } catch (error) {
@@ -369,7 +384,7 @@ export async function canDirectMessage(chatroomId) {
   try {
     const call = await myClient.canDmFeed({
       // community_id: sessionStorage.getItem('communityId'),
-      req_from: chatroomId
+      req_from: chatroomId,
     });
     return jsonReturnHandler(call, null);
   } catch (error) {
@@ -381,7 +396,7 @@ export async function createDM(memberId) {
   try {
     // log(memberId)
     const call = await myClient.createDMChatroom({
-      memberId: memberId
+      memberId: memberId,
     });
     return jsonReturnHandler(call, null);
   } catch (error) {
@@ -394,7 +409,7 @@ export async function sendDmRequest(chatroomId, messageText, state) {
     const call = await myClient.sendDMRequest({
       chatRequestState: state,
       chatroomId: chatroomId,
-      text: messageText
+      text: messageText,
     });
     return jsonReturnHandler(call, null);
   } catch (error) {
@@ -407,7 +422,6 @@ export async function dmAction(requestState, chatroomId, text) {
     const config = {
       chatroomId: chatroomId,
       chatRequestState: requestState,
-
     };
     if (text != null) {
       config.text = text;
@@ -430,11 +444,10 @@ export async function undoBlock(chatroomId) {
     // let call = await m
     const call = await myClient.blockMember({
       chatroom_id: chatroomId,
-      status: 1
+      status: 1,
     });
   } catch (error) {
     // // // console.log(error);
-
   }
 }
 
@@ -442,7 +455,7 @@ export async function deleteChatFromDM(idArr) {
   try {
     const call = await myClient.deleteConversation({
       conversationIds: idArr,
-      reason: 'none'
+      reason: "none",
     });
     return true;
   } catch (error) {
@@ -458,11 +471,10 @@ export function getDmMember(str, currentUser) {
     return userString.substr(currentLength + 1);
   }
   return userString.substring(0, userString.length - currentLength);
-
 }
 
 export function log(str) {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     // // console.log(str);
   }
 }
@@ -470,7 +482,7 @@ export function log(str) {
 export async function checkDMStatus(id) {
   try {
     const call = await myClient.checkDMStatus({
-      requestFrom: 'group_channel'
+      requestFrom: "group_channel",
     });
     return jsonReturnHandler(call.data, null);
   } catch (error) {
@@ -480,13 +492,24 @@ export async function checkDMStatus(id) {
 
 export async function blockUnblockChatroom(status, chatroom) {
   try {
-    let call = await myClient.blockMember({
+    const call = await myClient.blockMember({
       chatroom_id: chatroom,
-      status: status
-    })
-    return true
+      status: status,
+    });
+    return true;
   } catch (error) {
-    log(error)
-    return false
+    log(error);
+    return false;
+  }
+}
+
+export async function getThumbnailOfVideo(file) {
+  try {
+    const thumbnail = await getVideoCover(URL.createObjectURL(file))
+    return thumbnail
+  } catch (error) {
+    console.log("Error at generating thumbnail")
+    console.log(error)
+    return ''
   }
 }
