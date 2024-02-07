@@ -106,8 +106,7 @@ const DmMemberTile = ({ profile }: any) => {
           <div className="text-[12px] text-[#ADADAD]">
             {profile.custom_title}
           </div>
-        ) : // <div className="text-[12px] text-[#ADADAD]">Other</div>
-        null}
+        ) : null}
       </div>
 
       <div style={{ flexGrow: 1 }} />
