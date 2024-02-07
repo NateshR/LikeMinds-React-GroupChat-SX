@@ -20,3 +20,7 @@
   justify-content: center !important;
   align-items: center !important;
 }
+
+.rhap_container {
+  background-color: transparent;
+}

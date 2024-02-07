@@ -303,7 +303,7 @@ const StringBox = ({
                 {replyConversationObject?.member?.name}
               </div>
 
-              <div className="text-[#323232] font-[300] text-[12px]">
+              <div className="text-[#323232] font-[300] text-[12px] truncate">
                 {replyConversationObject.attachment_count > 0 ? (
                   <>
                     {replyConversationObject.attachments?.map((item: any) => {
@@ -326,8 +326,8 @@ const StringBox = ({
                     tagExtracter(
                       attachmentObject.mediaAttachments.length > 0 &&
                         attachmentObject.mediaAttachments[0]?.type === "gif"
-                        ? removeGifMessage(messageString)
-                        : messageString,
+                        ? removeGifMessage(replyConversationObject?.answer)
+                        : replyConversationObject?.answer,
                       userContext
                     )
                   )
@@ -340,7 +340,7 @@ const StringBox = ({
             <PollResponse conversation={conversationObject} />
           ) : (
             <div className="text-[14px] w-full font-[300] text-[#323232]">
-              <span className="msgCard" ref={ref}>
+              <span className="msgCard " ref={ref}>
                 {parse(
                   linkConverter(
                     tagExtracter(
@@ -494,9 +494,10 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
       title: "Reply Privately",
       clickFunction: async () => {
         try {
-          const checkDMLimitCall: any = await myClient.checkDMLimit({
+          let checkDMLimitCall: any = await myClient.checkDMLimit({
             memberId: convoObject?.member?.id,
           });
+          checkDMLimitCall = checkDMLimitCall?.data;
           let isReplyParam;
           if (
             userContext.currentUser?.memberState === 1 ||

@@ -11,7 +11,7 @@ const DocAttachments: React.FC<DocAttachmentsProps> = ({ files }) => {
   }
   return (
     <div className="flex max-w-[242px] justify-between flex-wrap">
-      {files.map((file: any) => {
+      {files.map((file: any, index: number) => {
         return (
           <a
             href={file?.url?.toString() || ""}
@@ -19,7 +19,7 @@ const DocAttachments: React.FC<DocAttachmentsProps> = ({ files }) => {
             rel="noreferrer"
             className="mb-2  w-[115px]  h-[115px] flex  justify-center bg-[#f9f9f9] rounded-[12px]
             items-center"
-            key={file?.url}
+            key={index.toString().concat(file?.url)}
           >
             <img src={pdfIcon} alt="pdf" className="w-[24px]" />
 

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, memo } from "react";
 import "./imageAndMedia.css";
 type ImageAndMediaType = {
   mediaArray: any;
@@ -15,8 +15,10 @@ const ImageAndMedia: React.FC<ImageAndMediaType> = ({
       <div
         className="w-full"
         onClick={() => {
-          setMediaData({ mediaObj: mediaArray, type: "image" });
-          setMediaDisplayModel(true);
+          if (mediaArray[0].type !== "gif") {
+            setMediaData({ mediaObj: mediaArray, type: "image" });
+            setMediaDisplayModel(true);
+          }
         }}
       >
         {mediaArray[0].type === "image" || mediaArray[0].type === "gif" ? (
@@ -109,4 +111,4 @@ const ImageAndMedia: React.FC<ImageAndMediaType> = ({
   </div>
 );
 
-export default ImageAndMedia;
+export default memo(ImageAndMedia);
