@@ -106,9 +106,8 @@ const DmMemberTile = ({ profile }: any) => {
           <div className="text-[12px] text-[#ADADAD]">
             {profile.custom_title}
           </div>
-        ) : (
-          <div className="text-[12px] text-[#ADADAD]">Other</div>
-        )}
+        ) : // <div className="text-[12px] text-[#ADADAD]">Other</div>
+        null}
       </div>
 
       <div style={{ flexGrow: 1 }} />
@@ -145,7 +144,7 @@ const DmMemberTile = ({ profile }: any) => {
       >
         Message
       </Button>
-      <Link
+      {/* <Link
         to={`${directMessageInfoPath}/${profile?.user_unique_id} `}
         state={{
           communityId: userContext.community.id,
@@ -165,7 +164,7 @@ const DmMemberTile = ({ profile }: any) => {
         >
           View Profile
         </Button>
-      </Link>
+      </Link> */}
       {openSnackBar ? (
         <Snackbar
           open={openSnackBar}

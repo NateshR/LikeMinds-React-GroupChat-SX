@@ -1,8 +1,9 @@
 /* eslint-disable no-use-before-define */
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getReportingOptions } from "../../../sdkFunctions";
+import { GeneralContext } from "../../contexts/generalContext";
 
 type ReportConversationDialogBoxType = {
   convoId: any;
@@ -71,15 +72,23 @@ const ReportedReasonBlock = ({
   onClickhandler,
   conversationid,
   reportedMemberId,
-}: ReasonType) => (
-  <div
-    onClick={() => {
-      onClickhandler(id, name, conversationid, reportedMemberId);
-    }}
-    className="inline-block border rounded-[20px] py-2 px-3 mr-2 mb-2 text-sm text=[#9b9b9b]"
-  >
-    {name}
-  </div>
-);
+}: ReasonType) => {
+  const generalContext = useContext(GeneralContext);
+  return (
+    <div
+      onClick={() => {
+        async function reportConversation() {
+          await onClickhandler(id, name, conversationid, reportedMemberId);
+          generalContext.setShowSnackBar(true);
+          generalContext.setSnackBarMessage("Conversation Reported");
+        }
+        reportConversation();
+      }}
+      className="inline-block border rounded-[20px] py-2 px-3 mr-2 mb-2 text-sm text=[#9b9b9b] cursor-pointer"
+    >
+      {name}
+    </div>
+  );
+};
 
 export default ReportConversationDialogBox;

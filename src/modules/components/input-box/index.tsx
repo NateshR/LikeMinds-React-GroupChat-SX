@@ -102,7 +102,8 @@ const InputSearchField = ({
         searchName: searchString,
       });
       // // log(call);
-      return call?.data?.community_members;
+      // return call?.data?.community_members;
+      return call?.data?.members;
     } catch (error) {
       // log(error);
     }
@@ -163,7 +164,7 @@ const InputSearchField = ({
 
   return (
     <Box sx={{ position: "relative" }}>
-      <div className="w-full">
+      <div className="giphyContainer">
         {/* Giphy Searchbox component */}
         <ReactGiphySearchbox
           apiKey="9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR"
@@ -179,8 +180,8 @@ const InputSearchField = ({
           searchFormClassName="gifSearchBox"
           masonryConfig={[
             { columns: 2, imageWidth: 140, gutter: 10 },
-            { mq: "700px", columns: 3, imageWidth: 200, gutter: 10 },
-            { mq: "1000px", columns: 4, imageWidth: 220, gutter: 10 },
+            { mq: "600px", columns: 4, imageWidth: 200, gutter: 3 },
+            // { mq: "1000px", columns: 4, imageWidth: 220, gutter: 10 },
           ]}
         />
       </div>
@@ -226,7 +227,7 @@ const InputSearchField = ({
             bottom: "9.5%",
             right: "1%",
             zIndex: 1,
-            display: enableInputBox || disableInputBox ? "none" : "block",
+            display: disableInputBox ? "none" : "block",
           }}
         >
           {/* <SendIcon className="text-[#3884F7]" /> */}
@@ -237,7 +238,7 @@ const InputSearchField = ({
           className="mentions"
           spellCheck="false"
           placeholder={
-            enableInputBox || disableInputBox
+            disableInputBox
               ? "Input box has been disabled"
               : "Write a Comment..."
           }
@@ -255,7 +256,8 @@ const InputSearchField = ({
                 currentHeight = currentHeight.toString();
                 if (current >= currentHeight) {
                   setThrottleScroll(false);
-                  const pgNo = Math.floor(memberDetailsArray.length / 10) + 1;
+                  console.log(memberDetailsArray);
+                  const pgNo = Math.floor(memberDetailsArray?.length / 10) + 1;
                   getTaggingMembers(searchString, pgNo).then((val) => {
                     const arr = val.map((item: any) => {
                       item.display = item.name;
@@ -312,6 +314,7 @@ const InputSearchField = ({
             data={(search, callback) => {
               timeOut.current = setTimeout(() => {
                 getTaggingMembers(search, 1).then((val) => {
+                  console.log(val);
                   const arr = val?.map((item: any) => {
                     item.display = item?.name;
                     item.id = item?.sdk_client_info.uuid;
@@ -505,6 +508,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
   );
 };
 const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
+  const inputFieldContext = useContext(InputFieldContext);
   const ref = useRef<any>(null);
   useEffect(() => {
     if (file?.length === 0) {
@@ -523,6 +527,8 @@ const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
           multiple
           accept={accept}
           onChange={(e) => {
+            inputFieldContext.setDocumentAttachments([]);
+            inputFieldContext.setMediaAttachments([]);
             setFile(e.target.files);
           }}
         />

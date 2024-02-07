@@ -502,11 +502,8 @@ const ChatContainer: React.FC = () => {
         ) : null}
       </div>
 
-      {
-        !(
-          userContext.currentUser.memberState !== 1 &&
-          generalContext.currentChatroom.state === 7
-        ) && userContext.currentUser?.memberRights[3]?.is_selected ? (
+      {generalContext.currentChatroom.type === 7 ? (
+        userContext.currentUser.memberState === 1 ? (
           <Input
             disableInputBox={
               generalContext.currentChatroom?.chat_request_state === 2
@@ -518,11 +515,18 @@ const ChatContainer: React.FC = () => {
             {messageStrings.chatroomResponseOnlyCMCanRespond}
           </p>
         )
-        // : (
-        //   <p className="text-center">
-        //     {messageStrings.chatroomResponseNotAllowed}
-        //   </p>)
-      }
+      ) : userContext.currentUser?.memberRights[3]?.is_selected ? (
+        <Input
+          disableInputBox={
+            generalContext.currentChatroom?.chat_request_state === 2
+          }
+          setBufferMessage={setBufferMessage}
+        />
+      ) : (
+        <p className="text-center">
+          {messageStrings.chatroomResponseNotAllowed}
+        </p>
+      )}
     </>
   );
 };

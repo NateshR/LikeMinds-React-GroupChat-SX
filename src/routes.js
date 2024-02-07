@@ -1,4 +1,4 @@
-export const mainPath = "/community";
+export const mainPath = "";
 
 // path for forums
 export const forumPath = mainPath + "/forums";
