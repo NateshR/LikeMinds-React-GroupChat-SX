@@ -114,7 +114,7 @@ export function MoreOptions() {
       ) : null}
       {generalContext.currentProfile?.chatroom_actions?.map((item) => {
         if (item.id === 21 && mode === "direct-messages") {
-          return <div onClick={() => { }} />;
+          return <div key={item.id} onClick={() => { }} />;
         }
 
         if (item.id === 2 || item.id === 5) {
@@ -127,8 +127,9 @@ export function MoreOptions() {
               onClick={() => {
                 blockUnblockChatroom(0, id).then(() => {
                   getChatRoomDetails(myClient, id).then((e) => {
-                    generalContext.setCurrentChatroom(e.data.chatroom);
-                    generalContext.setCurrentProfile(e.data);
+                    console.log(e)
+                    generalContext.setCurrentChatroom(e?.data?.data?.chatroom);
+                    generalContext.setCurrentProfile(e?.data);
                   });
                   document.dispatchEvent(new CustomEvent("addedByStateOne"));
                 });

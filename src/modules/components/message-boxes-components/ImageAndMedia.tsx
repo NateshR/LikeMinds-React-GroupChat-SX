@@ -21,10 +21,10 @@ const ImageAndMedia: React.FC<ImageAndMediaType> = ({
           }
         }}
       >
-        {mediaArray[0].type === "image" || mediaArray[0].type === "gif" ? (
+        {mediaArray[0]?.type === "image" || mediaArray[0]?.type === "gif" ? (
           <img
             src={mediaArray[0].url!}
-            className="max-w-full max-h-full block h-auto w-auto"
+            className="max-w-full max-h-full block h-[250px] w-[250px] object-cover"
           />
         ) : (
           <video
