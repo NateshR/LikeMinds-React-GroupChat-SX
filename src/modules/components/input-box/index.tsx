@@ -102,8 +102,8 @@ const InputSearchField = ({
         searchName: searchString,
       });
       // // log(call);
-      // return call?.data?.community_members;
-      return call?.data?.members;
+      return call?.data?.community_members;
+      // return call?.data?.members;
     } catch (error) {
       // log(error);
     }
