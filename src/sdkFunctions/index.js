@@ -442,7 +442,7 @@ export async function undoBlock(chatroomId) {
   try {
     // let call = await myClient.
     // let call = await m
-    console.log(chatroomId)
+    // console.log(chatroomId)
     const call = await myClient.blockMember({
       chatroomId: chatroomId,
       status: 1,

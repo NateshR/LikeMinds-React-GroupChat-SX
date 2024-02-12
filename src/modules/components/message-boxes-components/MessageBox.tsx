@@ -519,8 +519,9 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
             const createChatroomCall: any = await myClient.createDMChatroom({
               memberId: convoObject?.member?.id,
             });
+
             navigate(
-              `${directMessageChatPath}/${createChatroomCall?.chatroom?.id}/${isReplyParam}`
+              `${directMessageChatPath}/${createChatroomCall?.data?.chatroom?.id}/${isReplyParam}`
             );
           } else {
             generalContext.setShowSnackBar(true);

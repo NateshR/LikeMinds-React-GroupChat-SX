@@ -32,7 +32,7 @@ type UploadConfigType = {
 };
 function base64ToBlob(base64String: string, contentType: string = ""): Blob {
   const byteCharacters = Buffer.from(base64String, "base64").toString("binary");
-  console.log(byteCharacters);
+  // console.log(byteCharacters);
   const byteArray = new Uint8Array(byteCharacters.length);
 
   for (let i = 0; i < byteCharacters.length; i++) {
@@ -173,7 +173,7 @@ const sendMessage = async (
           let blobEl = null;
           video.addEventListener("loadedmetadata", async () => {
             // Set canvas dimensions to match video dimensions
-            console.log(video.videoHeight + " " + video.videoWidth);
+
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             video.currentTime = 1;
@@ -194,11 +194,10 @@ const sendMessage = async (
                         .concat("thumbnail.jpeg")
                     ),
                   };
-                  console.log(thumbnailConfig);
+
                   const responseUpload = myClient
                     .uploadMedia(thumbnailConfig)
                     .then((thumbnailResponse: any) => {
-                      console.log(thumbnailResponse);
                       myClient
                         .uploadMedia(uploadConfig)
                         .then((fileResponse: any) => {
@@ -225,7 +224,6 @@ const sendMessage = async (
                             thumbnailUrl: thumbnailResponse.Location,
                           };
 
-                          console.log(onUploadConfig);
                           myClient.putMultimedia(onUploadConfig);
                         });
                     });
