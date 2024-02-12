@@ -442,8 +442,9 @@ export async function undoBlock(chatroomId) {
   try {
     // let call = await myClient.
     // let call = await m
+    // console.log(chatroomId)
     const call = await myClient.blockMember({
-      chatroom_id: chatroomId,
+      chatroomId: chatroomId,
       status: 1,
     });
   } catch (error) {
@@ -493,7 +494,7 @@ export async function checkDMStatus(id) {
 export async function blockUnblockChatroom(status, chatroom) {
   try {
     const call = await myClient.blockMember({
-      chatroom_id: chatroom,
+      chatroomId: chatroom,
       status: status,
     });
     return true;

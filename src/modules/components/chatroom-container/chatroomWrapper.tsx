@@ -77,7 +77,6 @@ const ChatroomWrapper: React.FC = () => {
       resetChatroomContext();
     };
   }, [mode]);
-
   return (
     <ChatroomContext.Provider
       value={{

@@ -15,7 +15,8 @@ import { useFirebaseChatConversations } from "../../hooks/firebase";
 import BufferStack from "../buffer-stack";
 import { GeneralContext } from "../../contexts/generalContext";
 import { UserContext } from "../../contexts/userContext";
-import LetThemAcceptInvite, {
+import {
+  LetThemAcceptInvite,
   AcceptTheirInviteFirst,
 } from "../direct-messages-trans-state";
 import routeVariable from "../../../enums/routeVariables";
@@ -381,7 +382,7 @@ const ChatContainer: React.FC = () => {
   if (generalContext?.currentChatroom?.chat_request_state === 0) {
     if (
       userContext.currentUser?.id ===
-      generalContext.currentChatroom.chat_requested_by[0]?.id
+      generalContext.currentChatroom.chat_requested_by?.id
     ) {
       return (
         <LetThemAcceptInvite
@@ -501,7 +502,6 @@ const ChatContainer: React.FC = () => {
           />
         ) : null}
       </div>
-
       {generalContext.currentChatroom.type === 7 ? (
         userContext.currentUser.memberState === 1 ? (
           <Input

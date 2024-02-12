@@ -44,7 +44,8 @@ async function getChatroomConversations(
   };
   const response: any = await getConversationsForGroup(optionObject);
   if (!response.error) {
-    const conversations = response.data;
+    const conversations = response?.data?.conversations;
+    console.log(conversations);
     sessionStorage.setItem("dmLastConvo", conversations[0].id);
     chatroomContext.setConversationList(conversations);
   } else {
@@ -169,8 +170,8 @@ const MessageBoxDM = ({
           {conversationObject?.state === 19 &&
           generalContext?.currentChatroom?.chat_request_state === 2 &&
           userContext.currentUser.id ===
-            generalContext.currentChatroom.chat_requested_by[0].id &&
-          index === chatroomContext.conversationList.length - 1 ? (
+            generalContext.currentChatroom.chat_requested_by?.id &&
+          index === chatroomContext?.conversationList?.length - 1 ? (
             <span
               className="text-[#3884f7] cursor-pointer"
               onClick={() => {
@@ -184,8 +185,10 @@ const MessageBoxDM = ({
                       myClient,
                       generalContext.currentChatroom.id
                     ).then((e: any) => {
-                      generalContext.setCurrentChatroom(e.data.chatroom);
-                      generalContext.setCurrentProfile(e.data);
+                      generalContext.setCurrentChatroom(
+                        e?.data?.data?.chatroom
+                      );
+                      generalContext.setCurrentProfile(e?.data?.data);
                     });
                   });
                 });
@@ -516,8 +519,9 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
             const createChatroomCall: any = await myClient.createDMChatroom({
               memberId: convoObject?.member?.id,
             });
+
             navigate(
-              `${directMessageChatPath}/${createChatroomCall?.chatroom?.id}/${isReplyParam}`
+              `${directMessageChatPath}/${createChatroomCall?.data?.chatroom?.id}/${isReplyParam}`
             );
           } else {
             generalContext.setShowSnackBar(true);
