@@ -256,7 +256,6 @@ const InputSearchField = ({
                 currentHeight = currentHeight.toString();
                 if (current >= currentHeight) {
                   setThrottleScroll(false);
-                  console.log(memberDetailsArray);
                   const pgNo = Math.floor(memberDetailsArray?.length / 10) + 1;
                   getTaggingMembers(searchString, pgNo).then((val) => {
                     const arr = val.map((item: any) => {
@@ -314,7 +313,7 @@ const InputSearchField = ({
             data={(search, callback) => {
               timeOut.current = setTimeout(() => {
                 getTaggingMembers(search, 1).then((val) => {
-                  console.log(val);
+                  // console.log(val);
                   const arr = val?.map((item: any) => {
                     item.display = item?.name;
                     item.id = item?.sdk_client_info.uuid;

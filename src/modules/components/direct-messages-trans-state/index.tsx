@@ -44,7 +44,7 @@ const LetThemAcceptInvite = ({ title }: any) => {
   );
 };
 
-export default LetThemAcceptInvite;
+export { LetThemAcceptInvite };
 
 export const AcceptTheirInviteFirst = ({ title }: any) => {
   const generalContext = useContext(GeneralContext);
@@ -59,8 +59,10 @@ export const AcceptTheirInviteFirst = ({ title }: any) => {
     try {
       await dmAction(1, id!, null);
       const newChatroomObject: any = await getChatRoomDetails(myClient, id);
-      generalContext.setCurrentChatroom(newChatroomObject?.data?.chatroom);
-      generalContext.setCurrentProfile(newChatroomObject?.data);
+      generalContext.setCurrentChatroom(
+        newChatroomObject?.data?.data?.chatroom
+      );
+      generalContext.setCurrentProfile(newChatroomObject?.data?.data);
     } catch (error) {
       // // console.log(error);
     }
@@ -70,8 +72,10 @@ export const AcceptTheirInviteFirst = ({ title }: any) => {
     try {
       const call = await dmAction(2, id, null);
       const newChatroomObject: any = await getChatRoomDetails(myClient, id);
-      generalContext.setCurrentChatroom(newChatroomObject?.data?.chatroom);
-      generalContext.setCurrentProfile(newChatroomObject?.data);
+      generalContext.setCurrentChatroom(
+        newChatroomObject?.data?.data?.chatroom
+      );
+      generalContext.setCurrentProfile(newChatroomObject?.data?.data);
     } catch (error) {
       // // // console.log(error);
     }
