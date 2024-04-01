@@ -314,7 +314,10 @@ const ChatContainer: React.FC = () => {
     }
 
     return () => {
-      sessionStorage.clear();
+      sessionStorage.removeItem(LAST_CONVERSATION_ID_BACKWARD);
+      sessionStorage.removeItem(LAST_CONVERSATION_ID_FORWARD);
+      sessionStorage.removeItem(LAST_CONVERSATION_ID);
+      sessionStorage.removeItem(SEARCHED_CONVERSATION_ID);
     };
   }, [id]);
 
