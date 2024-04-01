@@ -330,7 +330,7 @@ const InputSearchField = ({
             }
             if (keyObj.enter === true && keyObj.shift === true) {
               let newStr = messageText;
-              newStr += " \n ";
+              newStr += "\n";
               setMessageText(newStr);
             } else if (keyObj.enter === true && keyObj.shift === false) {
               e.preventDefault();
