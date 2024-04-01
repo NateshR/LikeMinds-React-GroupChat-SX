@@ -32,7 +32,55 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
   const inputBoxContainerRef = useRef<any>(null);
   const [documentAttachments, setDocumentAttachments] = useState([]);
   const [toggleGifRef, setToggleGifRef] = useState(function () {});
+  const convoStateMgr = useRef<Record<string, string>>({});
+  const id = useParams()[routeVariable.id];
+  const operation = useParams()[routeVariable.operation];
+  const mode = useParams()[routeVariable.mode];
+  useEffect(() => {
+    if (id && convoStateMgr.current) {
+      const currentConvoState = convoStateMgr.current;
 
+      currentConvoState[id] = messageText;
+      console.log(`updated convoState: `);
+      console.log(currentConvoState);
+    }
+  }, [messageText]);
+
+  useEffect(() => {
+    console.log(convoStateMgr);
+    console.log(mode);
+    console.log(operation);
+    if (id && convoStateMgr.current) {
+      const localConvoState = sessionStorage.getItem("conversationState");
+      let currentConvoState = { ...convoStateMgr.current };
+      if (localConvoState) {
+        currentConvoState = {
+          ...convoStateMgr.current,
+          ...JSON.parse(localConvoState),
+        };
+      }
+
+      console.log(`Current chatroom id:`);
+      console.log(id);
+      console.log(`current convoState: `);
+      console.log(currentConvoState);
+      if (currentConvoState[id]) {
+        setMessageText(currentConvoState[id]);
+      } else {
+        setMessageText("");
+      }
+    }
+  }, [id]);
+  useEffect(() => {
+    return () => {
+      if (convoStateMgr.current) {
+        sessionStorage.setItem(
+          "conversationState",
+          JSON.stringify(convoStateMgr.current)
+        );
+      }
+    };
+  }, [operation, mode, id]);
   return (
     <InputFieldContext.Provider
       value={{
