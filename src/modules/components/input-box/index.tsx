@@ -39,17 +39,11 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
   useEffect(() => {
     if (id && convoStateMgr.current) {
       const currentConvoState = convoStateMgr.current;
-
       currentConvoState[id] = messageText;
-      console.log(`updated convoState: `);
-      console.log(currentConvoState);
     }
   }, [messageText]);
 
   useEffect(() => {
-    console.log(convoStateMgr);
-    console.log(mode);
-    console.log(operation);
     if (id && convoStateMgr.current) {
       const localConvoState = sessionStorage.getItem("conversationState");
       let currentConvoState = { ...convoStateMgr.current };
@@ -59,11 +53,6 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
           ...JSON.parse(localConvoState),
         };
       }
-
-      console.log(`Current chatroom id:`);
-      console.log(id);
-      console.log(`current convoState: `);
-      console.log(currentConvoState);
       if (currentConvoState[id]) {
         setMessageText(currentConvoState[id]);
       } else {
