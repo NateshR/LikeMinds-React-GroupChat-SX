@@ -32,7 +32,44 @@ const Input = ({ setBufferMessage, disableInputBox }: any) => {
   const inputBoxContainerRef = useRef<any>(null);
   const [documentAttachments, setDocumentAttachments] = useState([]);
   const [toggleGifRef, setToggleGifRef] = useState(function () {});
+  const convoStateMgr = useRef<Record<string, string>>({});
+  const id = useParams()[routeVariable.id];
+  const operation = useParams()[routeVariable.operation];
+  const mode = useParams()[routeVariable.mode];
+  useEffect(() => {
+    if (id && convoStateMgr.current) {
+      const currentConvoState = convoStateMgr.current;
+      currentConvoState[id] = messageText;
+    }
+  }, [messageText]);
 
+  useEffect(() => {
+    if (id && convoStateMgr.current) {
+      const localConvoState = sessionStorage.getItem("conversationState");
+      let currentConvoState = { ...convoStateMgr.current };
+      if (localConvoState) {
+        currentConvoState = {
+          ...convoStateMgr.current,
+          ...JSON.parse(localConvoState),
+        };
+      }
+      if (currentConvoState[id]) {
+        setMessageText(currentConvoState[id]);
+      } else {
+        setMessageText("");
+      }
+    }
+  }, [id]);
+  useEffect(() => {
+    return () => {
+      if (convoStateMgr.current) {
+        sessionStorage.setItem(
+          "conversationState",
+          JSON.stringify(convoStateMgr.current)
+        );
+      }
+    };
+  }, [operation, mode, id]);
   return (
     <InputFieldContext.Provider
       value={{
@@ -282,7 +319,7 @@ const InputSearchField = ({
             }
             if (keyObj.enter === true && keyObj.shift === true) {
               let newStr = messageText;
-              newStr += " \n ";
+              newStr += "\n";
               setMessageText(newStr);
             } else if (keyObj.enter === true && keyObj.shift === false) {
               e.preventDefault();

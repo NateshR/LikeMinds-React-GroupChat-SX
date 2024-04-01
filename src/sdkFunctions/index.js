@@ -272,7 +272,7 @@ export function tagExtracter(str, userContext, state) {
 
   // add a new line
 
-  na = na.split(" \n ").join("<br/>");
+  na = na.split("\n").join("<br/>");
   na = na.split("http").join("^#$__##$@^");
   return na;
 }
