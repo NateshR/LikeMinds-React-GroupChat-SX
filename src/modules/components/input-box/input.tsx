@@ -106,12 +106,38 @@ const sendMessage = async (
     ) {
       return;
     }
+    if (chatroomContext.editMessageObject) {
+      const editMessage = chatroomContext.editMessageObject;
+
+      const call: any = await myClient.editConversation({
+        conversationId: editMessage.id,
+        text: message,
+      });
+      if (call.success) {
+        chatroomContext.setConversationList((conversationsArr: any) => {
+          const conversationArrayCopy = [...conversationsArr].map(
+            (conversation) => {
+              if (conversation?.id === editMessage?.id) {
+                return call?.data?.conversation;
+              } else {
+                return conversation;
+              }
+            }
+          );
+
+          return conversationArrayCopy;
+        });
+        chatroomContext.setEditMessageObject(null);
+      }
+      return;
+    }
     const config: any = {
       text: message,
       createdAt: Date.now(),
       chatroomId: parseInt(chatroom_id.toString()),
       hasFiles: false,
     };
+
     if (filesArray.length) {
       config.hasFiles = true;
       config.attachmentCount = filesArray.length;
