@@ -534,6 +534,12 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
         }
       },
     },
+    {
+      title: "Edit Message",
+      clickFunction: () => {
+        chatroomContext.setEditMessageObject(convoObject);
+      },
+    },
   ];
   if (convoObject.deleted_by !== undefined) {
     return (
@@ -590,6 +596,14 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
             if (
               chatroomContext.replyPrivatelyMode === 2 &&
               convoObject?.member?.state === 4
+            ) {
+              return null;
+            }
+          }
+          if (option.title === "Edit Message") {
+            if (
+              convoObject.member.id !== userContext.currentUser.id ||
+              convoObject.answer.length === 0
             ) {
               return null;
             }

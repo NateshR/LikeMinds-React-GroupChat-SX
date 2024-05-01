@@ -14,8 +14,7 @@ import { Snackbar } from "@mui/material";
 function renderAnswers(text: string) {
   const arr = [];
   const parts = text.split(REGEX_USER_SPLITTING);
-  // console.log("the parts are");
-  // console.log(parts);
+
   if (parts) {
     for (const matchResult of parts) {
       if (matchResult.match(REGEX_USER_TAGGING)) {
@@ -51,15 +50,12 @@ export const MemberSearchProfileTile = ({ profile, setOpenSearch }: any) => {
     setSnackbarMessage(message);
   }
   async function handleSearchNavigation() {
-    // generalContext.setShowLoadingBar(true);
-    // console.log("the profile time id is ", profile.id);
-    // sessionStorage.setItem(SEARCHED_CONVERSATION_ID, profile?.id?.toString());
     try {
       const dmStatusCall = await myClient.checkDMStatus({
         requestFrom: "member_profile",
         uuid: profile.uuid || "",
       });
-      console.log(dmStatusCall);
+
       if (!dmStatusCall.data.show_dm) {
         showMessage("Access to DM Denied");
         showSnackbar();
@@ -74,7 +70,7 @@ export const MemberSearchProfileTile = ({ profile, setOpenSearch }: any) => {
         const dmLimitCall = await myClient.checkDMLimitWithUuid({
           uuid: profile.uuid || "",
         });
-        console.log(dmLimitCall);
+
         if (!dmLimitCall.success) {
           // show the error for dmLimitCall in snackbar and return
           showMessage(`DM Limit exceeded`);
@@ -90,7 +86,7 @@ export const MemberSearchProfileTile = ({ profile, setOpenSearch }: any) => {
           const createDMChatroomCall = await myClient.createDMChatroom({
             memberId: profile.id || "",
           });
-          console.log(createDMChatroomCall);
+
           // Route to another chatroom and return
           navigate(
             `${directMessageChatPath}/${createDMChatroomCall.data.chatroom.id}`
@@ -159,7 +155,7 @@ const ProfileTile = ({ profile, setOpenSearch }: any) => {
   const generalContext = useContext(GeneralContext);
   function handleSearchNavigation() {
     generalContext.setShowLoadingBar(true);
-    // console.log("the profile time id is ", profile.id);
+
     sessionStorage.setItem(SEARCHED_CONVERSATION_ID, profile?.id?.toString());
     setOpenSearch(false);
   }

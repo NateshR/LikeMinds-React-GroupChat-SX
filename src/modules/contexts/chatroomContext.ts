@@ -11,6 +11,8 @@ export type chatroomContextType = {
   setShowReplyPrivately: any;
   replyPrivatelyMode: any;
   setReplyPrivatelyMode: any;
+  editMessageObject: any;
+  setEditMessageObject: any;
 };
 
 const ChatroomContext = createContext<chatroomContextType>({
@@ -24,6 +26,8 @@ const ChatroomContext = createContext<chatroomContextType>({
   setShowReplyPrivately: null,
   replyPrivatelyMode: null,
   setReplyPrivatelyMode: null,
+  editMessageObject: null,
+  setEditMessageObject: null,
 });
 
 export default ChatroomContext;

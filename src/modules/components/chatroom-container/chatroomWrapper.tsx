@@ -35,6 +35,7 @@ const ChatroomWrapper: React.FC = () => {
   const [isSelectedConversation, setIsSelectedConversation] = useState(false);
   const [showReplyPrivately, setShowReplyPrivately] = useState(false);
   const [replyPrivatelyMode, setReplyPrivatelyMode] = useState(null);
+  const [editMessageObject, setEditMessageObject] = useState(null);
   const [showTitle, setShowTitle] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const generalContext = useContext(GeneralContext);
@@ -66,6 +67,7 @@ const ChatroomWrapper: React.FC = () => {
     setShowReplyPrivately(false);
     setReplyPrivatelyMode(null);
     setOpenSearch(false);
+    setEditMessageObject(null);
     generalContext.setChatroomUrl("");
     generalContext.setCurrentChatroom({});
     generalContext.setCurrentProfile({});
@@ -77,6 +79,7 @@ const ChatroomWrapper: React.FC = () => {
       resetChatroomContext();
     };
   }, [mode]);
+
   return (
     <ChatroomContext.Provider
       value={{
@@ -90,6 +93,8 @@ const ChatroomWrapper: React.FC = () => {
         setShowReplyPrivately,
         replyPrivatelyMode,
         setReplyPrivatelyMode,
+        editMessageObject,
+        setEditMessageObject,
       }}
     >
       {!openSearch ? (
