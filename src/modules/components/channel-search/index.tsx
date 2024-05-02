@@ -43,14 +43,11 @@ const ChannelSearch = ({ setOpenSearch }: any) => {
     setSearchKey(e.target.value);
   }
   function setMemberSearchString(e: any) {
-    console.log(e.target.value);
     setMemberSearchkey(e.target.value);
   }
   async function searchFunction() {
     try {
       const pageNo = Math.floor(searchArray?.length / 20) + 1;
-      // console.log("the page is");
-      // console.log(searchArray);
       const pageSize = 20;
       const call = await searchConversationsInsideChatroom(
         id!.toString(),

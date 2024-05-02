@@ -32,7 +32,6 @@ type UploadConfigType = {
 };
 function base64ToBlob(base64String: string, contentType: string = ""): Blob {
   const byteCharacters = Buffer.from(base64String, "base64").toString("binary");
-  // console.log(byteCharacters);
   const byteArray = new Uint8Array(byteCharacters.length);
 
   for (let i = 0; i < byteCharacters.length; i++) {
