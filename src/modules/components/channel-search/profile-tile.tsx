@@ -107,7 +107,7 @@ export const MemberSearchProfileTile = ({ profile, setOpenSearch }: any) => {
   }
   return (
     <div
-      className="flex items-center my-4 p-2 mr-10  hover:bg-white cursor-pointer"
+      className="flex items-center p-2 mr-10  cursor-pointer"
       onClick={handleSearchNavigation}
     >
       <MemberSearchProfileImageView imgSource={profile?.image_url} />
@@ -161,7 +161,7 @@ const ProfileTile = ({ profile, setOpenSearch }: any) => {
   }
   return (
     <div
-      className="flex items-center my-4 p-2 mr-10  hover:bg-white cursor-pointer"
+      className="flex items-center p-2 mr-10   cursor-pointer"
       onClick={handleSearchNavigation}
     >
       <ProfileImageView imgSource={profile.member?.image_url} />

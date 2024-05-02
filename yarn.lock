@@ -2796,10 +2796,10 @@
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
-"@likeminds.community/chat-js-beta@^1.1.88":
-  version "1.1.88"
-  resolved "https://registry.npmjs.org/@likeminds.community/chat-js-beta/-/chat-js-beta-1.1.88.tgz"
-  integrity sha512-hX0UOv+IU3aJe8PVOFPzrvtM5mUeCBrTmePuM0QgxC4EcdiFnQjIMmerldroxBpniG8daxelbAS+pjaJrZ5E3g==
+"@likeminds.community/chat-js@^1.1.89":
+  version "1.1.89"
+  resolved "https://registry.npmjs.org/@likeminds.community/chat-js/-/chat-js-beta-1.1.89.tgz"
+  integrity sha512-X5hhdQrGub55nC0EHTw4ryMyclX5wNZ/abwKX8vxlEScntpkBjEGtBPC5VhzRIxVSk2vrmewhmp9Y8vLooH9zA==
   dependencies:
     "@aws-sdk/client-s3" "^3.226.0"
     "@babel/runtime" "^7.16.3"

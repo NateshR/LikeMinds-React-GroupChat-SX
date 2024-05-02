@@ -283,6 +283,9 @@ const StringBox = ({
           <div>{userId === userContext.currentUser.id ? "you" : username}</div>
         </div>
         <div className="text-[10px] leading-[12px] text-[#323232] font-[300]">
+          {conversationObject?.is_edited && !conversationObject?.deleted_by ? (
+            <span className="isEdited-conversation-tag">{`Edited `}</span>
+          ) : null}
           {time}
         </div>
       </div>

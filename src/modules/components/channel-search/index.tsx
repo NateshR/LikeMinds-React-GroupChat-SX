@@ -1,5 +1,11 @@
 import { IconButton } from "@mui/material";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { myClient } from "../../..";
 import searchConversationsInsideChatroom from "../../../sdkFunctions/searchFunctions";
@@ -73,29 +79,39 @@ const ChannelSearch = ({ setOpenSearch }: any) => {
     }
   }
 
-  async function searchMembers() {
-    try {
-      const call = await myClient.getParticipants({
-        searchKey: memberSearchKey,
-        page: searchMembersPageCount,
-        pageSize: 10,
-        isSecret: generalContext.currentChatroom.is_secret || false,
-        chatroomID: parseInt(id || ""),
-      });
-      const members: any = call?.data?.participants;
-      if (!members.length) {
-        setLoadModeMembers(false);
-      } else {
-        setSearchMembersPageCount((pageCount) => pageCount + 1);
-        setMemberSearchArray((currentMembers: any) => {
-          const newMemberList = [...currentMembers, ...members];
-          return newMemberList;
+  const searchMembers = useCallback(
+    async function (pgNo?: number) {
+      try {
+        const call = await myClient.viewParticipants({
+          // searchKey: memberSearchKey,
+          participantName: memberSearchKey,
+          page: pgNo || searchMembersPageCount,
+          pageSize: 10,
+          isSecret: generalContext.currentChatroom.is_secret || false,
+          chatroomId: parseInt(id || ""),
         });
+        const members: any = call?.data?.participants;
+        if (!members.length) {
+          setLoadModeMembers(false);
+        } else {
+          setSearchMembersPageCount((pageCount) => pageCount + 1);
+          setMemberSearchArray((currentMembers: any) => {
+            const newMemberList = [...currentMembers, ...members];
+            return newMemberList;
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    },
+    [
+      memberSearchArray,
+      memberSearchKey,
+      searchMembersPageCount,
+      generalContext,
+      id,
+    ]
+  );
 
   useEffect(() => {
     function searchClickHandler(e: any) {
@@ -121,7 +137,7 @@ const ChannelSearch = ({ setOpenSearch }: any) => {
   useEffect(() => {
     if (operation === "info") {
       const memberSearchTimeout = setTimeout(() => {
-        searchMembers();
+        searchMembers(1);
       }, 500);
       return () => {
         clearTimeout(memberSearchTimeout);
@@ -137,7 +153,7 @@ const ChannelSearch = ({ setOpenSearch }: any) => {
     try {
       return searchArray?.map((profile: any) => {
         return (
-          <div className="my-2" key={profile?.id}>
+          <div className="py-2 hover:bg-[#efefef]" key={profile?.id}>
             <ProfileTile profile={profile} setOpenSearch={setOpenSearch} />
           </div>
         );
@@ -149,9 +165,12 @@ const ChannelSearch = ({ setOpenSearch }: any) => {
   }
   function renderSearchMembersProfiles() {
     try {
+      if (!memberSearchArray.length) {
+        return <div className="p-4">No Profile found</div>;
+      }
       return memberSearchArray?.map((profile: any) => {
         return (
-          <div className="my-2" key={profile?.uuid}>
+          <div className="py-2 hover:bg-[#efefef]" key={profile?.uuid}>
             <MemberSearchProfileTile
               profile={profile}
               setOpenSearch={setOpenSearch}
@@ -199,7 +218,7 @@ const ChannelSearch = ({ setOpenSearch }: any) => {
         </div>
       </div>
       <div
-        className="mx-4 max-h-[400px] overflow-auto"
+        className="mx-4 max-h-[400px] overflow-auto bg-white"
         id="conversations-holder"
       >
         {operation === "info" ? (
