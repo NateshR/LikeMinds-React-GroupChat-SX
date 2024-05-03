@@ -45,7 +45,6 @@ async function getChatroomConversations(
   const response: any = await getConversationsForGroup(optionObject);
   if (!response.error) {
     const conversations = response?.data?.conversations;
-    console.log(conversations);
     sessionStorage.setItem("dmLastConvo", conversations[0].id);
     chatroomContext.setConversationList(conversations);
   } else {
@@ -283,6 +282,9 @@ const StringBox = ({
           <div>{userId === userContext.currentUser.id ? "you" : username}</div>
         </div>
         <div className="text-[10px] leading-[12px] text-[#323232] font-[300]">
+          {conversationObject?.is_edited && !conversationObject?.deleted_by ? (
+            <span className="isEdited-conversation-tag">{`Edited `}</span>
+          ) : null}
           {time}
         </div>
       </div>
@@ -462,7 +464,7 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
       });
       setShouldShowBlock(!shouldShow);
     } catch (error) {
-      // // // console.log(error);
+      // console.log(error);
     }
   }
 
@@ -534,6 +536,12 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
         }
       },
     },
+    {
+      title: "Edit Message",
+      clickFunction: () => {
+        chatroomContext.setEditMessageObject(convoObject);
+      },
+    },
   ];
   if (convoObject.deleted_by !== undefined) {
     return (
@@ -590,6 +598,14 @@ const MoreOptions = ({ convoId, convoObject, index }: moreOptionsType) => {
             if (
               chatroomContext.replyPrivatelyMode === 2 &&
               convoObject?.member?.state === 4
+            ) {
+              return null;
+            }
+          }
+          if (option.title === "Edit Message") {
+            if (
+              convoObject.member.id !== userContext.currentUser.id ||
+              convoObject.answer.length === 0
             ) {
               return null;
             }

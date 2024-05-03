@@ -12,7 +12,11 @@ import ChatroomContext from "../../contexts/chatroomContext";
 import pdfIcon from "../../../assets/svg/pdf-document.svg";
 import paperclip from "../../../assets/svg/paperclip.svg";
 import routeVariable from "../../../enums/routeVariables";
-import { clearInputFiles } from "../../../sdkFunctions";
+import {
+  clearInputFiles,
+  linkConverter,
+  tagExtracter,
+} from "../../../sdkFunctions";
 import SendIcon from "../../../assets/svg/send.svg";
 import camera from "../../../assets/svg/camera.svg";
 import smiley from "../../../assets/svg/smile.svg";
@@ -22,7 +26,9 @@ import ReplyBox from "./replyContainer";
 import { sendMessage } from "./input";
 import { myClient } from "../../..";
 import Poll from "../../post-polls";
+import parse from "html-react-parser";
 import "./Input.css";
+import { UserContext } from "../../contexts/userContext";
 
 const Input = ({ setBufferMessage, disableInputBox }: any) => {
   const [messageText, setMessageText] = useState("");
@@ -117,6 +123,7 @@ const InputSearchField = ({
   const [loadMoreMembers, setLoadMoreMembers] = useState<any>(true);
   // const [debounceBool, setDebounceBool] = useState(true);
   const chatroomContext = useContext(ChatroomContext);
+  const userContext = useContext(UserContext);
   const inputFieldContext = useContext(InputFieldContext);
   const generalContext = useContext(GeneralContext);
   const { messageText, setMessageText } = inputFieldContext;
@@ -145,6 +152,7 @@ const InputSearchField = ({
       // log(error);
     }
   }
+
   useEffect(() => {
     if (throttleScroll === false) {
       setTimeout(() => {
@@ -181,6 +189,13 @@ const InputSearchField = ({
       inputBoxRef?.current?.focus();
     }
   });
+
+  useEffect(() => {
+    const { editMessageObject } = chatroomContext;
+    if (editMessageObject) {
+      inputFieldContext.setMessageText(editMessageObject.answer);
+    }
+  }, [chatroomContext.editMessageObject]);
 
   const keyObj = {
     enter: false,
@@ -233,6 +248,42 @@ const InputSearchField = ({
           attachments={chatroomContext.selectedConversation.attachments}
         />
       ) : null}
+      {/* For editing a conversation */}
+      {chatroomContext.editMessageObject ? (
+        <div
+          className="w-full justify-between overflow-auto shadow-sm bg-white  h-[60px] mt-[-20px] max-h-[250px] rounded-[5px]"
+          style={{
+            display: "flex",
+            // transform: "translate(0, -105%)",
+          }}
+        >
+          <div className="border-l-4 border-l-green-500 px-2 text-[14px] grow flex">
+            <div className="grow py-1">
+              <p className="mb-2 text-green-500">{"Edit Message"}</p>
+              <div className="w-[80%]" style={{}}>
+                {parse(
+                  linkConverter(
+                    tagExtracter(
+                      chatroomContext.editMessageObject.answer,
+                      userContext,
+                      1
+                    )
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+          <div>
+            <IconButton
+              onClick={() => {
+                chatroomContext.setEditMessageObject(null);
+              }}
+            >
+              <Close />
+            </IconButton>
+          </div>
+        </div>
+      ) : null}
 
       {/* for preview Image */}
 
@@ -254,6 +305,7 @@ const InputSearchField = ({
               mode
             ).then(() => {
               if (!generalContext.currentChatroom?.follow_status) {
+                //
               }
             });
           }}
@@ -277,7 +329,7 @@ const InputSearchField = ({
           placeholder={
             disableInputBox
               ? "Input box has been disabled"
-              : "Write a Comment..."
+              : "Write a Message..."
           }
           value={messageText}
           customSuggestionsContainer={(children: any) => (
@@ -401,7 +453,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
   const [openPollDialog, setOpenPollDialog] = useState(false);
   const inputFieldContext = useContext(InputFieldContext);
   const params = useParams();
-
+  const chatroomContext = useContext(ChatroomContext);
   const mode: any = params[routeVariable.mode];
   const operation: any = params[routeVariable.operation];
   const {
@@ -472,6 +524,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
               onClick={() => {
                 toggleGifRef();
               }}
+              disabled={chatroomContext.editMessageObject ? true : false}
             >
               <img src={giffy} alt="gif" />
             </IconButton>
@@ -487,6 +540,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
               }}
               key={title}
               className="p-2"
+              disabled={chatroomContext.editMessageObject ? true : false}
             >
               <span className="cursor-pointer ">
                 <svg
@@ -545,6 +599,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
 };
 const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
   const inputFieldContext = useContext(InputFieldContext);
+  const chatroomContext = useContext(ChatroomContext);
   const ref = useRef<any>(null);
   useEffect(() => {
     if (file?.length === 0) {
@@ -554,7 +609,7 @@ const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
     }
   });
   return (
-    <IconButton>
+    <IconButton disabled={chatroomContext.editMessageObject ? true : false}>
       <label>
         <input
           ref={ref}
@@ -562,6 +617,7 @@ const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
           style={{ display: "none" }}
           multiple
           accept={accept}
+          disabled={chatroomContext.editMessageObject ? true : false}
           onChange={(e) => {
             inputFieldContext.setDocumentAttachments([]);
             inputFieldContext.setMediaAttachments([]);
@@ -602,6 +658,7 @@ const EmojiButton = ({ option }: any) => {
             let newText = messageText;
             newText += `${e.emoji}`;
             setMessageText(newText);
+            handleClose();
           }}
         />
       </Menu>
