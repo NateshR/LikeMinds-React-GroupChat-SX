@@ -1,12 +1,12 @@
 {
   "name": "likeminds-chat-sx-rt",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@giphy/react-components": "^9.2.3",
-    "@likeminds.community/chat-js": "1.7.1",
+    "@likeminds.community/chat-js": "^1.7.1",
     "@mui/icons-material": "5.10.9",
     "@mui/material": "5.10.13",
     "@mui/x-date-pickers": "6.9.1",
