@@ -73,3 +73,16 @@
   line-height: 24px;
   z-index: 1;
 }
+
+.isEdited-conversation-tag::after {
+  content: "";
+  height: 2px;
+  width: 2px;
+  border-radius: 50%;
+  background-color: #323232;
+  display: inline-block;
+  color: #323232;
+  margin-bottom: 2px;
+  margin-right: 2px;
+  margin-left: 1px;
+}

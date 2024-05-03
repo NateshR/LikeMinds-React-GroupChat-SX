@@ -329,7 +329,7 @@ const InputSearchField = ({
           placeholder={
             disableInputBox
               ? "Input box has been disabled"
-              : "Write a Comment..."
+              : "Write a Message..."
           }
           value={messageText}
           customSuggestionsContainer={(children: any) => (
@@ -453,7 +453,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
   const [openPollDialog, setOpenPollDialog] = useState(false);
   const inputFieldContext = useContext(InputFieldContext);
   const params = useParams();
-
+  const chatroomContext = useContext(ChatroomContext);
   const mode: any = params[routeVariable.mode];
   const operation: any = params[routeVariable.operation];
   const {
@@ -524,6 +524,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
               onClick={() => {
                 toggleGifRef();
               }}
+              disabled={chatroomContext.editMessageObject ? true : false}
             >
               <img src={giffy} alt="gif" />
             </IconButton>
@@ -539,6 +540,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
               }}
               key={title}
               className="p-2"
+              disabled={chatroomContext.editMessageObject ? true : false}
             >
               <span className="cursor-pointer ">
                 <svg
@@ -597,6 +599,7 @@ const InputOptions = ({ containerRef, disableInputBox, toggleGifRef }: any) => {
 };
 const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
   const inputFieldContext = useContext(InputFieldContext);
+  const chatroomContext = useContext(ChatroomContext);
   const ref = useRef<any>(null);
   useEffect(() => {
     if (file?.length === 0) {
@@ -606,7 +609,7 @@ const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
     }
   });
   return (
-    <IconButton>
+    <IconButton disabled={chatroomContext.editMessageObject ? true : false}>
       <label>
         <input
           ref={ref}
@@ -614,6 +617,7 @@ const OptionButtonBox = ({ icon, accept, setFile, file }: any) => {
           style={{ display: "none" }}
           multiple
           accept={accept}
+          disabled={chatroomContext.editMessageObject ? true : false}
           onChange={(e) => {
             inputFieldContext.setDocumentAttachments([]);
             inputFieldContext.setMediaAttachments([]);
@@ -654,6 +658,7 @@ const EmojiButton = ({ option }: any) => {
             let newText = messageText;
             newText += `${e.emoji}`;
             setMessageText(newText);
+            handleClose();
           }}
         />
       </Menu>
